@@ -14,7 +14,8 @@
 
 #### sample output 
 
-```{
+```
+{
        "d_date": "2020-05-17",
        "fajr_begins": "02:48:00",
        "fajr_jamah": "03:48:00",
@@ -37,4 +38,5 @@
          "isha_jamah": "23:25:00"
        },
        "hijri_date_convert": "Ramadan 24, 1441"
-     }``` 
+     }
+     ``` 
