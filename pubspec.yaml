@@ -1,20 +1,27 @@
 name: mcnd_mobile
 description: MCND Mosque mobile app
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  dio: ^4.0.0
+  json_annotation: ^4.0.1
+  pretty_dio_logger: ^1.1.1
+  retrofit: ^2.0.0-beta1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.12.2
+  json_serializable: ^4.1.0
+  retrofit_generator: ^2.0.0-beta3
 
 flutter:
   uses-material-design: true
