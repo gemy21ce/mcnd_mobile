@@ -14,7 +14,7 @@
 
 #### sample output 
 
-``` {
+```{
        "d_date": "2020-05-17",
        "fajr_begins": "02:48:00",
        "fajr_jamah": "03:48:00",
