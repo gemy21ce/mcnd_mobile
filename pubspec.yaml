@@ -30,6 +30,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   state_notifier: ^0.7.0
   strings: ^0.2.1
+  material_design_icons_flutter: 5.0.5955-rc.1
 
 dev_dependencies:
   flutter_test:
