@@ -1,4 +1,6 @@
 *.g.dart
+*.config.dart
+*.freezed.dart
 
 # Miscellaneous
 *.class
