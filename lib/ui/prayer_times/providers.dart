@@ -2,7 +2,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final _timeFormat = DateFormat("H:mm:ss a");
+final _timeFormat = DateFormat("H:mm a");
 final _dateFormat = DateFormat("MMMM dd, yyyy");
 
 final timeFormatterProvider = Provider<DateFormat>((ref) {
