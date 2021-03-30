@@ -9,7 +9,7 @@ enum Salah {
   ISHA,
 }
 
-extension SalawatExt on Salah {
+extension SalahExt on Salah {
   String getStringName() {
     return strings.capitalize(EnumToString.convertToString(this).toLowerCase());
   }
