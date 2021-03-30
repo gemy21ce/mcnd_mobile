@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/di/providers.dart';
+import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
 
 class PrayerTimesPage extends HookWidget {
   const PrayerTimesPage({Key? key}) : super(key: key);
@@ -9,9 +10,7 @@ class PrayerTimesPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final viewmodel = useProvider(prayerTimesViewModelProvider);
-    useEffect(() {
-      viewmodel.fetchTimes();
-    }, []);
+    useOnce(() => viewmodel.fetchTimes());
     final state = useProvider(prayerTimesViewModelProvider.state);
     return state.when(
       loading: () => Center(
