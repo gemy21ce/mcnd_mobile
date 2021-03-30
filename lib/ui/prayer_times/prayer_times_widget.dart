@@ -65,29 +65,57 @@ class PrayerTimesWidget extends HookWidget {
     final hijriDateString = useProvider(currentHigriDateStringProvider);
     final timeFormatter = useProvider(timeFormatterProvider);
     final currentDate = useProvider(currentDateProvider);
-    final salah = nearestSalah(currentDate);
-    final salahTime = prayerTime.times[salah]!;
-
-    // return ListView(
-    //   children: [
-    //     Text(dateString),
-    //     Text(hijriDateString),
-    //     Text("${salah.getStringName().toUpperCase()} IQAMAH"),
-    //     Text(timeFormatter.format(salahTime.iqamah)),
-    //     Text(timeFormatter.format(currentDate)),
-    //     Text(getDateDiffrences(currentDate, salahTime.iqamah)),
-    //   ],
-    // );
+    final upcommingSalah = nearestSalah(currentDate);
+    final salahTime = prayerTime.times[upcommingSalah]!;
 
     final rows = prayerTime.times.entries.map((e) {
       final salah = e.key;
       final time = e.value;
-      return TableRow(children: [
-        Text(salah.getStringName()),
-        Text(timeFormatter.format(time.azan)),
-        Text(timeFormatter.format(time.iqamah)),
-      ]);
+      final highlight = salah == upcommingSalah;
+      return TableRow(
+        decoration: !highlight ? null : BoxDecoration(color: Colors.amber),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(salah.getStringName()),
+          ),
+          Text(timeFormatter.format(time.azan)),
+          Text(timeFormatter.format(time.iqamah)),
+        ],
+      );
     }).toList();
+
+    rows.insert(
+      1,
+      TableRow(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Sunrise"),
+          ),
+          Text(timeFormatter.format(prayerTime.sunrise)),
+          Text("-"),
+        ],
+      ),
+    );
+
+    rows.insert(
+      0,
+      TableRow(
+        decoration: BoxDecoration(
+          color: Colors.green,
+          border: Border(bottom: BorderSide(width: 2)),
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Prayer"),
+          ),
+          Text("Begins"),
+          Text("Iqamah"),
+        ],
+      ),
+    );
 
     return SizedBox.expand(
       child: SingleChildScrollView(
@@ -117,7 +145,7 @@ class PrayerTimesWidget extends HookWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      "${salah.getStringName().toUpperCase()} IQAMAH",
+                      "${upcommingSalah.getStringName().toUpperCase()} IQAMAH",
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 10),
@@ -126,8 +154,14 @@ class PrayerTimesWidget extends HookWidget {
                     DefaultTextStyle.merge(
                       textAlign: TextAlign.center,
                       child: Table(
-                        defaultVerticalAlignment: ,
-                        border: TableBorder.all(),
+                        columnWidths: const <int, TableColumnWidth>{
+                          0: IntrinsicColumnWidth(),
+                          1: FlexColumnWidth(),
+                          2: FlexColumnWidth(),
+                        },
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
+                        border: TableBorder.symmetric(outside: BorderSide()),
                         children: rows,
                       ),
                     )
