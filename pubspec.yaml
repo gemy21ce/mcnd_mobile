@@ -17,6 +17,11 @@ dependencies:
   flutter_mobx: ^1.1.0+2
   freezed_annotation: ^0.14.1
   get_it: ^6.0.0
+  hijri:
+    git: # move to null safty
+      url: https://github.com/ahmedoid/hijri_date
+      ref: 2c5342c90cd423488583ee2ce9f3c43db42b0fbe
+
   hooks_riverpod: ^0.13.1+1
   injectable: ^1.2.2
   intl: ^0.17.0

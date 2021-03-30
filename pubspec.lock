@@ -263,6 +263,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  hijri:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "2c5342c90cd423488583ee2ce9f3c43db42b0fbe"
+      resolved-ref: "2c5342c90cd423488583ee2ce9f3c43db42b0fbe"
+      url: "https://github.com/ahmedoid/hijri_date"
+    source: git
+    version: "3.0.0"
   hooks_riverpod:
     dependency: "direct main"
     description:
