@@ -31,7 +31,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   PrayerTimesViewModel(this._api, this._mapper)
       : super(PrayerTimesModel.loading());
 
-  void fetchTimes() async {
+  Future<void> fetchTimes() async {
     state = PrayerTimesModel.loading();
     try {
       final apiModel = (await _api.getPrayerTime(PrayerTimeFilter.TODAY)).first;
