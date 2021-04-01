@@ -1,9 +1,8 @@
 extension DurationUtils on Duration {
   String getTimeDifferenceString() {
-    final diff = this.inSeconds.abs();
-    final diffSecs = (diff % 60).round();
-    final diffMinutes = ((diff / 60) % 60).round();
-    final diffHours = (diff / (60 * 60)).round();
+    final diffSecs = this.inSeconds.remainder(60).abs();
+    final diffMinutes = this.inMinutes.remainder(60).abs();
+    final diffHours = this.inHours.abs();
     String out = "";
     if (diffHours > 0) {
       out += "$diffHours hours ";
