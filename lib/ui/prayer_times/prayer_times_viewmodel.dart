@@ -12,6 +12,7 @@ import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import 'package:mcnd_mobile/data/network/mcnd_api.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
+import 'package:meta/meta.dart';
 
 @injectable
 class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
@@ -63,7 +64,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     final hijriDateString =
         HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
-    final upcommingSalah = _nearestSalah(_prayerTime, _dateNow);
+    final upcommingSalah = nearestSalah(_prayerTime, _dateNow);
     final upcommingSalahString =
         "${upcommingSalah.getStringName().toUpperCase()} IQAMAH";
 
@@ -102,7 +103,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     );
   }
 
-  Salah _nearestSalah(PrayerTime prayerTime, DateTime forTime) {
+  @visibleForTesting
+  Salah nearestSalah(PrayerTime prayerTime, DateTime forTime) {
     final times = prayerTime.times.entries.toList()
       ..sort((a, b) {
         return a.value.azan.compareTo(b.value.azan);
