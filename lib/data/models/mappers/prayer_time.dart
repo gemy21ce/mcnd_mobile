@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/data/models/api/api_prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
-import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
+import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 
 import 'mapper.dart';
 
@@ -12,7 +11,7 @@ extension MapperPrayerTime on Mapper {
     final times = <Salah, SalahTime>{
       Salah.FAJR: SalahTime(
         apiModel.fajrAzan.matchDateWith(apiModel.date),
-        apiModel.asrIqamah.matchDateWith(apiModel.date),
+        apiModel.fajrIqamah.matchDateWith(apiModel.date),
       ),
       Salah.ZUHR: SalahTime(
         apiModel.zuhrAzan.matchDateWith(apiModel.date),
