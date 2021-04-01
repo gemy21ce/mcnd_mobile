@@ -68,8 +68,9 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
         "${upcommingSalah.getStringName().toUpperCase()} IQAMAH";
 
     final upcommingSalahTime = _prayerTime.times[upcommingSalah]!;
-    final timeToUpcommingSalah =
-        getDateDiffrences(_dateNow, upcommingSalahTime.iqamah);
+    final timeToUpcommingSalah = upcommingSalahTime.iqamah
+        .difference(_dateNow)
+        .getTimeDifferenceString();
 
     final items = _prayerTime.times.entries.map((e) {
       final salah = e.key;
@@ -112,10 +113,5 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       }
     }
     return times.last.key;
-  }
-
-  String getDateDiffrences(DateTime currentDate, DateTime salahTime) {
-    salahTime.matchDateWith(currentDate);
-    return salahTime.difference(currentDate).getTimeDifferenceString();
   }
 }
