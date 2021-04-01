@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
+import 'package:mcnd_mobile/core/utils/duration_utils.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
@@ -114,37 +115,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   String getDateDiffrences(DateTime currentDate, DateTime salahTime) {
-    //fix salah time and add date from current date
-    salahTime = DateTime(
-      currentDate.year,
-      currentDate.month,
-      currentDate.day,
-      salahTime.hour,
-      salahTime.minute,
-      salahTime.second,
-    );
-
-    final diff = currentDate.difference(salahTime).inSeconds.abs();
-    final diffSecs = (diff % 60).round();
-    final diffMinutes = ((diff / 60) % 60).round();
-    final diffHours = (diff / (60 * 60)).round();
-    String out = "";
-    if (diffHours > 0) {
-      out += "$diffHours hours ";
-    }
-
-    if (diffMinutes > 0) {
-      out += "$diffMinutes minutes ";
-    }
-
-    if (diffSecs > 0) {
-      out += "$diffSecs seconds ";
-    }
-
-    if (out.length > 1) {
-      out = out.substring(0, out.length - 1);
-    }
-
-    return out;
+    salahTime.matchDateWith(currentDate);
+    return salahTime.difference(currentDate).getTimeDifferenceString();
   }
 }
