@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/api/api_prayer_time.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
-import 'package:dio/dio.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 
 @lazySingleton
@@ -22,15 +22,15 @@ class McndApi {
     final data = response.data;
 
     if (filter == PrayerTimeFilter.TODAY) {
-      return _mapper.mapJsonList(
+      return _mapper.mapList(
         data,
         (json) => ApiPrayerTime.fromJson(json),
       );
     }
 
-    final List<List<ApiPrayerTime>> list = _mapper.mapJsonList(
+    final List<List<ApiPrayerTime>> list = _mapper.mapList(
       data,
-      (json) => _mapper.mapJsonList(
+      (json) => _mapper.mapList(
         json,
         (json) => ApiPrayerTime.fromJson(json),
       ),

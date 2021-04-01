@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 
 main() {
-  test("mapJsonList", () {
+  test("mapList", () {
     final original = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     final squared = [
       1 * 1,
@@ -18,7 +18,7 @@ main() {
     ];
 
     final mapper = Mapper();
-    final result = mapper.mapJsonList(original, (e) => e * e);
+    final result = mapper.mapList(original, (e) => e * e);
 
     expect(result, squared);
   });

@@ -33,7 +33,7 @@ void main() {
     final api = McndApi(dio, mapper);
 
     final expectedResponseJson = [dayData];
-    final expectedResponseParsed = Mapper().mapJsonList(
+    final expectedResponseParsed = Mapper().mapList(
       expectedResponseJson,
       (json) => ApiPrayerTime.fromJson(json),
     );
@@ -69,7 +69,7 @@ void main() {
     final expectedResponseJson = [
       [dayData, dayData, dayData, dayData, dayData]
     ];
-    final expectedResponseParsed = Mapper().mapJsonList(
+    final expectedResponseParsed = Mapper().mapList(
       expectedResponseJson.first,
       (json) => ApiPrayerTime.fromJson(json),
     );
