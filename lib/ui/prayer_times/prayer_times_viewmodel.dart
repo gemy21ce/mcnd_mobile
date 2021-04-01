@@ -4,6 +4,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+import 'package:mcnd_mobile/core/datetime_utils.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
@@ -57,7 +58,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
 
   PrayerTimesModelData _toModelData() {
     PrayerTime _prayerTime = this._prayerTime!;
-    final dateString = _dateFormat.format(_dateNow);
+    final dateString = _dateNow.format(_dateFormat);
     final hijriDateString =
         HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
@@ -75,8 +76,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       final highlight = salah == upcommingSalah;
       return PrayerTimesModelItem(
         prayerName: salah.getStringName(),
-        begins: _timeFormat.format(time.azan),
-        iqamah: _timeFormat.format(time.iqamah),
+        begins: time.azan.format(_timeFormat),
+        iqamah: time.iqamah.format(_timeFormat),
         highlight: highlight,
       );
     }).toList();
@@ -85,7 +86,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       1,
       PrayerTimesModelItem(
         prayerName: "Sunrise",
-        begins: _timeFormat.format(_prayerTime.sunrise),
+        begins: _prayerTime.sunrise.format(_timeFormat),
         iqamah: "-",
       ),
     );
