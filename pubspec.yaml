@@ -31,6 +31,7 @@ dependencies:
   state_notifier: ^0.7.0
   strings: ^0.2.1
   material_design_icons_flutter: 5.0.5955-rc.1
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,7 @@ dev_dependencies:
   freezed: ^0.14.1+1
   injectable_generator: ^1.2.2
   json_serializable: ^4.1.0
+  mockito: ^5.0.3
 
 flutter:
   uses-material-design: true
