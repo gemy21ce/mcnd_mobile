@@ -4,7 +4,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
-import 'package:mcnd_mobile/core/datetime_utils.dart';
+import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
