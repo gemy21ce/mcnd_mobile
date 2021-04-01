@@ -4,9 +4,7 @@ import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 
-import 'mapper.dart';
-
-extension MapperPrayerTime on Mapper {
+mixin MapperPrayerTime {
   PrayerTime mapApiPrayerTime(ApiPrayerTime apiModel) {
     final times = <Salah, SalahTime>{
       Salah.FAJR: SalahTime(
