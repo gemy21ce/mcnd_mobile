@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,6 +40,7 @@ class PrayerTimesWidget extends HookWidget {
               "PRAYER TIME",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
+            if (kDebugMode) Text(DateTime.now().toString()),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Container(
