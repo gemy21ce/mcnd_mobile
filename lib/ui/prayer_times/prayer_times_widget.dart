@@ -1,122 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
-import 'package:mcnd_mobile/data/models/app/salah_time.dart';
-import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/ui/prayer_times/providers.dart';
+import 'package:mcnd_mobile/di/providers.dart';
+import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
+import './prayer_times_model.dart';
 
 class PrayerTimesWidget extends HookWidget {
-  final PrayerTime prayerTime;
+  final PrayerTimesModelData viewData;
 
-  const PrayerTimesWidget(this.prayerTime, {Key? key}) : super(key: key);
-
-  Salah nearestSalah(DateTime forTime) {
-    final times = prayerTime.times.entries.toList()
-      ..sort((a, b) {
-        return a.value.azan.compareTo(b.value.azan);
-      });
-    for (final t in times) {
-      if (t.value.azan.isAfter(forTime)) {
-        return t.key;
-      }
-    }
-    return times.last.key;
-  }
-
-  String getDateDiffrences(DateTime currentDate, DateTime salahTime) {
-    //fix salah time and add date from current date
-    salahTime = DateTime(
-      currentDate.year,
-      currentDate.month,
-      currentDate.day,
-      salahTime.hour,
-      salahTime.minute,
-      salahTime.second,
-    );
-
-    final diff = currentDate.difference(salahTime).inSeconds.abs();
-    final diffSecs = (diff % 60).round();
-    final diffMinutes = ((diff / 60) % 60).round();
-    final diffHours = (diff / (60 * 60)).round();
-    String out = "";
-    if (diffHours > 0) {
-      out += "$diffHours hours ";
-    }
-
-    if (diffMinutes > 0) {
-      out += "$diffMinutes minutes ";
-    }
-
-    if (diffSecs > 0) {
-      out += "$diffSecs seconds ";
-    }
-
-    if (out.length > 1) {
-      out = out.substring(0, out.length - 1);
-    }
-
-    return out;
-  }
+  const PrayerTimesWidget(this.viewData, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final dateString = useProvider(currentDateStringProvider);
-    final hijriDateString = useProvider(currentHigriDateStringProvider);
-    final timeFormatter = useProvider(timeFormatterProvider);
-    final currentDate = useProvider(currentDateProvider);
-    final upcommingSalah = nearestSalah(currentDate);
-    final salahTime = prayerTime.times[upcommingSalah]!;
-
-    final rows = prayerTime.times.entries.map((e) {
-      final salah = e.key;
-      final time = e.value;
-      final highlight = salah == upcommingSalah;
-      return TableRow(
-        decoration: !highlight ? null : BoxDecoration(color: Colors.amber),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(salah.getStringName()),
-          ),
-          Text(timeFormatter.format(time.azan)),
-          Text(timeFormatter.format(time.iqamah)),
-        ],
-      );
-    }).toList();
-
-    rows.insert(
-      1,
-      TableRow(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Sunrise"),
-          ),
-          Text(timeFormatter.format(prayerTime.sunrise)),
-          Text("-"),
-        ],
+    final vm = useProvider(prayerTimesViewModelProvider);
+    useEffect(() {
+      vm.startTicker();
+      return () => vm.stopTicker();
+    }, []);
+    final rows = [
+      buildTableRow(
+        texts: ["Prayer", "Begins", "Iqamah"],
+        backgroundColor: Colors.green,
+        bottomBorder: true,
       ),
-    );
-
-    rows.insert(
-      0,
-      TableRow(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          border: Border(bottom: BorderSide(width: 2)),
-        ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Prayer"),
-          ),
-          Text("Begins"),
-          Text("Iqamah"),
-        ],
-      ),
-    );
-
+      ...viewData.times.map(
+        (time) => buildTableRow(
+            texts: [time.prayerName, time.begins, time.iqamah],
+            backgroundColor: !time.highlight ? null : Colors.amber),
+      )
+    ];
     return SizedBox.expand(
       child: SingleChildScrollView(
         child: Column(
@@ -137,19 +49,19 @@ class PrayerTimesWidget extends HookWidget {
                     borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   children: [
-                    Text(dateString),
+                    Text(viewData.date),
                     SizedBox(height: 10),
                     Text(
-                      hijriDateString,
+                      viewData.hijriDate,
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      "${upcommingSalah.getStringName().toUpperCase()} IQAMAH",
+                      viewData.upcommingSalah,
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 10),
-                    Text(getDateDiffrences(currentDate, salahTime.iqamah)),
+                    Text(viewData.timeToUpcommingSalah),
                     SizedBox(height: 15),
                     DefaultTextStyle.merge(
                       textAlign: TextAlign.center,
@@ -172,6 +84,26 @@ class PrayerTimesWidget extends HookWidget {
           ],
         ),
       ),
+    );
+  }
+
+  TableRow buildTableRow({
+    required List<String> texts,
+    Color? backgroundColor,
+    bool bottomBorder = false,
+  }) {
+    BoxDecoration decoration = BoxDecoration(
+      color: backgroundColor,
+      border: !bottomBorder ? null : Border(bottom: BorderSide(width: 2)),
+    );
+    return TableRow(
+      decoration: decoration,
+      children: texts
+          .map((cell) => Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(cell),
+              ))
+          .toList(),
     );
   }
 }
