@@ -1,7 +1,7 @@
 import 'package:mcnd_mobile/data/models/api/api_prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
-import 'package:mcnd_mobile/data/models/app/salawat.dart';
+import 'package:mcnd_mobile/data/models/app/salah.dart';
 
 import 'mapper.dart';
 

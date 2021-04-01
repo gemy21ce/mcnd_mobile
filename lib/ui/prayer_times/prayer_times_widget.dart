@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
-import 'package:mcnd_mobile/data/models/app/salawat.dart';
+import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/ui/prayer_times/providers.dart';
 
 class PrayerTimesWidget extends HookWidget {

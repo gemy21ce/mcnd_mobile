@@ -1,5 +1,5 @@
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
-import 'package:mcnd_mobile/data/models/app/salawat.dart';
+import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:meta/meta.dart';
 
 @immutable
