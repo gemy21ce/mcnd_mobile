@@ -9,7 +9,6 @@ class Injector {
   static Injector getInstance() {
     if (_instance == null) {
       _instance = Injector._().._init();
-      return _instance!;
     }
     return _instance!;
   }
