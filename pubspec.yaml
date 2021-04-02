@@ -41,7 +41,13 @@ dev_dependencies:
   injectable_generator: ^1.2.2
   json_serializable: ^4.1.0
   mockito: ^5.0.3
+  flutter_launcher_icons: ^0.9.0
   flutter_gen_runner:
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/app_logo.png
 
 flutter:
   uses-material-design: true
