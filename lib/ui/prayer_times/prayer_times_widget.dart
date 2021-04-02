@@ -21,15 +21,18 @@ class PrayerTimesWidget extends HookWidget {
       return () => vm.stopTicker();
     }, []);
     final rows = [
-      buildTableRow(
-        texts: ["Prayer", "Begins", "Iqamah"],
-        backgroundColor: AppColors.prayerTimeHerderColor,
+      buildItemRow(
+        PrayerTimesModelItem(
+            prayerName: "Prayer", begins: "Begins", iqamah: "Iqamah"),
+        color: AppColors.prayerTimeHerderColor,
+        topRow: true,
       ),
       ...viewData.times.map(
-        (time) => buildTableRow(
-            texts: [time.prayerName, time.begins, time.iqamah],
-            backgroundColor:
-                !time.highlight ? null : AppColors.upcomingPrayerColor),
+        (time) => buildItemRow(
+          time,
+          color: !time.highlight ? null : AppColors.upcomingPrayerColor,
+          bottomRow: time == viewData.times.last,
+        ),
       )
     ];
     return SizedBox.expand(
@@ -42,17 +45,16 @@ class PrayerTimesWidget extends HookWidget {
               "PRAYER TIME",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
-            if (kDebugMode) Text(DateTime.now().toString()),
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: Container(
-                padding: const EdgeInsets.all(12),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    border: Border.all(),
+                    border: Border.all(color: AppColors.prayerTimeHerderColor),
                     borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   children: [
+                    SizedBox(height: 12),
                     Text(viewData.date),
                     SizedBox(height: 10),
                     Text(
@@ -69,18 +71,7 @@ class PrayerTimesWidget extends HookWidget {
                     SizedBox(height: 15),
                     DefaultTextStyle.merge(
                       textAlign: TextAlign.center,
-                      child: Table(
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: IntrinsicColumnWidth(),
-                          1: FlexColumnWidth(),
-                          2: FlexColumnWidth(),
-                        },
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.middle,
-                        border: TableBorder.symmetric(
-                            outside: BorderSide(
-                          color: AppColors.prayerTimeHerderColor,
-                        )),
+                      child: Column(
                         children: rows,
                       ),
                     )
@@ -94,21 +85,65 @@ class PrayerTimesWidget extends HookWidget {
     );
   }
 
-  TableRow buildTableRow({
-    required List<String> texts,
-    Color? backgroundColor,
+  Widget buildItemRow(
+    PrayerTimesModelItem item, {
+    Color? color,
+    bool topRow = false,
+    bool bottomRow = false,
   }) {
-    BoxDecoration decoration = BoxDecoration(
-      color: backgroundColor,
+    return DefaultTextStyle.merge(
+      style: TextStyle(color: color == null ? Colors.black : Colors.white),
+      child: Container(
+        color: color,
+        child: Row(
+          children: [
+            buildCell(
+              item.prayerName,
+              topRow: topRow,
+              bottomRow: bottomRow,
+              firstCol: true,
+            ),
+            buildCell(
+              item.begins,
+              twoCols: item.iqamah == null,
+              topRow: topRow,
+              bottomRow: bottomRow,
+              lastCol: item.iqamah == null,
+            ),
+            if (item.iqamah != null)
+              buildCell(
+                item.iqamah!,
+                topRow: topRow,
+                bottomRow: bottomRow,
+                lastCol: true,
+              ),
+          ],
+        ),
+      ),
     );
-    return TableRow(
-      decoration: decoration,
-      children: texts
-          .map((cell) => Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(cell),
-              ))
-          .toList(),
+  }
+
+  Widget buildCell(
+    String text, {
+    bool twoCols = false,
+    bool topRow = false,
+    bool bottomRow = false,
+    bool firstCol = false,
+    bool lastCol = false,
+  }) {
+    final border = BorderSide(color: AppColors.prayerTimeHerderColor);
+    return Expanded(
+      flex: twoCols ? 2 : 1,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border(
+            left: firstCol ? BorderSide.none : border,
+            top: border,
+          ),
+        ),
+        child: Text(text),
+      ),
     );
   }
 }

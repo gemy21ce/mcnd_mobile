@@ -19,10 +19,10 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   final McndApi _api;
   final Mapper _mapper;
 
-  final _timeFormat = DateFormat("H:mm a");
+  final _timeFormat = DateFormat("h:mm a");
   final _dateFormat = DateFormat("MMMM dd, yyyy");
   final _hijriDatePattern = "dd MMMM yyyy";
-  final _tickerDuration = Duration(seconds: 1);
+  final _tickerDuration = Duration(seconds: 30);
 
   DateTime _dateNow = DateTime.now();
   Timer? _ticker;
@@ -69,9 +69,10 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
         "${upcommingSalah.getStringName().toUpperCase()} IQAMAH";
 
     final upcommingSalahTime = _prayerTime.times[upcommingSalah]!;
-    final timeToUpcommingSalah = upcommingSalahTime.iqamah
-        .difference(_dateNow)
-        .getTimeDifferenceString();
+    final timeToUpcommingSalah =
+        upcommingSalahTime.iqamah.difference(_dateNow).getTimeDifferenceString(
+              seconds: false,
+            );
 
     final items = _prayerTime.times.entries.map((e) {
       final salah = e.key;
@@ -90,7 +91,6 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       PrayerTimesModelItem(
         prayerName: "Sunrise",
         begins: _prayerTime.sunrise.format(_timeFormat),
-        iqamah: "-",
       ),
     );
 

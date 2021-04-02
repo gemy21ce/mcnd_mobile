@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 
 part 'prayer_times_model.freezed.dart';
-
 
 @freezed
 abstract class PrayerTimesModel with _$PrayerTimesModel {
@@ -10,7 +8,6 @@ abstract class PrayerTimesModel with _$PrayerTimesModel {
   const factory PrayerTimesModel.error(String error) = Error;
   const factory PrayerTimesModel.loaded(PrayerTimesModelData data) = Loaded;
 }
-
 
 @freezed
 abstract class PrayerTimesModelData with _$PrayerTimesModelData {
@@ -28,7 +25,7 @@ abstract class PrayerTimesModelItem with _$PrayerTimesModelItem {
   const factory PrayerTimesModelItem({
     required String prayerName,
     required String begins,
-    required String iqamah,
+    String? iqamah,
     @Default(false) bool highlight,
   }) = _PrayerTimesModelItem;
 }
