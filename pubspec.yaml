@@ -14,7 +14,6 @@ dependencies:
   dio: ^4.0.0
   enum_to_string: ^2.0.1
   flutter_hooks: ^0.16.0
-  flutter_mobx: ^1.1.0+2
   freezed_annotation: ^0.14.1
   get_it: ^6.0.0
   hijri:
@@ -31,7 +30,6 @@ dependencies:
   state_notifier: ^0.7.0
   strings: ^0.2.1
   material_design_icons_flutter: 5.0.5955-rc.1
-  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
