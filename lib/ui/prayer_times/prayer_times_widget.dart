@@ -24,7 +24,6 @@ class PrayerTimesWidget extends HookWidget {
       buildTableRow(
         texts: ["Prayer", "Begins", "Iqamah"],
         backgroundColor: AppColors.prayerTimeHerderColor,
-        bottomBorder: true,
       ),
       ...viewData.times.map(
         (time) => buildTableRow(
@@ -78,7 +77,10 @@ class PrayerTimesWidget extends HookWidget {
                         },
                         defaultVerticalAlignment:
                             TableCellVerticalAlignment.middle,
-                        border: TableBorder.symmetric(outside: BorderSide()),
+                        border: TableBorder.symmetric(
+                            outside: BorderSide(
+                          color: AppColors.prayerTimeHerderColor,
+                        )),
                         children: rows,
                       ),
                     )
@@ -95,11 +97,9 @@ class PrayerTimesWidget extends HookWidget {
   TableRow buildTableRow({
     required List<String> texts,
     Color? backgroundColor,
-    bool bottomBorder = false,
   }) {
     BoxDecoration decoration = BoxDecoration(
       color: backgroundColor,
-      border: !bottomBorder ? null : Border(bottom: BorderSide(width: 2)),
     );
     return TableRow(
       decoration: decoration,
