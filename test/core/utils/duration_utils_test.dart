@@ -54,5 +54,35 @@ main() {
         );
       });
     });
+
+    test("will show only given params", () {
+      final d1 = "11-11-12 21:10:33";
+      final d2 = "11-11-11 22:11:55";
+      final diff = _getDiff(d1, d2);
+
+      final h = "22 hours";
+      final m = "58 minutes";
+      final s = "38 seconds";
+
+      expect(
+        diff.getTimeDifferenceString(),
+        "$h $m $s",
+      );
+
+      expect(
+        diff.getTimeDifferenceString(
+          seconds: false,
+        ),
+        "$h $m",
+      );
+
+      expect(
+        diff.getTimeDifferenceString(
+          seconds: false,
+          minutes: false,
+        ),
+        "$h",
+      );
+    });
   });
 }
