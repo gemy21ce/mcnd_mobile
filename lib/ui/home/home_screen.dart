@@ -3,24 +3,34 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mcnd_mobile/gen/assets.gen.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
 
+@immutable
+class _HomeScreenDrawerItems {
+  final String title;
+  final IconData icon;
+
+  const _HomeScreenDrawerItems(this.title, this.icon);
+}
+
+const _drawerItems = [
+  _HomeScreenDrawerItems("Home", Icons.home),
+  _HomeScreenDrawerItems("Mosque Project", Icons.info),
+  _HomeScreenDrawerItems("Donate", Icons.monetization_on),
+];
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        textTheme: Theme.of(context).textTheme.apply(
+              displayColor: Colors.black,
+              fontSizeFactor: 1,
+            ),
+        centerTitle: true,
+        iconTheme: IconTheme.of(context).copyWith(color: Colors.black),
+        elevation: 8,
         backgroundColor: Colors.white,
-        iconTheme: IconTheme.of(context).copyWith(color: Color(0xff232323)),
-        title: Assets.images.logoSmall.image(
-          fit: BoxFit.fitHeight,
-          height: 48,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.help),
-            onPressed: () {},
-            tooltip: "Help",
-          ),
-        ],
+        title: Text("Muslim Community North Dublin"),
       ),
       body: PrayerTimesPage(),
       bottomNavigationBar: BottomNavigationBar(
@@ -39,6 +49,24 @@ class HomeScreen extends StatelessWidget {
             label: "News",
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Assets.images.logoLarge.image(),
+            ),
+            Divider(),
+            ..._drawerItems.map((e) => InkWell(
+                  child: ListTile(
+                    title: Text(e.title),
+                    leading: Icon(e.icon),
+                  ),
+                  onTap: () {},
+                ))
+          ],
+        ),
       ),
     );
   }
