@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
+import 'package:mcnd_mobile/ui/shared/styles/app_colors.dart';
+
 import './prayer_times_model.dart';
 
 class PrayerTimesWidget extends HookWidget {
@@ -21,13 +23,14 @@ class PrayerTimesWidget extends HookWidget {
     final rows = [
       buildTableRow(
         texts: ["Prayer", "Begins", "Iqamah"],
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.prayerTimeHerderColor,
         bottomBorder: true,
       ),
       ...viewData.times.map(
         (time) => buildTableRow(
             texts: [time.prayerName, time.begins, time.iqamah],
-            backgroundColor: !time.highlight ? null : Colors.amber),
+            backgroundColor:
+                !time.highlight ? null : AppColors.upcomingPrayerColor),
       )
     ];
     return SizedBox.expand(
