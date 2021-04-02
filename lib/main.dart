@@ -5,6 +5,7 @@ import 'package:mcnd_mobile/ui/mcnd_app.dart';
 import 'di/injector.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   Injector.getInstance(); //initlize dependencies
   runApp(ProviderScope(child: McndApp()));
 }
