@@ -30,7 +30,7 @@ void main() {
       "when McndApi called with TODAY filter it adds it to the arguments and receives correct result",
       () async {
     final dio = MockDio();
-    final mapper = MockMapper();
+    final mapper = Mapper();
     final api = McndApi(dio, mapper);
 
     final expectedResponseJson = [apiPrayerDayResponse];
@@ -64,7 +64,7 @@ void main() {
       "when McndApi called with (MONTH, YEAR) filter it adds it to the arguments and receives correct result (unwrapped)",
       () async {
     final dio = MockDio();
-    final mapper = MockMapper();
+    final mapper = Mapper();
     final api = McndApi(dio, mapper);
 
     final expectedResponseJson = [
