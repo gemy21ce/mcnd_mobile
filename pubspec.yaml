@@ -11,24 +11,40 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # HTTP Client
   dio: ^4.0.0
-  enum_to_string: ^2.0.1
-  flutter_hooks: ^0.16.0
+  pretty_dio_logger: ^1.1.1
+
   freezed_annotation: ^0.14.1
-  get_it: ^6.0.0
+
+  # Utility Functions
+  enum_to_string: ^2.0.1
+  strings: ^0.2.1
   hijri:
     git: # move to null safty
       url: https://github.com/ahmedoid/hijri_date
       ref: 2c5342c90cd423488583ee2ce9f3c43db42b0fbe
 
-  hooks_riverpod: ^0.13.1+1
+  # Dependency Injection
+  get_it: ^6.0.0
   injectable: ^1.2.2
-  intl: ^0.17.0
-  json_annotation: ^4.0.1
-  meta: ^1.3.0
-  pretty_dio_logger: ^1.1.1
+
+  # State management
+  hooks_riverpod: ^0.13.1+1
+  flutter_hooks: ^0.16.0
   state_notifier: ^0.7.0
-  strings: ^0.2.1
+
+  # i18n & date formatting
+  intl: ^0.17.0
+
+  # json serialization
+  json_annotation: ^4.0.1
+
+  # analyzer annotation
+  meta: ^1.3.0
+
+  # Extra Icons
   material_design_icons_flutter: 5.0.5955-rc.1
 
 dev_dependencies:
