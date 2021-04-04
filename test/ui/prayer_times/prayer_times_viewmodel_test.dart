@@ -8,7 +8,7 @@ import 'package:mcnd_mobile/ui/prayer_times/prayer_times_viewmodel.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'prayer_times_viewmodel_test.mocks.dart';
+import '../prayer_times/prayer_times_viewmodel_test.mocks.dart';
 
 @GenerateMocks([McndApi, Mapper, PrayerTimesModel, ApiPrayerTime, PrayerTime])
 main() {
