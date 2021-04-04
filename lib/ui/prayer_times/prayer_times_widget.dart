@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/di/providers.dart';
+import 'package:mcnd_mobile/gen/assets.gen.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
 import 'package:mcnd_mobile/ui/shared/styles/app_colors.dart';
 
@@ -22,8 +24,7 @@ class PrayerTimesWidget extends HookWidget {
     }, []);
     final rows = [
       buildItemRow(
-        PrayerTimesModelItem(
-            prayerName: "Prayer", begins: "Begins", iqamah: "Iqamah"),
+        PrayerTimesModelItem(prayerName: "Prayer", begins: "Begins", iqamah: "Iqamah"),
         color: AppColors.prayerTimeHerderColor,
         topRow: true,
       ),
@@ -40,6 +41,10 @@ class PrayerTimesWidget extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: Assets.images.logoLarge.image(width: MediaQuery.of(context).size.width * .6),
+            ),
             SizedBox(height: 30),
             Text(
               "PRAYER TIME",
@@ -50,8 +55,7 @@ class PrayerTimesWidget extends HookWidget {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.prayerTimeHerderColor),
-                    borderRadius: BorderRadius.circular(5)),
+                    border: Border.all(color: AppColors.prayerTimeHerderColor), borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   children: [
                     SizedBox(height: 12),

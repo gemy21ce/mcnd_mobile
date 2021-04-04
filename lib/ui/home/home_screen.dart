@@ -51,21 +51,19 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       drawer: Drawer(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Assets.images.logoLarge.image(),
-            ),
-            Divider(),
-            ..._drawerItems.map((e) => InkWell(
-                  child: ListTile(
-                    title: Text(e.title),
-                    leading: Icon(e.icon),
-                  ),
-                  onTap: () {},
-                ))
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Column(
+            children: [
+              ..._drawerItems.map((e) => InkWell(
+                    child: ListTile(
+                      title: Text(e.title),
+                      leading: Icon(e.icon),
+                    ),
+                    onTap: () {},
+                  ))
+            ],
+          ),
         ),
       ),
     );
