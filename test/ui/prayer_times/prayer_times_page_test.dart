@@ -31,8 +31,8 @@ extension on WidgetTester {
   ),
 ])
 main() {
-  group("PrayerTimesPage", () {
-    testWidgets("will show loading when state is loading", (tester) async {
+  group('PrayerTimesPage', () {
+    testWidgets('will show loading when state is loading', (tester) async {
       final vm = MockPrayerTimesViewModel();
       final state = PrayerTimesModel.loading();
       await tester.pumpPrayerTimesPage(providerOverrides: [
@@ -48,9 +48,9 @@ main() {
       expect(loading, findsOneWidget);
     });
 
-    testWidgets("will show error string when state is error", (tester) async {
+    testWidgets('will show error string when state is error', (tester) async {
       final vm = MockPrayerTimesViewModel();
-      final errorString = "This should be an error";
+      const errorString = 'This should be an error';
       final state = PrayerTimesModel.error(errorString);
       await tester.pumpPrayerTimesPage(providerOverrides: [
         prayerTimesViewModelProvider.overrideWithValue(vm),
@@ -60,13 +60,13 @@ main() {
       await tester.pump();
 
       final result = find.text(errorString);
-      Text errorWidget = tester.firstWidget(result) as Text;
+      final Text errorWidget = tester.firstWidget(result) as Text;
 
       expect(result, findsOneWidget);
       expect(errorWidget.style?.color, Colors.red);
     });
 
-    testWidgets("will show PrayerTimesWidget if state is loaded",
+    testWidgets('will show PrayerTimesWidget if state is loaded',
         (tester) async {
       final vm = MockPrayerTimesViewModel();
       final state = PrayerTimesModel.loaded(PrayerTimesModelData(

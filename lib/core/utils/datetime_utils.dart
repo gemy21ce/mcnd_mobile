@@ -8,9 +8,9 @@ extension DateTimeUtils on DateTime {
       dateTime.year,
       dateTime.month,
       dateTime.day,
-      this.hour,
-      this.minute,
-      this.second,
+      hour,
+      minute,
+      second,
     );
   }
 }

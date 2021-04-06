@@ -12,12 +12,12 @@ import 'mcnd_api_test.mocks.dart';
 
 extension _WhenDio on MockDio {
   PostExpectation<Future<Response<dynamic>>> whenAnyGet() {
-    final res = when(this.get(
+    final res = when(get(
       any,
-      queryParameters: anyNamed("queryParameters"),
-      options: anyNamed("options"),
-      cancelToken: anyNamed("cancelToken"),
-      onReceiveProgress: anyNamed("onReceiveProgress"),
+      queryParameters: anyNamed('queryParameters'),
+      options: anyNamed('options'),
+      cancelToken: anyNamed('cancelToken'),
+      onReceiveProgress: anyNamed('onReceiveProgress'),
     ));
 
     return res;
@@ -26,9 +26,7 @@ extension _WhenDio on MockDio {
 
 @GenerateMocks([Mapper, Dio])
 void main() {
-  test(
-      "when McndApi called with TODAY filter it adds it to the arguments and receives correct result",
-      () async {
+  test('when McndApi called with TODAY filter it adds it to the arguments and receives correct result', () async {
     final dio = MockDio();
     final mapper = Mapper();
     final api = McndApi(dio, mapper);
@@ -36,7 +34,7 @@ void main() {
     final expectedResponseJson = [apiPrayerDayResponse];
     final expectedResponseParsed = Mapper().mapList(
       expectedResponseJson,
-      (json) => ApiPrayerTime.fromJson(json),
+      (json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
     );
 
     dio.whenAnyGet().thenAnswer((_) => Future.value(Response(
@@ -44,24 +42,24 @@ void main() {
           requestOptions: RequestOptions(path: ''),
         )));
 
-    final result = await api.getPrayerTime(PrayerTimeFilter.TODAY);
+    final result = await api.getPrayerTime(PrayerTimeFilter.today);
 
     expect(result, expectedResponseParsed);
 
     verify(dio.get(
       any,
       queryParameters: argThat(
-        equals({"filter": "today"}),
-        named: "queryParameters",
+        equals({'filter': 'today'}),
+        named: 'queryParameters',
       ),
-      options: anyNamed("options"),
-      cancelToken: anyNamed("cancelToken"),
-      onReceiveProgress: anyNamed("onReceiveProgress"),
+      options: anyNamed('options'),
+      cancelToken: anyNamed('cancelToken'),
+      onReceiveProgress: anyNamed('onReceiveProgress'),
     ));
   });
 
   test(
-      "when McndApi called with (MONTH, YEAR) filter it adds it to the arguments and receives correct result (unwrapped)",
+      'when McndApi called with (MONTH, YEAR) filter it adds it to the arguments and receives correct result (unwrapped)',
       () async {
     final dio = MockDio();
     final mapper = Mapper();
@@ -78,7 +76,7 @@ void main() {
     ];
     final expectedResponseParsed = Mapper().mapList(
       expectedResponseJson.first,
-      (json) => ApiPrayerTime.fromJson(json),
+      (json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
     );
 
     dio.whenAnyGet().thenAnswer((_) => Future.value(Response(
@@ -86,32 +84,32 @@ void main() {
           requestOptions: RequestOptions(path: ''),
         )));
 
-    final resultMonth = await api.getPrayerTime(PrayerTimeFilter.MONTH);
+    final resultMonth = await api.getPrayerTime(PrayerTimeFilter.month);
     expect(resultMonth, expectedResponseParsed);
 
-    final resultYear = await api.getPrayerTime(PrayerTimeFilter.YEAR);
+    final resultYear = await api.getPrayerTime(PrayerTimeFilter.year);
     expect(resultYear, expectedResponseParsed);
 
     verify(dio.get(
       any,
       queryParameters: argThat(
-        equals({"filter": "month"}),
-        named: "queryParameters",
+        equals({'filter': 'month'}),
+        named: 'queryParameters',
       ),
-      options: anyNamed("options"),
-      cancelToken: anyNamed("cancelToken"),
-      onReceiveProgress: anyNamed("onReceiveProgress"),
+      options: anyNamed('options'),
+      cancelToken: anyNamed('cancelToken'),
+      onReceiveProgress: anyNamed('onReceiveProgress'),
     ));
 
     verify(dio.get(
       any,
       queryParameters: argThat(
-        equals({"filter": "year"}),
-        named: "queryParameters",
+        equals({'filter': 'year'}),
+        named: 'queryParameters',
       ),
-      options: anyNamed("options"),
-      cancelToken: anyNamed("cancelToken"),
-      onReceiveProgress: anyNamed("onReceiveProgress"),
+      options: anyNamed('options'),
+      cancelToken: anyNamed('cancelToken'),
+      onReceiveProgress: anyNamed('onReceiveProgress'),
     ));
   });
 }

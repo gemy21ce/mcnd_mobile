@@ -7,7 +7,7 @@ import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import '../../../_test_shared/api_response.dart';
 
 main() {
-  test("mapApiPrayerTime", () {
+  test('mapApiPrayerTime', () {
     final apiRes = ApiPrayerTime.fromJson(apiPrayerDayResponse);
     final mapped = Mapper().mapApiPrayerTime(apiRes);
 
@@ -15,19 +15,14 @@ main() {
     expect(mapped.sunrise, apiRes.sunrise);
 
     //test only few ones
-    expect(mapped.times[Salah.FAJR]!.azan,
-        apiRes.fajrAzan.matchDateWith(apiRes.date));
+    expect(mapped.times[Salah.fajr]!.azan, apiRes.fajrAzan.matchDateWith(apiRes.date));
 
-    expect(mapped.times[Salah.FAJR]!.iqamah,
-        apiRes.fajrIqamah.matchDateWith(apiRes.date));
+    expect(mapped.times[Salah.fajr]!.iqamah, apiRes.fajrIqamah.matchDateWith(apiRes.date));
 
-    expect(mapped.times[Salah.ASR]!.azan,
-        apiRes.asrAzan.matchDateWith(apiRes.date));
+    expect(mapped.times[Salah.asr]!.azan, apiRes.asrAzan.matchDateWith(apiRes.date));
 
-    expect(mapped.times[Salah.MAGHRIB]!.iqamah,
-        apiRes.maghribIqamah.matchDateWith(apiRes.date));
+    expect(mapped.times[Salah.maghrib]!.iqamah, apiRes.maghribIqamah.matchDateWith(apiRes.date));
 
-    expect(mapped.times[Salah.ISHA]!.azan,
-        apiRes.ishaAzan.matchDateWith(apiRes.date));
+    expect(mapped.times[Salah.isha]!.azan, apiRes.ishaAzan.matchDateWith(apiRes.date));
   });
 }

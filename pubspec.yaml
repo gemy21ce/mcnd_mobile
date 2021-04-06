@@ -50,6 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  lint: ^1.5.3
   build_runner: ^1.12.2
   freezed: ^0.14.1+1
   injectable_generator: ^1.2.2

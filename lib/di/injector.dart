@@ -6,10 +6,8 @@ class Injector {
   Injector._();
 
   static Injector? _instance;
-  static Injector getInstance() {
-    if (_instance == null) {
-      _instance = Injector._().._init();
-    }
+  factory Injector.getInstance() {
+    _instance ??= Injector._().._init();
     return _instance!;
   }
 

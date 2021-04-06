@@ -24,7 +24,7 @@ class PrayerTimesWidget extends HookWidget {
     }, []);
     final rows = [
       buildItemRow(
-        PrayerTimesModelItem(prayerName: "Prayer", begins: "Begins", iqamah: "Iqamah"),
+        const PrayerTimesModelItem(prayerName: 'Prayer', begins: 'Begins', iqamah: 'Iqamah'),
         color: AppColors.prayerTimeHerderColor,
         topRow: true,
       ),
@@ -39,15 +39,14 @@ class PrayerTimesWidget extends HookWidget {
     return SizedBox.expand(
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(14.0),
               child: Assets.images.logoLarge.image(width: MediaQuery.of(context).size.width * .6),
             ),
-            SizedBox(height: 30),
-            Text(
-              "PRAYER TIME",
+            const SizedBox(height: 30),
+            const Text(
+              'PRAYER TIME',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
             Padding(
@@ -58,21 +57,21 @@ class PrayerTimesWidget extends HookWidget {
                     border: Border.all(color: AppColors.prayerTimeHerderColor), borderRadius: BorderRadius.circular(5)),
                 child: Column(
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Text(viewData.date),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       viewData.hijriDate,
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       viewData.upcommingSalah,
-                      style: TextStyle(fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(viewData.timeToUpcommingSalah),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     DefaultTextStyle.merge(
                       textAlign: TextAlign.center,
                       child: Column(
@@ -135,7 +134,7 @@ class PrayerTimesWidget extends HookWidget {
     bool firstCol = false,
     bool lastCol = false,
   }) {
-    final border = BorderSide(color: AppColors.prayerTimeHerderColor);
+    const border = BorderSide(color: AppColors.prayerTimeHerderColor);
     return Expanded(
       flex: twoCols ? 2 : 1,
       child: Container(

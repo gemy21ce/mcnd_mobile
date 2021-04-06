@@ -9,10 +9,10 @@ abstract class AppModule {
   Dio get httpClient {
     final dio = Dio();
 
-    dio.options.baseUrl = "https://mcnd.ie/wp-json/dpt/v1/";
+    dio.options.baseUrl = 'https://mcnd.ie/wp-json/dpt/v1/';
 
     if (kDebugMode) {
-      dio.interceptors.add(new PrettyDioLogger());
+      dio.interceptors.add(PrettyDioLogger());
     }
 
     return dio;

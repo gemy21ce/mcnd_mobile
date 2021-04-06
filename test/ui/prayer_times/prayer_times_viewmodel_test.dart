@@ -21,12 +21,12 @@ main() {
     reset(mapper);
   });
 
-  test("start in loading state", () {
+  test('start in loading state', () {
     expect(vm.debugState, PrayerTimesModel.loading());
   });
 
-  test("when api fails state is error", () async {
-    final error = "this is an error";
+  test('when api fails state is error', () async {
+    const error = 'this is an error';
 
     when(api.getPrayerTime(any)).thenAnswer(
       (_) => Future.error(error),
@@ -37,7 +37,7 @@ main() {
     expect(vm.debugState, PrayerTimesModel.error(error));
   });
 
-  test("when api returns result state is loaded", () async {
+  test('when api returns result state is loaded', () async {
     final apiResult = [MockApiPrayerTime()];
     final mapperResult = MockPrayerTime();
 

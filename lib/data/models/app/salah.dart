@@ -2,11 +2,11 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:strings/strings.dart' as strings;
 
 enum Salah {
-  FAJR,
-  ZUHR,
-  ASR,
-  MAGHRIB,
-  ISHA,
+  fajr,
+  zuhr,
+  asr,
+  maghrib,
+  isha,
 }
 
 extension SalahExt on Salah {

@@ -12,27 +12,27 @@ class McndApi {
   McndApi(this._dio, this._mapper);
 
   Future<List<ApiPrayerTime>> getPrayerTime(PrayerTimeFilter filter) async {
-    final response = await _dio.get(
-      "prayertime",
-      queryParameters: {
-        "filter": filter.getApiStringValue(),
+    final Response<dynamic> response = await _dio.get<dynamic>(
+      'prayertime',
+      queryParameters: <String, String>{
+        'filter': filter.getApiStringValue(),
       },
     );
 
-    final data = response.data;
+    final dynamic data = response.data;
 
-    if (filter == PrayerTimeFilter.TODAY) {
+    if (filter == PrayerTimeFilter.today) {
       return _mapper.mapList(
         data,
-        (json) => ApiPrayerTime.fromJson(json),
+        (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
       );
     }
 
     final List<List<ApiPrayerTime>> list = _mapper.mapList(
       data,
-      (json) => _mapper.mapList(
+      (dynamic json) => _mapper.mapList(
         json,
-        (json) => ApiPrayerTime.fromJson(json),
+        (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
       ),
     );
     return list.first;

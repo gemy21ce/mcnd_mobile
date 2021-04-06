@@ -19,22 +19,21 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   final McndApi _api;
   final Mapper _mapper;
 
-  final _timeFormat = DateFormat("h:mm a");
-  final _dateFormat = DateFormat("MMMM dd, yyyy");
-  final _hijriDatePattern = "dd MMMM yyyy";
-  final _tickerDuration = Duration(seconds: 30);
+  final _timeFormat = DateFormat('h:mm a');
+  final _dateFormat = DateFormat('MMMM dd, yyyy');
+  final _hijriDatePattern = 'dd MMMM yyyy';
+  final _tickerDuration = const Duration(seconds: 30);
 
   DateTime _dateNow = DateTime.now();
   Timer? _ticker;
   PrayerTime? _prayerTime;
 
-  PrayerTimesViewModel(this._api, this._mapper)
-      : super(PrayerTimesModel.loading());
+  PrayerTimesViewModel(this._api, this._mapper) : super(const PrayerTimesModel.loading());
 
   Future<void> fetchTimes() async {
-    state = PrayerTimesModel.loading();
+    state = const PrayerTimesModel.loading();
     try {
-      final apiModel = (await _api.getPrayerTime(PrayerTimeFilter.TODAY)).first;
+      final apiModel = (await _api.getPrayerTime(PrayerTimeFilter.today)).first;
       _prayerTime = _mapper.mapApiPrayerTime(apiModel);
       state = PrayerTimesModel.loaded(_toModelData());
     } catch (e) {
@@ -59,25 +58,22 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   PrayerTimesModelData _toModelData() {
-    PrayerTime _prayerTime = this._prayerTime!;
+    final PrayerTime _prayerTime = this._prayerTime!;
     final dateString = _dateNow.format(_dateFormat);
-    final hijriDateString =
-        HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
+    final hijriDateString = HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
-    final upcommingSalah = nearestSalah(_prayerTime, _dateNow);
-    final upcommingSalahString =
-        "${upcommingSalah.getStringName().toUpperCase()} IQAMAH";
+    final upcomingSalah = nearestSalah(_prayerTime, _dateNow);
+    final upcomingSalahString = '${upcomingSalah.getStringName().toUpperCase()} IQAMAH';
 
-    final upcommingSalahTime = _prayerTime.times[upcommingSalah]!;
-    final timeToUpcommingSalah =
-        upcommingSalahTime.iqamah.difference(_dateNow).getTimeDifferenceString(
-              seconds: false,
-            );
+    final upcomingSalahTime = _prayerTime.times[upcomingSalah]!;
+    final timeToUpcomingSalah = upcomingSalahTime.iqamah.difference(_dateNow).getTimeDifferenceString(
+          seconds: false,
+        );
 
     final items = _prayerTime.times.entries.map((e) {
       final salah = e.key;
       final time = e.value;
-      final highlight = salah == upcommingSalah;
+      final highlight = salah == upcomingSalah;
       return PrayerTimesModelItem(
         prayerName: salah.getStringName(),
         begins: time.azan.format(_timeFormat),
@@ -89,7 +85,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     items.insert(
       1,
       PrayerTimesModelItem(
-        prayerName: "Sunrise",
+        prayerName: 'Sunrise',
         begins: _prayerTime.sunrise.format(_timeFormat),
       ),
     );
@@ -97,8 +93,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     return PrayerTimesModelData(
       date: dateString,
       hijriDate: hijriDateString,
-      upcommingSalah: upcommingSalahString,
-      timeToUpcommingSalah: timeToUpcommingSalah,
+      upcommingSalah: upcomingSalahString,
+      timeToUpcommingSalah: timeToUpcomingSalah,
       times: items,
     );
   }
