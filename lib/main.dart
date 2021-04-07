@@ -7,7 +7,7 @@ import 'di/injector.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final injector = Injector.getInstance(); //initlize dependencies
+  final injector = Injector.getInstance(); //initialize dependencies
   injector.get<LocalNotificationsService>().initialize();
   runApp(ProviderScope(child: McndApp()));
 }

@@ -11,7 +11,7 @@ class LocalNotificationsService {
   bool get isInitialized => _initialized;
 
   Future<void> initialize() async {
-    final androidInit = AndroidInitializationSettings('app_icon');
+    const androidInit = AndroidInitializationSettings('app_icon');
 
     final iosInit = IOSInitializationSettings(
       requestSoundPermission: true,
@@ -20,8 +20,7 @@ class LocalNotificationsService {
       onDidReceiveLocalNotification: _onDidReceiveLocalNotification,
     );
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
+    final InitializationSettings initializationSettings = InitializationSettings(
       android: androidInit,
       iOS: iosInit,
     );
