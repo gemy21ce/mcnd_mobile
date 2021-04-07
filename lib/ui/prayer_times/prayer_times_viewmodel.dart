@@ -76,7 +76,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       final highlight = salah == upcomingSalah;
       return PrayerTimesModelItem(
         prayerName: salah.getStringName(),
-        begins: time.azan.format(_timeFormat),
+        azan: time.azan.format(_timeFormat),
         iqamah: time.iqamah.format(_timeFormat),
         highlight: highlight,
       );
@@ -86,7 +86,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       1,
       PrayerTimesModelItem(
         prayerName: 'Sunrise',
-        begins: _prayerTime.sunrise.format(_timeFormat),
+        azan: _prayerTime.sunrise.format(_timeFormat),
       ),
     );
 

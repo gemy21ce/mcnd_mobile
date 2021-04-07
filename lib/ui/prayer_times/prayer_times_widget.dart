@@ -24,7 +24,7 @@ class PrayerTimesWidget extends HookWidget {
     }, []);
     final rows = [
       buildItemRow(
-        const PrayerTimesModelItem(prayerName: 'Prayer', begins: 'Begins', iqamah: 'Iqamah'),
+        const PrayerTimesModelItem(prayerName: 'Prayer', azan: 'Azan', iqamah: 'Iqamah'),
         color: AppColors.prayerTimeHerderColor,
         topRow: true,
       ),
@@ -107,7 +107,7 @@ class PrayerTimesWidget extends HookWidget {
               firstCol: true,
             ),
             buildCell(
-              item.begins,
+              item.azan,
               twoCols: item.iqamah == null,
               topRow: topRow,
               bottomRow: bottomRow,

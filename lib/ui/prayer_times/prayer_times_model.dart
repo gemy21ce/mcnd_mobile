@@ -24,7 +24,7 @@ abstract class PrayerTimesModelData with _$PrayerTimesModelData {
 abstract class PrayerTimesModelItem with _$PrayerTimesModelItem {
   const factory PrayerTimesModelItem({
     required String prayerName,
-    required String begins,
+    required String azan,
     String? iqamah,
     @Default(false) bool highlight,
   }) = _PrayerTimesModelItem;
