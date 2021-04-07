@@ -28,14 +28,11 @@ extension _WhenDio on MockDio {
 void main() {
   test('when McndApi called with TODAY filter it adds it to the arguments and receives correct result', () async {
     final dio = MockDio();
-    const mapper = Mapper();
-    final api = McndApi(dio, mapper);
+    final api = McndApi(dio);
 
     final expectedResponseJson = [apiPrayerDayResponse];
-    final expectedResponseParsed = mapper.mapList(
-      expectedResponseJson,
-      (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
-    );
+    final expectedResponseParsed =
+        expectedResponseJson.map((dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>));
 
     dio.whenAnyGet().thenAnswer((_) => Future.value(Response<dynamic>(
           data: expectedResponseJson,
@@ -62,8 +59,7 @@ void main() {
       'when McndApi called with (MONTH, YEAR) filter it adds it to the arguments and receives correct result (unwrapped)',
       () async {
     final dio = MockDio();
-    const mapper = Mapper();
-    final api = McndApi(dio, mapper);
+    final api = McndApi(dio);
 
     final expectedResponseJson = [
       [
@@ -74,8 +70,7 @@ void main() {
         apiPrayerDayResponse,
       ]
     ];
-    final expectedResponseParsed = mapper.mapList(
-      expectedResponseJson.first,
+    final expectedResponseParsed = expectedResponseJson.first.map(
       (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
     );
 
