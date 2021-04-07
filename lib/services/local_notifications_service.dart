@@ -13,11 +13,7 @@ class LocalNotificationsService {
   Future<void> initialize() async {
     const androidInit = AndroidInitializationSettings('app_icon');
 
-    const iosInit = IOSInitializationSettings(
-      requestSoundPermission: true,
-      requestBadgePermission: true,
-      requestAlertPermission: true,
-    );
+    const iosInit = IOSInitializationSettings();
 
     const InitializationSettings initializationSettings = InitializationSettings(
       android: androidInit,
