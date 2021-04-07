@@ -26,13 +26,10 @@ class LocalNotificationsService {
 
     await _plugin.initialize(
       initializationSettings,
-      onSelectNotification: _onSelectNotification,
     );
 
     await _plugin.initialize(initializationSettings);
 
     _initialized = true;
   }
-
-  Future _onSelectNotification(String? payload) async {}
 }
