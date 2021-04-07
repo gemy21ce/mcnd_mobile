@@ -47,6 +47,9 @@ dependencies:
   # Extra Icons
   material_design_icons_flutter: 5.0.5955-rc.1
 
+  # Notifications
+  flutter_local_notifications: ^5.0.0+1
+
   # Widgets
   auto_size_text: ^3.0.0-nullsafety.0
 
