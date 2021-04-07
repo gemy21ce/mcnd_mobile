@@ -13,14 +13,13 @@ class LocalNotificationsService {
   Future<void> initialize() async {
     const androidInit = AndroidInitializationSettings('app_icon');
 
-    final iosInit = IOSInitializationSettings(
+    const iosInit = IOSInitializationSettings(
       requestSoundPermission: true,
-      requestBadgePermission: false,
+      requestBadgePermission: true,
       requestAlertPermission: true,
-      onDidReceiveLocalNotification: _onDidReceiveLocalNotification,
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings = InitializationSettings(
       android: androidInit,
       iOS: iosInit,
     );
@@ -34,13 +33,6 @@ class LocalNotificationsService {
 
     _initialized = true;
   }
-
-  Future _onDidReceiveLocalNotification(
-    int id,
-    String? title,
-    String? body,
-    String? payload,
-  ) async {}
 
   Future _onSelectNotification(String? payload) async {}
 }
