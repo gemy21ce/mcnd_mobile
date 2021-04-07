@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 import '../prayer_times/prayer_times_viewmodel_test.mocks.dart';
 
 @GenerateMocks([McndApi, Mapper, PrayerTimesModel, ApiPrayerTime, PrayerTime])
-main() {
+void main() {
   final api = MockMcndApi();
   final mapper = MockMapper();
   final vm = PrayerTimesViewModel(api, mapper);
@@ -22,7 +22,7 @@ main() {
   });
 
   test('start in loading state', () {
-    expect(vm.debugState, PrayerTimesModel.loading());
+    expect(vm.debugState, const PrayerTimesModel.loading());
   });
 
   test('when api fails state is error', () async {
@@ -34,7 +34,7 @@ main() {
 
     await vm.fetchTimes();
 
-    expect(vm.debugState, PrayerTimesModel.error(error));
+    expect(vm.debugState, const PrayerTimesModel.error(error));
   });
 
   test('when api returns result state is loaded', () async {

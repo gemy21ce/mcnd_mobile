@@ -18,7 +18,7 @@ extension on WidgetTester {
     await pumpWidget(ProviderScope(
       overrides: providerOverrides,
       observers: observers,
-      child: MaterialApp(
+      child: const MaterialApp(
         home: PrayerTimesPage(),
       ),
     ));
@@ -30,11 +30,11 @@ extension on WidgetTester {
     returnNullOnMissingStub: true,
   ),
 ])
-main() {
+void main() {
   group('PrayerTimesPage', () {
     testWidgets('will show loading when state is loading', (tester) async {
       final vm = MockPrayerTimesViewModel();
-      final state = PrayerTimesModel.loading();
+      const state = PrayerTimesModel.loading();
       await tester.pumpPrayerTimesPage(providerOverrides: [
         prayerTimesViewModelProvider.overrideWithValue(vm),
         prayerTimesViewModelProvider.state.overrideWithValue(state)
@@ -42,8 +42,7 @@ main() {
 
       await tester.pump();
 
-      final loading = find
-          .byWidgetPredicate((widget) => widget is CircularProgressIndicator);
+      final loading = find.byWidgetPredicate((widget) => widget is CircularProgressIndicator);
 
       expect(loading, findsOneWidget);
     });
@@ -51,7 +50,7 @@ main() {
     testWidgets('will show error string when state is error', (tester) async {
       final vm = MockPrayerTimesViewModel();
       const errorString = 'This should be an error';
-      final state = PrayerTimesModel.error(errorString);
+      const state = PrayerTimesModel.error(errorString);
       await tester.pumpPrayerTimesPage(providerOverrides: [
         prayerTimesViewModelProvider.overrideWithValue(vm),
         prayerTimesViewModelProvider.state.overrideWithValue(state)
@@ -66,10 +65,9 @@ main() {
       expect(errorWidget.style?.color, Colors.red);
     });
 
-    testWidgets('will show PrayerTimesWidget if state is loaded',
-        (tester) async {
+    testWidgets('will show PrayerTimesWidget if state is loaded', (tester) async {
       final vm = MockPrayerTimesViewModel();
-      final state = PrayerTimesModel.loaded(PrayerTimesModelData(
+      const state = PrayerTimesModel.loaded(PrayerTimesModelData(
         times: [],
         date: '',
         timeToUpcommingSalah: '',
@@ -83,8 +81,7 @@ main() {
 
       await tester.pump();
 
-      final result =
-          find.byWidgetPredicate((widget) => widget is PrayerTimesWidget);
+      final result = find.byWidgetPredicate((widget) => widget is PrayerTimesWidget);
 
       expect(result, findsOneWidget);
     });

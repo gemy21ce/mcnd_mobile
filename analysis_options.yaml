@@ -10,8 +10,8 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "**/*.config.dart"
+    - "**/*.mocks.dart"
     - "lib/gen/**"
-    - "test/**"
 
 linter:
   rules:

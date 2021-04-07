@@ -12,7 +12,7 @@ import 'mcnd_api_test.mocks.dart';
 
 extension _WhenDio on MockDio {
   PostExpectation<Future<Response<dynamic>>> whenAnyGet() {
-    final res = when(get(
+    final res = when(get<dynamic>(
       any,
       queryParameters: anyNamed('queryParameters'),
       options: anyNamed('options'),
@@ -28,16 +28,16 @@ extension _WhenDio on MockDio {
 void main() {
   test('when McndApi called with TODAY filter it adds it to the arguments and receives correct result', () async {
     final dio = MockDio();
-    final mapper = Mapper();
+    const mapper = Mapper();
     final api = McndApi(dio, mapper);
 
     final expectedResponseJson = [apiPrayerDayResponse];
-    final expectedResponseParsed = Mapper().mapList(
+    final expectedResponseParsed = mapper.mapList(
       expectedResponseJson,
-      (json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
+      (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
     );
 
-    dio.whenAnyGet().thenAnswer((_) => Future.value(Response(
+    dio.whenAnyGet().thenAnswer((_) => Future.value(Response<dynamic>(
           data: expectedResponseJson,
           requestOptions: RequestOptions(path: ''),
         )));
@@ -46,7 +46,7 @@ void main() {
 
     expect(result, expectedResponseParsed);
 
-    verify(dio.get(
+    verify(dio.get<dynamic>(
       any,
       queryParameters: argThat(
         equals({'filter': 'today'}),
@@ -62,7 +62,7 @@ void main() {
       'when McndApi called with (MONTH, YEAR) filter it adds it to the arguments and receives correct result (unwrapped)',
       () async {
     final dio = MockDio();
-    final mapper = Mapper();
+    const mapper = Mapper();
     final api = McndApi(dio, mapper);
 
     final expectedResponseJson = [
@@ -74,12 +74,12 @@ void main() {
         apiPrayerDayResponse,
       ]
     ];
-    final expectedResponseParsed = Mapper().mapList(
+    final expectedResponseParsed = mapper.mapList(
       expectedResponseJson.first,
-      (json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
+      (dynamic json) => ApiPrayerTime.fromJson(json as Map<String, dynamic>),
     );
 
-    dio.whenAnyGet().thenAnswer((_) => Future.value(Response(
+    dio.whenAnyGet().thenAnswer((_) => Future.value(Response<dynamic>(
           data: expectedResponseJson,
           requestOptions: RequestOptions(path: ''),
         )));
@@ -90,7 +90,7 @@ void main() {
     final resultYear = await api.getPrayerTime(PrayerTimeFilter.year);
     expect(resultYear, expectedResponseParsed);
 
-    verify(dio.get(
+    verify(dio.get<dynamic>(
       any,
       queryParameters: argThat(
         equals({'filter': 'month'}),
@@ -101,7 +101,7 @@ void main() {
       onReceiveProgress: anyNamed('onReceiveProgress'),
     ));
 
-    verify(dio.get(
+    verify(dio.get<dynamic>(
       any,
       queryParameters: argThat(
         equals({'filter': 'year'}),

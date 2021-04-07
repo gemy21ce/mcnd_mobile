@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 
-main() {
+void main() {
   test('mapList', () {
     final original = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     final squared = [
@@ -17,8 +17,8 @@ main() {
       10 * 10,
     ];
 
-    final mapper = Mapper();
-    final result = mapper.mapList(original, (e) => e * e);
+    const mapper = Mapper();
+    final List<int> result = mapper.mapList(original, (dynamic e) => e * e as int);
 
     expect(result, squared);
   });

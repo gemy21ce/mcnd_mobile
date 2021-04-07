@@ -5,7 +5,7 @@ import 'package:mcnd_mobile/core/utils/duration_utils.dart';
 final DateFormat _dateFormatter = DateFormat('yy-MM-dd', 'en-US');
 final DateFormat _timeFormatter = DateFormat('HH:mm:ss', 'en-US');
 final DateFormat _combinedFormatter = DateFormat(
-  _dateFormatter.pattern! + ' ' + _timeFormatter.pattern!,
+  '${_dateFormatter.pattern!} ${_timeFormatter.pattern!}',
   'en-US',
 );
 
@@ -16,7 +16,7 @@ Duration _getDiff(String ds1, String ds2) {
   return diff;
 }
 
-main() {
+void main() {
   group('DurationUtils.getTimeDifferenceString', () {
     final inputs = [
       [
@@ -46,14 +46,14 @@ main() {
       ],
     ];
 
-    inputs.forEach((input) {
+    for (final input in inputs) {
       test('([${input[0]}] - [${input[1]}]) ==> ${input[2]}', () {
         expect(
           _getDiff(input[0], input[1]).getTimeDifferenceString(),
           input[2],
         );
       });
-    });
+    }
 
     test('will show only given params', () {
       const d1 = '11-11-12 21:10:33';

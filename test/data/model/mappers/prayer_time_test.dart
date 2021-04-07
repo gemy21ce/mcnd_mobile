@@ -6,10 +6,10 @@ import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 
 import '../../../_test_shared/api_response.dart';
 
-main() {
+void main() {
   test('mapApiPrayerTime', () {
     final apiRes = ApiPrayerTime.fromJson(apiPrayerDayResponse);
-    final mapped = Mapper().mapApiPrayerTime(apiRes);
+    final mapped = const Mapper().mapApiPrayerTime(apiRes);
 
     expect(mapped.date, apiRes.date);
     expect(mapped.sunrise, apiRes.sunrise);

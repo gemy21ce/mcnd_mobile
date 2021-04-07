@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 
-main() {
+void main() {
   test('DateTimeUtils format', () {
     final formatter = DateFormat.jms();
     final date = DateTime.now();
@@ -14,7 +14,7 @@ main() {
     final DateFormat _dateFormatter = DateFormat('yyyy-MM-dd', 'en-US');
     final DateFormat _timeFormatter = DateFormat('HH:mm:ss', 'en-US');
     final DateFormat _combinedFormatter = DateFormat(
-      _dateFormatter.pattern! + ' ' + _timeFormatter.pattern!,
+      '${_dateFormatter.pattern!} ${_timeFormatter.pattern!}',
       'en-US',
     );
 
