@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
@@ -28,7 +29,12 @@ class HomeScreen extends StatelessWidget {
         iconTheme: IconTheme.of(context).copyWith(color: Colors.black),
         elevation: 8,
         backgroundColor: Colors.white,
-        title: const Text('Muslim Community North Dublin'),
+        title: const AutoSizeText(
+          'Muslim Community North Dublin',
+          maxLines: 1,
+          maxFontSize: 30,
+          minFontSize: 15,
+        ),
       ),
       body: const PrayerTimesPage(),
       bottomNavigationBar: BottomNavigationBar(
