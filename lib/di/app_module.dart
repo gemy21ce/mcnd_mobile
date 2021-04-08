@@ -25,6 +25,36 @@ abstract class AppModule {
 
   @singleton
   Logger getLogger() {
-    return Logger();
+    return Logger(printer: _PrefixPrinter(PrettyPrinter(colors: false)));
+  }
+}
+
+class _PrefixPrinter extends LogPrinter {
+  final LogPrinter _realPrinter;
+  final Map<Level, String> _prefixMap;
+
+  _PrefixPrinter(
+    this._realPrinter, {
+    String? debug,
+    String? verbose,
+    String? wtf,
+    String? info,
+    String? warning,
+    String? error,
+    String? nothing,
+  })  : _prefixMap = {
+          Level.debug: debug ?? '  DEBUG ',
+          Level.verbose: verbose ?? 'VERBOSE ',
+          Level.wtf: wtf ?? '    WTF ',
+          Level.info: info ?? '   INFO ',
+          Level.warning: warning ?? 'WARNING ',
+          Level.error: error ?? '  ERROR ',
+          Level.nothing: nothing ?? 'NOTHING',
+        },
+        super();
+
+  @override
+  List<String> log(LogEvent event) {
+    return _realPrinter.log(event).map((s) => '${_prefixMap[event.level]}$s').toList();
   }
 }
