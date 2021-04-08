@@ -9,8 +9,10 @@ import 'package:mcnd_mobile/core/utils/duration_utils.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
+import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import 'package:mcnd_mobile/data/network/mcnd_api.dart';
+import 'package:mcnd_mobile/services/local_notifications_service.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
 import 'package:meta/meta.dart';
 
@@ -18,6 +20,7 @@ import 'package:meta/meta.dart';
 class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   final McndApi _api;
   final Mapper _mapper;
+  final LocalNotificationsService _localNotificationsService;
 
   final _timeFormat = DateFormat('h:mm a');
   final _dateFormat = DateFormat('MMMM dd, yyyy');
@@ -28,17 +31,34 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   Timer? _ticker;
   PrayerTime? _prayerTime;
 
-  PrayerTimesViewModel(this._api, this._mapper) : super(const PrayerTimesModel.loading());
+  PrayerTimesViewModel(this._api, this._mapper, this._localNotificationsService)
+      : super(const PrayerTimesModel.loading());
 
   Future<void> fetchTimes() async {
     state = const PrayerTimesModel.loading();
     try {
       final apiModel = (await _api.getPrayerTime(PrayerTimeFilter.today)).first;
       _prayerTime = _mapper.mapApiPrayerTime(apiModel);
+      _scheduleNotifications();
       state = PrayerTimesModel.loaded(_toModelData());
     } catch (e) {
       state = PrayerTimesModel.error(e.toString());
     }
+  }
+
+  Future<void> _scheduleNotifications() async {
+    final PrayerTime _prayerTime = this._prayerTime!;
+    final futures = _prayerTime.times.entries.map((e) {
+      final Salah salah = e.key;
+      final SalahTime salahTime = e.value;
+
+      if (salahTime.azan.isBefore(DateTime.now())) {
+        return Future.value(null);
+      }
+
+      return _localNotificationsService.scheduleAzan(salah, salahTime);
+    });
+    await Future.wait(futures);
   }
 
   void startTicker() {
