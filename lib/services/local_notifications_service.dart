@@ -39,10 +39,10 @@ class LocalNotificationsService {
   }
 
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime) async {
-    final String name = salah.getStringName();
+    final String salahName = salah.getStringName();
 
     if (await isAzanScheduled(salah, salahTime)) {
-      _logger.i('Salah $name at ${salahTime.azan} is already scheduled');
+      _logger.i('Salah $salahName at ${salahTime.azan} is already scheduled');
       return;
     }
 
@@ -56,8 +56,8 @@ class LocalNotificationsService {
 
     await _plugin.zonedSchedule(
       id,
-      '$name Azan',
-      'Time for ${name.toLowerCase()} salah',
+      '$salahName Azan',
+      'Time for ${salahName.toLowerCase()} salah',
       tz.TZDateTime.from(dateTime, tz.local),
       const NotificationDetails(
         android: AndroidNotificationDetails(
@@ -70,6 +70,8 @@ class LocalNotificationsService {
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: json.encode(payload.toJson()),
     );
+
+    _logger.i('Scheduled a notification for $salahName azan at $dateTime');
   }
 
   Future<bool> isAzanScheduled(Salah salah, SalahTime salahTime) async {
