@@ -12,5 +12,5 @@ class AzanNotificationPayload with _$AzanNotificationPayload {
     required DateTime dateTime,
   }) = _AzanNotificationPayload;
 
-  factory AzanNotificationPayload.fromJson(Map<String, dynamic> json) => _$AzanNotificationPayload(json);
+  factory AzanNotificationPayload.fromJson(Map<String, dynamic> json) => _$AzanNotificationPayloadFromJson(json);
 }
