@@ -49,7 +49,6 @@ void main() {
 
   test('when api returns result state is loaded', () async {
     final apiResult = [ApiPrayerTime.fromJson(apiPrayerDayResponse)];
-    final mapperResult = MockPrayerTime();
 
     when(api.getPrayerTime(any)).thenAnswer(
       (_) async => apiResult,
