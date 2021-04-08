@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/data/models/app/azan_notification_payload.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
@@ -11,8 +12,9 @@ import 'package:timezone/timezone.dart' as tz;
 @lazySingleton
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _plugin;
+  final Logger _logger;
 
-  LocalNotificationsService(this._plugin);
+  LocalNotificationsService(this._plugin, this._logger);
 
   bool _initialized = false;
   bool get isInitialized => _initialized;
@@ -37,12 +39,14 @@ class LocalNotificationsService {
   }
 
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime) async {
+    final String name = salah.getStringName();
+
     if (await isAzanScheduled(salah, salahTime)) {
+      _logger.i('Salah $name at ${salahTime.azan} is already scheduled');
       return;
     }
 
     final int id = Random().nextInt(1024 * 1024);
-    final String name = salah.getStringName();
     final DateTime dateTime = salahTime.azan;
     final AzanNotificationPayload payload = AzanNotificationPayload(
       id: id,
@@ -84,7 +88,8 @@ class LocalNotificationsService {
         .map<AzanNotificationPayload?>((r) {
           try {
             return AzanNotificationPayload.fromJson(json.decode(r.payload!) as Map<String, dynamic>);
-          } catch (e) {
+          } catch (e, stk) {
+            _logger.w("Payload couldn't be serialized to type $AzanNotificationPayload", e, stk);
             return null;
           }
         })

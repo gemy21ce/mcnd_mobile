@@ -18,6 +18,8 @@ dependencies:
 
   freezed_annotation: ^0.14.1
 
+  logger: ^1.0.0
+
   # Utility Functions
   enum_to_string: ^2.0.1
   strings: ^0.2.1

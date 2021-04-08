@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @module
@@ -20,6 +21,10 @@ abstract class AppModule {
   }
 
   @lazySingleton
-  FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin =>
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin => FlutterLocalNotificationsPlugin();
+
+  @singleton
+  Logger getLogger() {
+    return Logger();
+  }
 }
