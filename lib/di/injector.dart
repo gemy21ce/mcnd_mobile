@@ -6,9 +6,9 @@ class Injector {
   Injector._();
 
   static Injector? _instance;
+
   factory Injector.getInstance() {
-    _instance ??= Injector._().._init();
-    return _instance!;
+    return _instance ??= Injector._().._init();
   }
 
   final _locator = GetIt.I;

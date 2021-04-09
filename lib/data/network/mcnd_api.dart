@@ -17,9 +17,8 @@ class McndApi {
       },
     );
 
-    final List<dynamic> data =
-        ((filter == PrayerTimeFilter.today) ? response.data! : response.data!.first) as List<dynamic>;
-
-    return data.map((dynamic e) => ApiPrayerTime.fromJson(e as Map<String, dynamic>)).toList();
+    return (((filter == PrayerTimeFilter.today) ? response.data! : response.data!.first) as List)
+        .map((dynamic e) => ApiPrayerTime.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

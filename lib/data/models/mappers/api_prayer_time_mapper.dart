@@ -6,7 +6,7 @@ import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 
 mixin MapperPrayerTime {
   PrayerTime mapApiPrayerTime(ApiPrayerTime apiModel) {
-    final Map<Salah, SalahTime> times = <Salah, SalahTime>{
+    final Map<Salah, SalahTime> times = {
       Salah.fajr: SalahTime(
         apiModel.fajrAzan.matchDateWith(apiModel.date),
         apiModel.fajrIqamah.matchDateWith(apiModel.date),

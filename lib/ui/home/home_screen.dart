@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
       body: const PrayerTimesPage(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(MdiIcons.clockOutline),
             label: 'Prayer Times',
