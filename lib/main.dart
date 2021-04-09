@@ -8,15 +8,21 @@ import 'package:timezone/timezone.dart' as tz;
 
 import 'di/injector.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  final injector = Injector.getInstance(); //initialize dependencies
-  injector.get<LocalNotificationsService>().initialize();
-  initializeTimeZone();
+Future<void> main() async {
+  await _initialize();
   runApp(ProviderScope(child: McndApp()));
 }
 
-Future<void> initializeTimeZone() async {
+Future<void> _initialize() async {
+  //insure flutter is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final injector = Injector.getInstance();
+  await injector.initialize();
+
+  await injector.get<LocalNotificationsService>().initialize();
+
+  //timezone initialization required for FlutterLocalNotificationsPlugin
   tz.initializeTimeZones();
   final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
