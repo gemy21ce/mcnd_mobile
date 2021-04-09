@@ -12,6 +12,7 @@ analyzer:
     - "**/*.config.dart"
     - "**/*.mocks.dart"
     - "lib/gen/**"
+    - "**/*.gr.dart"
 
 linter:
   rules:
