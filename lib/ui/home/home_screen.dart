@@ -9,16 +9,16 @@ import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
 class _HomeScreenDrawerItems {
   final String title;
   final IconData icon;
-  final PageRouteInfo<void>? route;
+  final String? routePath;
 
-  const _HomeScreenDrawerItems(this.title, this.icon, {this.route});
+  const _HomeScreenDrawerItems(this.title, this.icon, {this.routePath});
 }
 
-const _drawerItems = [
-  _HomeScreenDrawerItems('Home', Icons.home),
-  _HomeScreenDrawerItems('Mosque Project', Icons.info),
-  _HomeScreenDrawerItems('Donate', Icons.monetization_on),
-  _HomeScreenDrawerItems('Settings', Icons.settings, route: SettingsScreenRoute()),
+final _drawerItems = [
+  const _HomeScreenDrawerItems('Home', Icons.home),
+  const _HomeScreenDrawerItems('Mosque Project', Icons.info),
+  const _HomeScreenDrawerItems('Donate', Icons.monetization_on),
+  _HomeScreenDrawerItems('Settings', Icons.settings, routePath: const SettingsScreenRoute().path),
 ];
 
 class HomeScreen extends StatelessWidget {
@@ -58,9 +58,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               ..._drawerItems.map((e) => InkWell(
                     onTap: () {
-                      if (e.route != null) {
+                      if (e.routePath != null) {
                         AutoRouter.of(context).pop(); // close the drawer
-                        AutoRouter.of(context).push(e.route!);
+                        AutoRouter.of(context).pushPath(e.routePath!);
                       }
                     },
                     child: ListTile(
