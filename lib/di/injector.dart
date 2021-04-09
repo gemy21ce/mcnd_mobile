@@ -8,13 +8,19 @@ class Injector {
   static Injector? _instance;
 
   factory Injector.getInstance() {
-    return _instance ??= Injector._().._init();
+    return _instance ??= Injector._();
   }
 
   final _locator = GetIt.I;
 
-  Future<void> _init() async {
-    await _configureDependencies(_locator);
+  bool _initialized = false;
+  bool get isInitialized => _initialized;
+
+  Future<void> initialize() async {
+    if (!_initialized) {
+      await _configureDependencies(_locator);
+      _initialized = true;
+    }
   }
 
   D get<D extends Object>({dynamic param1, dynamic param2}) => _locator.get<D>(
