@@ -8,5 +8,5 @@ class PrayerTime {
   final Map<Salah, SalahTime> times;
   final DateTime sunrise;
 
-  PrayerTime(this.date, this.times, this.sunrise);
+  const PrayerTime(this.date, this.times, this.sunrise);
 }

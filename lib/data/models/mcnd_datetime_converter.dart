@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-final DateFormat _dateFormatter = DateFormat('yyyy-MM-dd', "en-US");
-final DateFormat _timeFormatter = DateFormat('HH:mm:ss', "en-US");
+final DateFormat _dateFormatter = DateFormat('yyyy-MM-dd', 'en-US');
+final DateFormat _timeFormatter = DateFormat('HH:mm:ss', 'en-US');
 
 class McndDateConverter implements JsonConverter<DateTime, String> {
   const McndDateConverter();

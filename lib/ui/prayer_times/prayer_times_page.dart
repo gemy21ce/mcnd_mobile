@@ -14,13 +14,13 @@ class PrayerTimesPage extends HookWidget {
     useOnce(() => viewmodel.fetchTimes());
     final state = useProvider(prayerTimesViewModelProvider.state);
     return state.when(
-      loading: () => Center(
+      loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
       error: (error) => Center(
         child: Text(
           error,
-          style: TextStyle(color: Colors.red),
+          style: const TextStyle(color: Colors.red),
         ),
       ),
       loaded: (prayerTimes) {

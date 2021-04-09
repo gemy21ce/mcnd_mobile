@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mcnd_mobile/gen/assets.gen.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
 
 @immutable
@@ -12,9 +12,9 @@ class _HomeScreenDrawerItems {
 }
 
 const _drawerItems = [
-  _HomeScreenDrawerItems("Home", Icons.home),
-  _HomeScreenDrawerItems("Mosque Project", Icons.info),
-  _HomeScreenDrawerItems("Donate", Icons.monetization_on),
+  _HomeScreenDrawerItems('Home', Icons.home),
+  _HomeScreenDrawerItems('Mosque Project', Icons.info),
+  _HomeScreenDrawerItems('Donate', Icons.monetization_on),
 ];
 
 class HomeScreen extends StatelessWidget {
@@ -24,29 +24,33 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         textTheme: Theme.of(context).textTheme.apply(
               displayColor: Colors.black,
-              fontSizeFactor: 1,
             ),
         centerTitle: true,
         iconTheme: IconTheme.of(context).copyWith(color: Colors.black),
         elevation: 8,
         backgroundColor: Colors.white,
-        title: Text("Muslim Community North Dublin"),
+        title: const AutoSizeText(
+          'Muslim Community North Dublin',
+          maxLines: 1,
+          maxFontSize: 30,
+          minFontSize: 15,
+        ),
       ),
-      body: PrayerTimesPage(),
+      body: const PrayerTimesPage(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(MdiIcons.clockOutline),
-            label: "Prayer Times",
+            label: 'Prayer Times',
           ),
           BottomNavigationBarItem(
             icon: Icon(MdiIcons.compass),
-            label: "Compass",
+            label: 'Compass',
           ),
           BottomNavigationBarItem(
             icon: Icon(MdiIcons.newspaper),
-            label: "News",
+            label: 'News',
           ),
         ],
       ),
@@ -56,11 +60,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               ..._drawerItems.map((e) => InkWell(
+                    onTap: () {},
                     child: ListTile(
                       title: Text(e.title),
                       leading: Icon(e.icon),
                     ),
-                    onTap: () {},
                   ))
             ],
           ),

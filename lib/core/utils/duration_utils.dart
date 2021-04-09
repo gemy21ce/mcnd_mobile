@@ -4,20 +4,20 @@ extension DurationUtils on Duration {
     bool minutes = true,
     bool hours = true,
   }) {
-    final diffSecs = this.inSeconds.remainder(60).abs();
-    final diffMinutes = this.inMinutes.remainder(60).abs();
-    final diffHours = this.inHours.abs();
-    String out = "";
+    final int diffSecs = inSeconds.remainder(60).abs();
+    final int diffMinutes = inMinutes.remainder(60).abs();
+    final int diffHours = inHours.abs();
+    String out = '';
     if (hours && diffHours > 0) {
-      out += "$diffHours hours ";
+      out += '$diffHours hours ';
     }
 
     if (minutes && diffMinutes > 0) {
-      out += "$diffMinutes minutes ";
+      out += '$diffMinutes minutes ';
     }
 
     if (seconds && diffSecs > 0) {
-      out += "$diffSecs seconds ";
+      out += '$diffSecs seconds ';
     }
 
     if (out.length > 1) {
