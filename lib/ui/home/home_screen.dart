@@ -15,6 +15,7 @@ const _drawerItems = [
   _HomeScreenDrawerItems('Home', Icons.home),
   _HomeScreenDrawerItems('Mosque Project', Icons.info),
   _HomeScreenDrawerItems('Donate', Icons.monetization_on),
+  _HomeScreenDrawerItems('Settings', Icons.settings),
 ];
 
 class HomeScreen extends StatelessWidget {
