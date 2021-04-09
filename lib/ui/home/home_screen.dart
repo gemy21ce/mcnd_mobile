@@ -1,21 +1,24 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
 
 @immutable
 class _HomeScreenDrawerItems {
   final String title;
   final IconData icon;
+  final PageRouteInfo<void>? route;
 
-  const _HomeScreenDrawerItems(this.title, this.icon);
+  const _HomeScreenDrawerItems(this.title, this.icon, {this.route});
 }
 
 const _drawerItems = [
   _HomeScreenDrawerItems('Home', Icons.home),
   _HomeScreenDrawerItems('Mosque Project', Icons.info),
   _HomeScreenDrawerItems('Donate', Icons.monetization_on),
-  _HomeScreenDrawerItems('Settings', Icons.settings),
+  _HomeScreenDrawerItems('Settings', Icons.settings, route: SettingsScreenRoute()),
 ];
 
 class HomeScreen extends StatelessWidget {
@@ -23,13 +26,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        textTheme: Theme.of(context).textTheme.apply(
-              displayColor: Colors.black,
-            ),
-        centerTitle: true,
-        iconTheme: IconTheme.of(context).copyWith(color: Colors.black),
-        elevation: 8,
-        backgroundColor: Colors.white,
         title: const AutoSizeText(
           'Muslim Community North Dublin',
           maxLines: 1,
@@ -61,7 +57,12 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               ..._drawerItems.map((e) => InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (e.route != null) {
+                        AutoRouter.of(context).pop(); // close the drawer
+                        AutoRouter.of(context).push(e.route!);
+                      }
+                    },
                     child: ListTile(
                       title: Text(e.title),
                       leading: Icon(e.icon),
