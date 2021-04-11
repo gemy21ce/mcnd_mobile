@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mcnd_mobile/core/utils/indexed_iterable.dart';
+import 'package:mcnd_mobile/core/utils/separated_list.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/settings/settings_model.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
@@ -26,14 +28,16 @@ class SettingsScreen extends HookWidget {
           if (state == null) {
             return Container();
           }
-
           return ListView(
             children: [
               const SettingsHeader(text: 'Azan Notifications'),
-              ...state.azanSettingsItems.map((e) => SettingsItem(
-                    item: e,
-                    options: state.azanSettingsOptions,
-                  )),
+              ...state.azanSettingsItems
+                  .map<Widget>((e) => SettingsItem(
+                        item: e,
+                        options: state.azanSettingsOptions,
+                      ))
+                  .toList()
+                  .separatedBy(() => const Divider()),
             ],
           );
         },
@@ -77,10 +81,34 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-      title: Text(item.salahName),
-      subtitle: Text(options[item.selectedSetting]),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        children: [
+          Text(
+            item.salahName,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          const SizedBox(width: 12),
+          const Spacer(),
+          DropdownButton<int>(
+            value: item.selectedSetting,
+            items: options
+                .mapIndexed(
+                  (i, e) => DropdownMenuItem<int>(
+                    value: i,
+                    child: Text(
+                      options[i],
+                      textAlign: TextAlign.end,
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {},
+          ),
+        ],
+      ),
     );
   }
 }
