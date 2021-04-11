@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 @immutable
 class SalahTime {
   final DateTime azan;
-  final DateTime iqamah;
+  final DateTime? iqamah;
 
-  const SalahTime(this.azan, this.iqamah);
+  const SalahTime(this.azan, [this.iqamah]);
 }

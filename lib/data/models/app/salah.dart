@@ -3,6 +3,7 @@ import 'package:strings/strings.dart' as strings;
 
 enum Salah {
   fajr,
+  sunrise,
   zuhr,
   asr,
   maghrib,

@@ -86,7 +86,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     final upcomingSalahString = '${upcomingSalah.getStringName().toUpperCase()} IQAMAH';
 
     final upcomingSalahTime = _prayerTime.times[upcomingSalah]!;
-    final timeToUpcomingSalah = upcomingSalahTime.iqamah.difference(_dateNow).getTimeDifferenceString(
+    final upcomingDateTime = (upcomingSalah == Salah.sunrise) ? upcomingSalahTime.azan : upcomingSalahTime.iqamah!;
+    final timeToUpcomingSalah = upcomingDateTime.difference(_dateNow).getTimeDifferenceString(
           seconds: false,
         );
 
@@ -97,18 +98,10 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       return PrayerTimesModelItem(
         prayerName: salah.getStringName(),
         azan: time.azan.format(_timeFormat),
-        iqamah: time.iqamah.format(_timeFormat),
+        iqamah: time.iqamah?.format(_timeFormat),
         highlight: highlight,
       );
     }).toList();
-
-    items.insert(
-      1,
-      PrayerTimesModelItem(
-        prayerName: 'Sunrise',
-        azan: _prayerTime.sunrise.format(_timeFormat),
-      ),
-    );
 
     return PrayerTimesModelData(
       date: dateString,

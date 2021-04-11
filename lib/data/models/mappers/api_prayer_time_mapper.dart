@@ -11,6 +11,9 @@ mixin MapperPrayerTime {
         apiModel.fajrAzan.matchDateWith(apiModel.date),
         apiModel.fajrIqamah.matchDateWith(apiModel.date),
       ),
+      Salah.sunrise: SalahTime(
+        apiModel.sunrise.matchDateWith(apiModel.date),
+      ),
       Salah.zuhr: SalahTime(
         apiModel.zuhrAzan.matchDateWith(apiModel.date),
         apiModel.zuhrIqamah.matchDateWith(apiModel.date),
@@ -32,7 +35,6 @@ mixin MapperPrayerTime {
     return PrayerTime(
       apiModel.date,
       times,
-      apiModel.sunrise,
     );
   }
 }
