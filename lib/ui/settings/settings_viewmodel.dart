@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
@@ -13,8 +15,19 @@ class SettingsViewModel extends StateNotifier<SettingsModel?> {
 
   void load() {
     final Map<Salah, AzanNotificationSetting> azanNotificationSettings = _settingsService.getAzanNotificationSettings();
+
+    final azanSettingsOptions = AzanNotificationSetting.values
+        .where((e) {
+          if (Platform.isIOS && e == AzanNotificationSetting.full) {
+            return false;
+          }
+          return true;
+        })
+        .map((e) => e.getStringName())
+        .toList();
+
     state = SettingsModel(
-      azanSettingsOptions: AzanNotificationSetting.values.map((e) => e.getStringName()).toList(),
+      azanSettingsOptions: azanSettingsOptions,
       azanSettingsItems: azanNotificationSettings.entries.map((e) {
         final Salah salah = e.key;
         final AzanNotificationSetting setting = e.value;
