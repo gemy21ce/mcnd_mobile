@@ -24,3 +24,18 @@ enum AzanNotificationSetting {
   @HiveField(3)
   full,
 }
+
+extension AzanNotificationSettingExt on AzanNotificationSetting {
+  String getStringName() {
+    switch (this) {
+      case AzanNotificationSetting.nothing:
+        return 'No Notification';
+      case AzanNotificationSetting.silent:
+        return 'Silent Notification';
+      case AzanNotificationSetting.short:
+        return 'Short Azan';
+      case AzanNotificationSetting.full:
+        return 'Full Azan';
+    }
+  }
+}

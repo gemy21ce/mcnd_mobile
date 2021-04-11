@@ -31,5 +31,5 @@ class Injector {
 
 @InjectableInit()
 Future<void> _configureDependencies(GetIt locator) async =>
-    // ignore: await_only_futures
+    // ignore: await_only_futures, unnecessary_await_in_return
     await $initGetIt(locator);

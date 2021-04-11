@@ -6,6 +6,7 @@ import 'package:mcnd_mobile/data/models/local/settings.dart';
 const defaultSettingsValue = Settings(
   azanSettings: {
     Salah.fajr: AzanNotificationSetting.short,
+    Salah.sunrise: AzanNotificationSetting.silent,
     Salah.zuhr: AzanNotificationSetting.short,
     Salah.asr: AzanNotificationSetting.short,
     Salah.maghrib: AzanNotificationSetting.short,

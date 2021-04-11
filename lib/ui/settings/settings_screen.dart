@@ -1,9 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mcnd_mobile/di/providers.dart';
+import 'package:mcnd_mobile/ui/settings/settings_model.dart';
+import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final viewmodel = useProvider(settingsViewModelProvider);
+    useOnce(() => viewmodel.load());
+    final state = useProvider(settingsViewModelProvider.state);
     return Scaffold(
       appBar: AppBar(
         title: const AutoSizeText(
@@ -13,34 +21,22 @@ class SettingsScreen extends StatelessWidget {
           minFontSize: 15,
         ),
       ),
-      body: ListView(
-        children: const [
-          SettingsHeader(text: 'Azan Notifications'),
-          SettingsItem(
-            text: 'Fajr',
-            subtext: 'Short Azan',
-          ),
-          SettingsItem(
-            text: 'Sunrise',
-            subtext: 'Silent Notification',
-          ),
-          SettingsItem(
-            text: 'Zuhr',
-            subtext: 'Short Azan',
-          ),
-          SettingsItem(
-            text: 'Asr',
-            subtext: 'Short Azan',
-          ),
-          SettingsItem(
-            text: 'Maghrib',
-            subtext: 'Short Azan',
-          ),
-          SettingsItem(
-            text: 'Isha',
-            subtext: 'Short Azan',
-          ),
-        ],
+      body: Builder(
+        builder: (context) {
+          if (state == null) {
+            return Container();
+          }
+
+          return ListView(
+            children: [
+              const SettingsHeader(text: 'Azan Notifications'),
+              ...state.azanSettingsItems.map((e) => SettingsItem(
+                    item: e,
+                    options: state.azanSettingsOptions,
+                  )),
+            ],
+          );
+        },
       ),
     );
   }
@@ -70,87 +66,21 @@ class SettingsHeader extends StatelessWidget {
 }
 
 class SettingsItem extends StatelessWidget {
-  final String text;
-  final String subtext;
+  final AzanSettingsItem item;
+  final List<String> options;
 
   const SettingsItem({
-    required this.text,
-    required this.subtext,
+    required this.item,
+    required this.options,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        showDialog<void>(
-          context: context,
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (context, setState) {
-                return Dialog(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                        child: Text(
-                          'Fajr Notification',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                      ),
-                      RadioListTile<int>(
-                        value: 0,
-                        groupValue: 1,
-                        onChanged: (value) {},
-                        title: const Text('No notification'),
-                      ),
-                      RadioListTile<int>(
-                        value: 1,
-                        groupValue: 1,
-                        onChanged: (value) {},
-                        title: const Text('Silent notification'),
-                      ),
-                      RadioListTile<int>(
-                        value: 0,
-                        groupValue: 1,
-                        onChanged: (value) {},
-                        title: const Text('Short Azan'),
-                      ),
-                      RadioListTile<int>(
-                        value: 0,
-                        groupValue: 1,
-                        onChanged: (value) {},
-                        title: const Text('Full Azan'),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      ButtonBar(
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Ok'),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Cancel'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-        title: Text(text),
-        subtitle: Text(subtext),
-      ),
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+      title: Text(item.salahName),
+      subtitle: Text(options[item.selectedSetting]),
     );
   }
 }
