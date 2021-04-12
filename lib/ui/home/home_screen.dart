@@ -18,7 +18,7 @@ final _drawerItems = [
   const _HomeScreenDrawerItems('Home', Icons.home),
   const _HomeScreenDrawerItems('Mosque Project', Icons.info),
   const _HomeScreenDrawerItems('Donate', Icons.monetization_on),
-  _HomeScreenDrawerItems('Settings', Icons.settings, routePath: const SettingsScreenRoute().path),
+  _HomeScreenDrawerItems('Azan Settings', Icons.settings, routePath: const SettingsScreenRoute().path),
 ];
 
 class HomeScreen extends StatelessWidget {

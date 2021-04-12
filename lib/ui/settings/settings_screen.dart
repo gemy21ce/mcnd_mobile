@@ -17,7 +17,7 @@ class SettingsScreen extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const AutoSizeText(
-          'Settings',
+          'Azan Settings',
           maxLines: 1,
           maxFontSize: 30,
           minFontSize: 15,
