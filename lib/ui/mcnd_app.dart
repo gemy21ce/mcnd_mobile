@@ -6,21 +6,24 @@ class McndApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lightTheme = ThemeData.light();
-    return MaterialApp.router(
-      title: 'MCND Mosque',
-      theme: lightTheme.copyWith(
-          appBarTheme: AppBarTheme(
+    final baseTheme = ThemeData.light();
+    final theme = baseTheme.copyWith(
+      appBarTheme: AppBarTheme(
         centerTitle: true,
-        iconTheme: lightTheme.iconTheme.copyWith(
+        iconTheme: baseTheme.iconTheme.copyWith(
           color: Colors.black,
         ),
-        textTheme: lightTheme.textTheme.apply(
+        textTheme: baseTheme.textTheme.apply(
           displayColor: Colors.black,
         ),
         elevation: 8,
         backgroundColor: Colors.white,
-      )),
+      ),
+    );
+
+    return MaterialApp.router(
+      title: 'MCND Mosque',
+      theme: theme,
       routerDelegate: _router.delegate(),
       routeInformationParser: _router.defaultRouteParser(),
     );
