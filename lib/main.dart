@@ -23,8 +23,7 @@ Future<void> _initialize() async {
   await Hive.initFlutter();
   Hive.registerAdapter(SettingsAdapter());
 
-  final injector = Injector.getInstance();
-  await injector.initialize();
+  await initializeInjector();
 
   await injector.get<LocalNotificationsService>().initialize();
 
