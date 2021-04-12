@@ -92,6 +92,7 @@ class SettingsItem extends StatelessWidget {
           const SizedBox(width: 12),
           const Spacer(),
           DropdownButton<int>(
+            underline: const SizedBox(),
             value: item.selectedSetting,
             items: options
                 .mapIndexed(
