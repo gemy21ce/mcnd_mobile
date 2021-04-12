@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/core/utils/indexed_iterable.dart';
-import 'package:mcnd_mobile/core/utils/separated_list.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/settings/settings_model.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
+import 'package:mcnd_mobile/ui/shared/utils/separated_list.dart';
 
 class SettingsScreen extends HookWidget {
   @override
