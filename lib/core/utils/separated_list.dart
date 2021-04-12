@@ -1,4 +1,4 @@
-extension SpratedList<T> on List<T> {
+extension SepratedList<T> on List<T> {
   List<T> separatedBy(T Function() separatorBuilder) {
     final List<T> items = [];
     for (var i = 0; i < length; i++) {
