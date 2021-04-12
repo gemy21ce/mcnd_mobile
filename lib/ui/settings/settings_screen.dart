@@ -6,7 +6,7 @@ import 'package:mcnd_mobile/core/utils/indexed_iterable.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/settings/settings_model.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
-import 'package:mcnd_mobile/ui/shared/utils/separated_list.dart';
+import 'package:mcnd_mobile/ui/shared/utils/separated_widget_list.dart';
 
 class SettingsScreen extends HookWidget {
   @override
@@ -37,7 +37,7 @@ class SettingsScreen extends HookWidget {
                         options: state.azanSettingsOptions,
                       ))
                   .toList()
-                  .separatedBy(() => const Divider()),
+                  .separatedByDivider(),
             ],
           );
         },
