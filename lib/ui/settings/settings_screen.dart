@@ -32,7 +32,7 @@ class SettingsScreen extends HookWidget {
             children: [
               const SettingsHeader(text: 'Azan Notifications'),
               ...state.azanSettingsItems
-                  .map<Widget>((e) => SettingsItem(
+                  .map((e) => SettingsItem(
                         item: e,
                         options: state.azanSettingsOptions,
                       ))
