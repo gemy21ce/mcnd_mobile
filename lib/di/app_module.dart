@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class AppModule {
@@ -22,6 +23,9 @@ abstract class AppModule {
 
   @lazySingleton
   FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin => FlutterLocalNotificationsPlugin();
+
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
 
   @singleton
   Logger getLogger() {

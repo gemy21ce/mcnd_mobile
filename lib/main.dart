@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mcnd_mobile/data/models/local/settings.dart';
 import 'package:mcnd_mobile/services/local_notifications_service.dart';
 import 'package:mcnd_mobile/ui/mcnd_app.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -19,9 +16,6 @@ Future<void> main() async {
 Future<void> _initialize() async {
   //insure flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Hive.initFlutter();
-  Hive.registerAdapter(SettingsAdapter());
 
   await initializeInjector();
 
