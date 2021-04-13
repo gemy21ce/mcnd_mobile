@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
@@ -21,7 +20,7 @@ class LocalNotificationsService {
   bool get isInitialized => _initialized;
 
   final Map<int, AzanNotificationPayload> _scheduledAzansCache = {};
-  final DateFormat notificationIdDatePartFormat = DateFormat('yyyyMMdd');
+  final DateFormat notificationIdDatePartFormat = DateFormat('yyMMdd');
 
   Future<void> initialize() async {
     const androidInit = AndroidInitializationSettings('app_icon');
@@ -42,22 +41,34 @@ class LocalNotificationsService {
     _initialized = true;
   }
 
-  Future<void> scheduleAzans(Map<Salah, SalahTime> azans) async {
+  Future<void> scheduleAzansForMultipleDays(List<Map<Salah, SalahTime>> azans, {bool updateCache = true}) async {
+    for (final dayAzans in azans) {
+      await scheduleAzans(dayAzans, updateCache: false);
+    }
+
+    updateScheduledAzansCache();
+  }
+
+  Future<void> scheduleAzans(Map<Salah, SalahTime> azans, {bool updateCache = true}) async {
     for (final e in azans.entries) {
       await scheduleAzan(e.key, e.value, updateCache: false);
     }
-    updateScheduledAzansCache();
+
+    if (updateCache) {
+      updateScheduledAzansCache();
+    }
   }
 
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
+    final int id = getIdForSalah(salah, salahTime);
+
     if (await isAzanScheduled(salah, salahTime)) {
-      _logger.i('Salah $salahName at ${salahTime.azan} is already scheduled');
+      _logger.i('[ID:$id] Salah $salahName at ${salahTime.azan} is already scheduled');
       return;
     }
 
-    final int id = Random().nextInt(1024 * 1024);
     final DateTime dateTime = salahTime.azan;
     final AzanNotificationPayload payload = AzanNotificationPayload(
       id: id,
@@ -82,7 +93,7 @@ class LocalNotificationsService {
       payload: json.encode(payload.toJson()),
     );
 
-    _logger.i('Scheduled a notification for $salahName azan at $dateTime');
+    _logger.i('[ID:$id] Scheduled a notification for $salahName azan at $dateTime');
 
     if (updateCache) {
       updateScheduledAzansCache();
@@ -94,11 +105,12 @@ class LocalNotificationsService {
       await updateScheduledAzansCache();
     }
 
-    final date = salahTime.azan; // we will only use the date part, not time
-    return _scheduledAzansCache.containsKey(getIdForSalah(salah, date));
+    return _scheduledAzansCache.containsKey(getIdForSalah(salah, salahTime));
   }
 
-  int getIdForSalah(Salah salah, DateTime date) {
+  int getIdForSalah(Salah salah, SalahTime salahTime) {
+    final date = salahTime.azan; // we will only use the date part, not time
+
     final String datePart = notificationIdDatePartFormat.format(date);
     final String idString = '$datePart${salah.getId()}';
     return int.parse(idString);
