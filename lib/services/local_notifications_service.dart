@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/data/models/app/azan_notification_payload.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
@@ -18,6 +19,9 @@ class LocalNotificationsService {
 
   bool _initialized = false;
   bool get isInitialized => _initialized;
+
+  final Map<int, AzanNotificationPayload> _scheduledAzansCache = {};
+  final DateFormat notificationIdDatePartFormat = DateFormat('yyyyMMdd');
 
   Future<void> initialize() async {
     const androidInit = AndroidInitializationSettings('app_icon');
@@ -38,7 +42,14 @@ class LocalNotificationsService {
     _initialized = true;
   }
 
-  Future<void> scheduleAzan(Salah salah, SalahTime salahTime) async {
+  Future<void> scheduleAzans(Map<Salah, SalahTime> azans) async {
+    for (final e in azans.entries) {
+      await scheduleAzan(e.key, e.value, updateCache: false);
+    }
+    updateScheduledAzansCache();
+  }
+
+  Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
     if (await isAzanScheduled(salah, salahTime)) {
@@ -72,20 +83,30 @@ class LocalNotificationsService {
     );
 
     _logger.i('Scheduled a notification for $salahName azan at $dateTime');
+
+    if (updateCache) {
+      updateScheduledAzansCache();
+    }
   }
 
-  Future<bool> isAzanScheduled(Salah salah, SalahTime salahTime) async {
-    final List<AzanNotificationPayload> notifications = await getScheduledAzans();
-    return notifications
-        .where(
-          (notification) => notification.dateTime == salahTime.azan && notification.salah == salah,
-        )
-        .isNotEmpty;
+  Future<bool> isAzanScheduled(Salah salah, SalahTime salahTime, {bool forceUpdate = false}) async {
+    if (_scheduledAzansCache.isEmpty || forceUpdate) {
+      await updateScheduledAzansCache();
+    }
+
+    final date = salahTime.azan; // we will only use the date part, not time
+    return _scheduledAzansCache.containsKey(getIdForSalah(salah, date));
   }
 
-  Future<List<AzanNotificationPayload>> getScheduledAzans() async {
+  int getIdForSalah(Salah salah, DateTime date) {
+    final String datePart = notificationIdDatePartFormat.format(date);
+    final String idString = '$datePart${salah.getId()}';
+    return int.parse(idString);
+  }
+
+  Future<void> updateScheduledAzansCache() async {
     final List<PendingNotificationRequest> pendingRequests = await _plugin.pendingNotificationRequests();
-    final a = pendingRequests
+    final List<AzanNotificationPayload> scheduledAzans = pendingRequests
         .where((r) => r.payload != null)
         .map<AzanNotificationPayload?>((r) {
           try {
@@ -98,6 +119,8 @@ class LocalNotificationsService {
         .where((r) => r != null)
         .map((e) => e!)
         .toList();
-    return a;
+
+    _scheduledAzansCache.clear();
+    _scheduledAzansCache.addEntries(scheduledAzans.map((e) => MapEntry(e.id, e)));
   }
 }
