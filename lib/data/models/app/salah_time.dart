@@ -1,9 +1,8 @@
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class SalahTime {
-  final DateTime azan;
-  final DateTime? iqamah;
+part 'salah_time.freezed.dart';
 
-  const SalahTime(this.azan, [this.iqamah]);
+@freezed
+class SalahTime with _$SalahTime {
+  factory SalahTime(DateTime azan, [DateTime? iqamah]) = _SalahTime;
 }
