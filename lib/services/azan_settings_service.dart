@@ -1,4 +1,5 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
@@ -21,7 +22,7 @@ class AzanSettingsService {
   AzanSettingsService(this._sharedPreferences);
 
   AzanNotificationSetting getNotificationSettingsForSalah(Salah salah) {
-    final String key = _notificationSettingsKeyForSalah(salah);
+    final String key = notificationSettingsKeyForSalah(salah);
     final int? id = _sharedPreferences.getInt(key);
 
     if (id == null) {
@@ -32,9 +33,10 @@ class AzanSettingsService {
   }
 
   Future<void> setNotificationSettingsForSalah(Salah salah, AzanNotificationSetting setting) async {
-    final String key = _notificationSettingsKeyForSalah(salah);
+    final String key = notificationSettingsKeyForSalah(salah);
     await _sharedPreferences.setInt(key, setting.getId());
   }
 
-  String _notificationSettingsKeyForSalah(Salah salah) => '$settingsKey.${EnumToString.convertToString(salah)}';
+  @visibleForTesting
+  String notificationSettingsKeyForSalah(Salah salah) => '$settingsKey.${EnumToString.convertToString(salah)}';
 }
