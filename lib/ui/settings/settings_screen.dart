@@ -69,7 +69,7 @@ class SettingsHeader extends StatelessWidget {
   }
 }
 
-class SettingsItem extends StatelessWidget {
+class SettingsItem extends HookWidget {
   final AzanSettingsItem item;
   final List<String> options;
 
@@ -81,6 +81,7 @@ class SettingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = useProvider(settingsViewModelProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -106,7 +107,10 @@ class SettingsItem extends StatelessWidget {
                   ),
                 )
                 .toList(),
-            onChanged: (value) {},
+            onChanged: (value) {
+              if (value == null) return;
+              viewmodel.changeAzanSettings(item.salah, value);
+            },
           ),
         ],
       ),

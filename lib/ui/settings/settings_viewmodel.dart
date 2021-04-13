@@ -27,6 +27,7 @@ class SettingsViewModel extends StateNotifier<SettingsModel?> {
     final azanSettingsItems = Salah.values.map((salah) {
       final AzanNotificationSetting setting = _settingsService.getNotificationSettingsForSalah(salah);
       return AzanSettingsItem(
+        salah: salah,
         salahName: salah.getStringName(),
         selectedSetting: setting.index,
       );
@@ -36,5 +37,10 @@ class SettingsViewModel extends StateNotifier<SettingsModel?> {
       azanSettingsOptions: azanSettingsOptions,
       azanSettingsItems: azanSettingsItems,
     );
+  }
+
+  void changeAzanSettings(Salah salah, int selectedIndex) {
+    _settingsService.setNotificationSettingsForSalah(salah, AzanNotificationSetting.values[selectedIndex]);
+    load();
   }
 }
