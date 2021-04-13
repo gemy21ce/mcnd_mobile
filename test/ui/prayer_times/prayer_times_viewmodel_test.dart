@@ -47,8 +47,9 @@ void main() {
     expect(vm.debugState, const PrayerTimesModel.error(error));
   });
 
-  test('when api returns result state is loaded', () async {
+  test('when api returns result state is loaded and will schedule azan notifications', () async {
     final apiResult = [ApiPrayerTime.fromJson(apiPrayerDayResponse)];
+    final model = const Mapper().mapApiPrayerTime(apiResult.first);
 
     when(api.getPrayerTime(any)).thenAnswer(
       (_) async => apiResult,
@@ -59,5 +60,6 @@ void main() {
     await vm.fetchTimes();
 
     verify(mapper.mapApiPrayerTime(argThat(equals(apiResult.first))));
+    verify(localNotificationService.scheduleAzans(model.times));
   });
 }
