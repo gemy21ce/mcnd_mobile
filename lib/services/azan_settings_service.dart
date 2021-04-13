@@ -1,7 +1,7 @@
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/data/models/local/settings.dart';
+import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const defaultAzanSettingsValue = {

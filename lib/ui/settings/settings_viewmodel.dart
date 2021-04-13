@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/data/models/local/settings.dart';
+import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
 import 'package:mcnd_mobile/services/azan_settings_service.dart';
 import 'package:mcnd_mobile/ui/settings/settings_model.dart';
 
