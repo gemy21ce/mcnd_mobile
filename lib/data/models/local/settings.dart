@@ -26,11 +26,11 @@ extension AzanNotificationSettingExt on AzanNotificationSetting {
     switch (id) {
       case 0:
         return AzanNotificationSetting.nothing;
-      case 2:
+      case 1:
         return AzanNotificationSetting.silent;
-      case 3:
+      case 2:
         return AzanNotificationSetting.short;
-      case 4:
+      case 3:
         return AzanNotificationSetting.full;
     }
     throw 'Unknown id $id';
