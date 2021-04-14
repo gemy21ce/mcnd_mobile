@@ -7,14 +7,17 @@ import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/data/models/app/azan_notification_payload.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
+import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
+import 'package:mcnd_mobile/services/azan_settings_service.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 @lazySingleton
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _plugin;
+  final AzanSettingsService _azanSettingsService;
   final Logger _logger;
 
-  LocalNotificationsService(this._plugin, this._logger);
+  LocalNotificationsService(this._plugin, this._logger, this._azanSettingsService);
 
   bool _initialized = false;
   bool get isInitialized => _initialized;
@@ -62,6 +65,13 @@ class LocalNotificationsService {
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
+    final AzanNotificationSetting settings = _azanSettingsService.getNotificationSettingsForSalah(salah);
+
+    if (settings == AzanNotificationSetting.nothing) {
+      _logger.i("[$settings] Didn't schedule notification for Salah $salahName");
+      return;
+    }
+
     final int id = getIdForSalah(salah, salahTime);
 
     if (await isAzanScheduled(salah, salahTime)) {
@@ -81,13 +91,7 @@ class LocalNotificationsService {
       '$salahName Azan',
       'Time for ${salahName.toLowerCase()} salah',
       tz.TZDateTime.from(dateTime, tz.local),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'azan',
-          'Azan Notifications',
-          'MCND azan notification channel',
-        ),
-      ),
+      getNotificationDetails(setting),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: json.encode(payload.toJson()),
@@ -98,6 +102,32 @@ class LocalNotificationsService {
     if (updateCache) {
       updateScheduledAzansCache();
     }
+  }
+
+  NotificationDetails getNotificationDetails(AzanNotificationSetting setting) {
+    const String channelId = 'azan';
+    const String channelName = 'Azan Notifications';
+    const String channelDescription = 'MCND Azan Notifications';
+    const priority = Priority.high;
+    const playSound = true;
+
+    final android = AndroidNotificationDetails(
+      channelId,
+      channelName,
+      channelDescription,
+      priority: priority,
+      playSound: playSound,
+    );
+
+    final ios = IOSNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: playSound,
+    );
+
+    return NotificationDetails(
+      android: android,
+    );
   }
 
   Future<bool> isAzanScheduled(Salah salah, SalahTime salahTime, {bool forceUpdate = false}) async {
