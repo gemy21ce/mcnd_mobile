@@ -1,7 +1,13 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 enum AzanNotificationSetting {
+  @JsonValue(0)
   nothing,
+  @JsonValue(1)
   silent,
+  @JsonValue(2)
   short,
+  @JsonValue(3)
   full,
 }
 

@@ -90,6 +90,7 @@ class LocalNotificationsService {
       id: id,
       salah: salah,
       dateTime: dateTime,
+      setting: setting,
     );
 
     await _plugin.zonedSchedule(

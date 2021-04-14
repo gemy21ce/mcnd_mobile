@@ -1,12 +1,19 @@
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:strings/strings.dart' as strings;
 
 enum Salah {
+  @JsonValue(0)
   fajr,
+  @JsonValue(1)
   sunrise,
+  @JsonValue(2)
   zuhr,
+  @JsonValue(3)
   asr,
+  @JsonValue(4)
   maghrib,
+  @JsonValue(5)
   isha,
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/data/models/api/api_prayer_time.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import 'package:mcnd_mobile/services/azan_times_service.dart';
@@ -15,7 +16,7 @@ import '../prayer_times/prayer_times_viewmodel_test.mocks.dart';
 ])
 void main() {
   final azanTimesService = MockAzanTimesService();
-  final vm = PrayerTimesViewModel(azanTimesService);
+  final vm = PrayerTimesViewModel(azanTimesService, Logger());
 
   tearDown(() {
     reset(azanTimesService);
@@ -40,7 +41,7 @@ void main() {
 
   test('when api returns result state is loaded and will schedule azan notifications', () async {
     final apiResult = [ApiPrayerTime.fromJson(apiPrayerDayResponse)];
-    final model = const Mapper().mapApiPrayerTime(apiResult.first);
+    //final model = const Mapper().mapApiPrayerTime(apiResult.first);
 
     when(azanTimesService.fetchPrayerTimeForTheDay()).thenAnswer(
       (_) async => const Mapper().mapApiPrayerTime(apiResult.first),
