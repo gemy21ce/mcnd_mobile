@@ -4,6 +4,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/core/utils/duration_utils.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
@@ -15,6 +16,7 @@ import 'package:meta/meta.dart';
 @injectable
 class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   final AzanTimesService _azanTimesService;
+  final Logger _logger;
 
   final _timeFormat = DateFormat('h:mm a');
   final _dateFormat = DateFormat('MMMM dd, yyyy');
@@ -25,14 +27,15 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   Timer? _ticker;
   PrayerTime? _prayerTime;
 
-  PrayerTimesViewModel(this._azanTimesService) : super(const PrayerTimesModel.loading());
+  PrayerTimesViewModel(this._azanTimesService, this._logger) : super(const PrayerTimesModel.loading());
 
   Future<void> fetchTimes() async {
     state = const PrayerTimesModel.loading();
     try {
       _prayerTime = await _azanTimesService.fetchPrayerTimeForTheDay();
       state = PrayerTimesModel.loaded(_toModelData());
-    } catch (e) {
+    } catch (e, stk) {
+      _logger.e('Failed to fetch prayer times', e, stk);
       state = PrayerTimesModel.error(e.toString());
     }
   }
