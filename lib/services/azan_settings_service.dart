@@ -1,42 +1,23 @@
-import 'package:enum_to_string/enum_to_string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mcnd_mobile/data/local/azan_settings_store.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-const defaultAzanSettingsValue = {
-  Salah.fajr: AzanNotificationSetting.short,
-  Salah.sunrise: AzanNotificationSetting.silent,
-  Salah.zuhr: AzanNotificationSetting.short,
-  Salah.asr: AzanNotificationSetting.short,
-  Salah.maghrib: AzanNotificationSetting.short,
-  Salah.isha: AzanNotificationSetting.short,
-};
+import 'package:mcnd_mobile/services/local_notifications_service.dart';
 
 @lazySingleton
 class AzanSettingsService {
   static const settingsKey = 'azan_settings';
-  final SharedPreferences _sharedPreferences;
+  final LocalNotificationsService _localNotificationsService;
+  final AzanSettingsStore _azanSettingsStore;
 
-  AzanSettingsService(this._sharedPreferences);
+  AzanSettingsService(this._localNotificationsService, this._azanSettingsStore);
 
   AzanNotificationSetting getNotificationSettingsForSalah(Salah salah) {
-    final String key = notificationSettingsKeyForSalah(salah);
-    final int? id = _sharedPreferences.getInt(key);
-
-    if (id == null) {
-      return defaultAzanSettingsValue[salah]!;
-    }
-
-    return AzanNotificationSettingExt.fromId(id);
+    return _azanSettingsStore.getNotificationSettingsForSalah(salah);
   }
 
   Future<void> setNotificationSettingsForSalah(Salah salah, AzanNotificationSetting setting) async {
-    final String key = notificationSettingsKeyForSalah(salah);
-    await _sharedPreferences.setInt(key, setting.getId());
+    await _azanSettingsStore.setNotificationSettingsForSalah(salah, setting);
+    await _localNotificationsService.updateScheduledAzansToMatchSettings();
   }
-
-  @visibleForTesting
-  String notificationSettingsKeyForSalah(Salah salah) => '$settingsKey.${EnumToString.convertToString(salah)}';
 }

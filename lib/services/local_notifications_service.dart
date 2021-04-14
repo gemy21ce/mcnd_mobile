@@ -4,19 +4,19 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:mcnd_mobile/data/local/azan_settings_store.dart';
 import 'package:mcnd_mobile/data/models/app/azan_notification_payload.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
-import 'package:mcnd_mobile/services/azan_settings_service.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 @lazySingleton
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _plugin;
-  final AzanSettingsService _azanSettingsService;
+  final AzanSettingsStore _azanSettingsStore;
   final Logger _logger;
 
-  LocalNotificationsService(this._plugin, this._logger, this._azanSettingsService);
+  LocalNotificationsService(this._plugin, this._logger, this._azanSettingsStore);
 
   bool _initialized = false;
   bool get isInitialized => _initialized;
@@ -69,7 +69,7 @@ class LocalNotificationsService {
       return;
     }
 
-    final AzanNotificationSetting setting = _azanSettingsService.getNotificationSettingsForSalah(salah);
+    final AzanNotificationSetting setting = _azanSettingsStore.getNotificationSettingsForSalah(salah);
 
     if (setting == AzanNotificationSetting.nothing) {
       _logger.i("[$setting] Didn't schedule notification for Salah $salahName");
@@ -105,6 +105,33 @@ class LocalNotificationsService {
 
     if (updateCache) {
       updateScheduledAzansCache();
+    }
+  }
+
+  Future<void> updateScheduledAzansToMatchSettings() async {
+    await updateScheduledAzansCache();
+    final List<AzanNotificationPayload> _azansToUpdate = [];
+    for (final payload in _scheduledAzansCache.values) {
+      final salah = payload.salah;
+      final foundSettings = payload.setting;
+      final expectedSettings = _azanSettingsStore.getNotificationSettingsForSalah(salah);
+
+      if (foundSettings != expectedSettings) {
+        await _plugin.cancel(getIdForSalah(salah, payload.dateTime));
+        _azansToUpdate.add(payload);
+      }
+    }
+
+    if (_azansToUpdate.isEmpty) {
+      // nothing to update
+      return;
+    }
+
+    //update cache to remove all outdated azans
+    await updateScheduledAzansCache();
+
+    for (final payload in _azansToUpdate) {
+      await scheduleAzan(payload.salah, payload.dateTime);
     }
   }
 
