@@ -65,6 +65,13 @@ class LocalNotificationsService {
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
+    final DateTime dateTime = salahTime.azan;
+
+    if (dateTime.isBefore(DateTime.now())) {
+      _logger.i("[Date in the past] Didn't schedule notification for Salah $salahName");
+      return;
+    }
+
     final AzanNotificationSetting setting = _azanSettingsService.getNotificationSettingsForSalah(salah);
 
     if (setting == AzanNotificationSetting.nothing) {
@@ -79,7 +86,6 @@ class LocalNotificationsService {
       return;
     }
 
-    final DateTime dateTime = salahTime.azan;
     final AzanNotificationPayload payload = AzanNotificationPayload(
       id: id,
       salah: salah,
