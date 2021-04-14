@@ -10,6 +10,12 @@ import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+enum AzanNotificationScheduledStatus {
+  scheduled,
+  notScheduled,
+  scheduledWithDifferentTime,
+}
+
 @lazySingleton
 class LocalNotificationsService {
   final FlutterLocalNotificationsPlugin _plugin;
@@ -78,9 +84,16 @@ class LocalNotificationsService {
 
     final int id = getIdForSalah(salah, salahDateTime);
 
-    if (await isAzanScheduled(salah, salahDateTime)) {
+    final AzanNotificationScheduledStatus status = await isAzanScheduled(salah, salahDateTime);
+
+    if (status == AzanNotificationScheduledStatus.scheduled) {
       _logger.i('[ID:$id] Salah $salahName at $salahDateTime is already scheduled');
       return;
+    }
+
+    if (status == AzanNotificationScheduledStatus.scheduledWithDifferentTime) {
+      _logger.i('[ID:$id] Updating $salahName at $salahDateTime with different time');
+      await _plugin.cancel(id);
     }
 
     final AzanNotificationPayload payload = AzanNotificationPayload(
@@ -169,12 +182,21 @@ class LocalNotificationsService {
     );
   }
 
-  Future<bool> isAzanScheduled(Salah salah, DateTime salahDateTime, {bool forceUpdate = false}) async {
+  Future<AzanNotificationScheduledStatus> isAzanScheduled(Salah salah, DateTime salahDateTime,
+      {bool forceUpdate = false}) async {
     if (_scheduledAzansCache.isEmpty || forceUpdate) {
       await updateScheduledAzansCache();
     }
 
-    return _scheduledAzansCache.containsKey(getIdForSalah(salah, salahDateTime));
+    final AzanNotificationPayload? res = _scheduledAzansCache[getIdForSalah(salah, salahDateTime)];
+
+    if (res == null) {
+      return AzanNotificationScheduledStatus.notScheduled;
+    }
+
+    return salahDateTime == res.dateTime
+        ? AzanNotificationScheduledStatus.scheduled
+        : AzanNotificationScheduledStatus.scheduledWithDifferentTime;
   }
 
   int getIdForSalah(Salah salah, DateTime salahDateTime) {
