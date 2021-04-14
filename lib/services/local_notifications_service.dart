@@ -65,10 +65,10 @@ class LocalNotificationsService {
   Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
-    final AzanNotificationSetting settings = _azanSettingsService.getNotificationSettingsForSalah(salah);
+    final AzanNotificationSetting setting = _azanSettingsService.getNotificationSettingsForSalah(salah);
 
-    if (settings == AzanNotificationSetting.nothing) {
-      _logger.i("[$settings] Didn't schedule notification for Salah $salahName");
+    if (setting == AzanNotificationSetting.nothing) {
+      _logger.i("[$setting] Didn't schedule notification for Salah $salahName");
       return;
     }
 
@@ -109,24 +109,32 @@ class LocalNotificationsService {
     const String channelName = 'Azan Notifications';
     const String channelDescription = 'MCND Azan Notifications';
     const priority = Priority.high;
-    const playSound = true;
+
+    String? soundFile;
+    if (setting == AzanNotificationSetting.short) {
+      soundFile = 'short_azan';
+    } else if (setting == AzanNotificationSetting.full) {
+      soundFile = 'full_azan';
+    }
 
     final android = AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription,
       priority: priority,
-      playSound: playSound,
+      sound: RawResourceAndroidNotificationSound(soundFile),
     );
 
     final ios = IOSNotificationDetails(
       presentAlert: true,
       presentBadge: true,
-      presentSound: playSound,
+      presentSound: true,
+      sound: '$soundFile.aiff',
     );
 
     return NotificationDetails(
       android: android,
+      iOS: ios,
     );
   }
 
