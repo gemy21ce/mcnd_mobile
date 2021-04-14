@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/data/models/app/azan_notification_payload.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 import 'package:mcnd_mobile/data/models/local/azan_notification_setting.dart';
 import 'package:mcnd_mobile/services/azan_settings_service.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -44,7 +43,7 @@ class LocalNotificationsService {
     _initialized = true;
   }
 
-  Future<void> scheduleAzansForMultipleDays(List<Map<Salah, SalahTime>> azans, {bool updateCache = true}) async {
+  Future<void> scheduleAzansForMultipleDays(List<Map<Salah, DateTime>> azans, {bool updateCache = true}) async {
     for (final dayAzans in azans) {
       await scheduleAzans(dayAzans, updateCache: false);
     }
@@ -52,7 +51,7 @@ class LocalNotificationsService {
     updateScheduledAzansCache();
   }
 
-  Future<void> scheduleAzans(Map<Salah, SalahTime> azans, {bool updateCache = true}) async {
+  Future<void> scheduleAzans(Map<Salah, DateTime> azans, {bool updateCache = true}) async {
     for (final e in azans.entries) {
       await scheduleAzan(e.key, e.value, updateCache: false);
     }
@@ -62,12 +61,10 @@ class LocalNotificationsService {
     }
   }
 
-  Future<void> scheduleAzan(Salah salah, SalahTime salahTime, {bool updateCache = true}) async {
+  Future<void> scheduleAzan(Salah salah, DateTime salahDateTime, {bool updateCache = true}) async {
     final String salahName = salah.getStringName();
 
-    final DateTime dateTime = salahTime.azan;
-
-    if (dateTime.isBefore(DateTime.now())) {
+    if (salahDateTime.isBefore(DateTime.now())) {
       _logger.i("[Date in the past] Didn't schedule notification for Salah $salahName");
       return;
     }
@@ -79,17 +76,17 @@ class LocalNotificationsService {
       return;
     }
 
-    final int id = getIdForSalah(salah, salahTime);
+    final int id = getIdForSalah(salah, salahDateTime);
 
-    if (await isAzanScheduled(salah, salahTime)) {
-      _logger.i('[ID:$id] Salah $salahName at ${salahTime.azan} is already scheduled');
+    if (await isAzanScheduled(salah, salahDateTime)) {
+      _logger.i('[ID:$id] Salah $salahName at $salahDateTime is already scheduled');
       return;
     }
 
     final AzanNotificationPayload payload = AzanNotificationPayload(
       id: id,
       salah: salah,
-      dateTime: dateTime,
+      dateTime: salahDateTime,
       setting: setting,
     );
 
@@ -97,14 +94,14 @@ class LocalNotificationsService {
       id,
       '$salahName Azan',
       'Time for ${salahName.toLowerCase()} salah',
-      tz.TZDateTime.from(dateTime, tz.local),
+      tz.TZDateTime.from(salahDateTime, tz.local),
       getNotificationDetails(setting),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: json.encode(payload.toJson()),
     );
 
-    _logger.i('[ID:$id] Scheduled a notification for $salahName azan at $dateTime');
+    _logger.i('[ID:$id] Scheduled a notification for $salahName azan at $salahDateTime');
 
     if (updateCache) {
       updateScheduledAzansCache();
@@ -145,18 +142,16 @@ class LocalNotificationsService {
     );
   }
 
-  Future<bool> isAzanScheduled(Salah salah, SalahTime salahTime, {bool forceUpdate = false}) async {
+  Future<bool> isAzanScheduled(Salah salah, DateTime salahDateTime, {bool forceUpdate = false}) async {
     if (_scheduledAzansCache.isEmpty || forceUpdate) {
       await updateScheduledAzansCache();
     }
 
-    return _scheduledAzansCache.containsKey(getIdForSalah(salah, salahTime));
+    return _scheduledAzansCache.containsKey(getIdForSalah(salah, salahDateTime));
   }
 
-  int getIdForSalah(Salah salah, SalahTime salahTime) {
-    final date = salahTime.azan; // we will only use the date part, not time
-
-    final String datePart = notificationIdDatePartFormat.format(date);
+  int getIdForSalah(Salah salah, DateTime salahDateTime) {
+    final String datePart = notificationIdDatePartFormat.format(salahDateTime);
     final String idString = '$datePart${salah.getId()}';
     return int.parse(idString);
   }

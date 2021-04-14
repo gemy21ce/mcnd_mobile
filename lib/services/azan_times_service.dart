@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import 'package:mcnd_mobile/data/network/mcnd_api.dart';
 import 'package:mcnd_mobile/services/local_notifications_service.dart';
@@ -41,11 +40,11 @@ class AzanTimesService {
   Future<void> _scheduleAzansStartingFrom(List<PrayerTime> times, PrayerTime start, [int daysToSchedule = 10]) async {
     final startIndex = times.indexOf(start);
     final endIndex = min(startIndex + daysToSchedule, times.length);
-    final List<Map<Salah, SalahTime>> azansToSchedule = [];
+    final List<Map<Salah, DateTime>> azansToSchedule = [];
 
     for (int i = startIndex; i < endIndex; i++) {
       final dayTimes = times[i];
-      azansToSchedule.add(dayTimes.times);
+      azansToSchedule.add(dayTimes.times.map((key, value) => MapEntry(key, value.azan)));
     }
 
     await _localNotificationsService.scheduleAzansForMultipleDays(azansToSchedule);
