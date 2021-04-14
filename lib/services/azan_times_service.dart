@@ -33,17 +33,21 @@ class AzanTimesService {
       return dayDate.year == nowDate.year && dayDate.month == nowDate.month && dayDate.day == nowDate.day;
     }).first;
 
-    final todayIndex = prayerTimeForTheMonth.indexOf(todayPrayerTimes);
-    final lastScheduleDayIndex = min(todayIndex + 10, prayerTimeForTheMonth.length);
+    await _scheduleAzansStartingFrom(prayerTimeForTheMonth, todayPrayerTimes);
+
+    return todayPrayerTimes;
+  }
+
+  Future<void> _scheduleAzansStartingFrom(List<PrayerTime> times, PrayerTime start, [int daysToSchedule = 10]) async {
+    final startIndex = times.indexOf(start);
+    final endIndex = min(startIndex + daysToSchedule, times.length);
     final List<Map<Salah, SalahTime>> azansToSchedule = [];
 
-    for (int i = todayIndex; i < lastScheduleDayIndex; i++) {
-      final dayTimes = prayerTimeForTheMonth[i];
+    for (int i = startIndex; i < endIndex; i++) {
+      final dayTimes = times[i];
       azansToSchedule.add(dayTimes.times);
     }
 
-    _localNotificationsService.scheduleAzansForMultipleDays(azansToSchedule);
-
-    return todayPrayerTimes;
+    await _localNotificationsService.scheduleAzansForMultipleDays(azansToSchedule);
   }
 }
