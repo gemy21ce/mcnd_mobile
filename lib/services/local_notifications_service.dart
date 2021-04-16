@@ -49,25 +49,16 @@ class LocalNotificationsService {
     _initialized = true;
   }
 
-  Future<void> scheduleAzansForMultipleDays(List<Map<Salah, DateTime>> azans, {bool updateCache = true}) async {
+  Future<void> scheduleDaysAzans(List<Map<Salah, DateTime>> azans) async {
     for (final dayAzans in azans) {
-      await scheduleAzans(dayAzans, updateCache: false);
+      for (final e in dayAzans.entries) {
+        await _scheduleAzan(e.key, e.value);
+      }
     }
-
-    updateScheduledAzansCache();
+    _updateScheduledAzansCache();
   }
 
-  Future<void> scheduleAzans(Map<Salah, DateTime> azans, {bool updateCache = true}) async {
-    for (final e in azans.entries) {
-      await scheduleAzan(e.key, e.value, updateCache: false);
-    }
-
-    if (updateCache) {
-      updateScheduledAzansCache();
-    }
-  }
-
-  Future<void> scheduleAzan(Salah salah, DateTime salahDateTime, {bool updateCache = true}) async {
+  Future<void> _scheduleAzan(Salah salah, DateTime salahDateTime) async {
     final String salahName = salah.getStringName();
 
     if (salahDateTime.isBefore(DateTime.now())) {
@@ -82,9 +73,9 @@ class LocalNotificationsService {
       return;
     }
 
-    final int id = getIdForSalah(salah, salahDateTime);
+    final int id = _getIdForSalah(salah, salahDateTime);
 
-    final AzanNotificationScheduledStatus status = await isAzanScheduled(salah, salahDateTime);
+    final AzanNotificationScheduledStatus status = await _isAzanScheduled(salah, salahDateTime);
 
     if (status == AzanNotificationScheduledStatus.scheduled) {
       _logger.i('[ID:$id] Salah $salahName at $salahDateTime is already scheduled');
@@ -106,23 +97,19 @@ class LocalNotificationsService {
     await _plugin.zonedSchedule(
       id,
       '$salahName Azan',
-      'Time for ${salahName.toLowerCase()} salah',
+      'Time for ${salahName.toLowerCase()} prayer',
       tz.TZDateTime.from(salahDateTime, tz.local),
-      getNotificationDetails(setting),
+      _getNotificationDetails(setting),
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: json.encode(payload.toJson()),
     );
 
     _logger.i('[ID:$id] Scheduled a notification for $salahName azan at $salahDateTime');
-
-    if (updateCache) {
-      updateScheduledAzansCache();
-    }
   }
 
   Future<void> updateScheduledAzansToMatchSettings() async {
-    await updateScheduledAzansCache();
+    await _updateScheduledAzansCache();
     final List<AzanNotificationPayload> _azansToUpdate = [];
     for (final payload in _scheduledAzansCache.values) {
       final salah = payload.salah;
@@ -130,7 +117,7 @@ class LocalNotificationsService {
       final expectedSettings = _azanSettingsStore.getNotificationSettingsForSalah(salah);
 
       if (foundSettings != expectedSettings) {
-        await _plugin.cancel(getIdForSalah(salah, payload.dateTime));
+        await _plugin.cancel(_getIdForSalah(salah, payload.dateTime));
         _azansToUpdate.add(payload);
       }
     }
@@ -141,14 +128,16 @@ class LocalNotificationsService {
     }
 
     //update cache to remove all outdated azans
-    await updateScheduledAzansCache();
+    await _updateScheduledAzansCache();
 
     for (final payload in _azansToUpdate) {
-      await scheduleAzan(payload.salah, payload.dateTime);
+      await _scheduleAzan(payload.salah, payload.dateTime);
     }
+
+    await _updateScheduledAzansCache();
   }
 
-  NotificationDetails getNotificationDetails(AzanNotificationSetting setting) {
+  NotificationDetails _getNotificationDetails(AzanNotificationSetting setting) {
     const String channelId = 'azan';
     const String channelName = 'Azan Notifications';
     const String channelDescription = 'MCND Azan Notifications';
@@ -182,13 +171,13 @@ class LocalNotificationsService {
     );
   }
 
-  Future<AzanNotificationScheduledStatus> isAzanScheduled(Salah salah, DateTime salahDateTime,
+  Future<AzanNotificationScheduledStatus> _isAzanScheduled(Salah salah, DateTime salahDateTime,
       {bool forceUpdate = false}) async {
     if (_scheduledAzansCache.isEmpty || forceUpdate) {
-      await updateScheduledAzansCache();
+      await _updateScheduledAzansCache();
     }
 
-    final AzanNotificationPayload? res = _scheduledAzansCache[getIdForSalah(salah, salahDateTime)];
+    final AzanNotificationPayload? res = _scheduledAzansCache[_getIdForSalah(salah, salahDateTime)];
 
     if (res == null) {
       return AzanNotificationScheduledStatus.notScheduled;
@@ -199,13 +188,13 @@ class LocalNotificationsService {
         : AzanNotificationScheduledStatus.scheduledWithDifferentTime;
   }
 
-  int getIdForSalah(Salah salah, DateTime salahDateTime) {
+  int _getIdForSalah(Salah salah, DateTime salahDateTime) {
     final String datePart = notificationIdDatePartFormat.format(salahDateTime);
     final String idString = '$datePart${salah.getId()}';
     return int.parse(idString);
   }
 
-  Future<void> updateScheduledAzansCache() async {
+  Future<void> _updateScheduledAzansCache() async {
     final List<PendingNotificationRequest> pendingRequests = await _plugin.pendingNotificationRequests();
     final List<AzanNotificationPayload> scheduledAzans = pendingRequests
         .where((r) => r.payload != null)

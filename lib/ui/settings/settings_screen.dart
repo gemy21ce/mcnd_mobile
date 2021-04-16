@@ -11,8 +11,8 @@ import 'package:mcnd_mobile/ui/shared/utils/separated_widget_list.dart';
 class SettingsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final viewmodel = useProvider(settingsViewModelProvider);
-    useOnce(() => viewmodel.load());
+    final viewModel = useProvider(settingsViewModelProvider);
+    useOnce(() => viewModel.load());
     final state = useProvider(settingsViewModelProvider.state);
     return Scaffold(
       appBar: AppBar(
@@ -81,7 +81,7 @@ class SettingsItem extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewmodel = useProvider(settingsViewModelProvider);
+    final viewModel = useProvider(settingsViewModelProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
@@ -109,7 +109,7 @@ class SettingsItem extends HookWidget {
                 .toList(),
             onChanged: (value) {
               if (value == null) return;
-              viewmodel.changeAzanSettings(item.salah, value);
+              viewModel.changeAzanSettings(item.salah, value);
             },
           ),
         ],

@@ -25,7 +25,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
 
   DateTime _dateNow = DateTime.now();
   Timer? _ticker;
-  PrayerTime? _prayerTime;
+  DayPrayers? _prayerTime;
 
   PrayerTimesViewModel(this._azanTimesService, this._logger) : super(const PrayerTimesModel.loading());
 
@@ -57,7 +57,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   PrayerTimesModelData _toModelData() {
-    final PrayerTime _prayerTime = this._prayerTime!;
+    final DayPrayers _prayerTime = this._prayerTime!;
     final dateString = _dateNow.format(_dateFormat);
     final hijriDateString = HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
@@ -92,7 +92,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   @visibleForTesting
-  Salah nearestSalah(PrayerTime prayerTime, DateTime forTime) {
+  Salah nearestSalah(DayPrayers prayerTime, DateTime forTime) {
     final times = prayerTime.times.entries.toList()
       ..sort((a, b) {
         return a.value.azan.compareTo(b.value.azan);

@@ -21,23 +21,23 @@ class AzanTimesService {
   );
 
   /// fetch prayer times for the day and schedule azan notifications
-  Future<PrayerTime> fetchPrayerTimeForTheDay() async {
+  Future<DayPrayers> fetchPrayerTimeForTheDay() async {
     final DateTime nowDate = DateTime.now();
 
-    final List<PrayerTime> prayerTimeForTheMonth =
+    final List<DayPrayers> monthDailyPrayers =
         (await _api.getPrayerTime(PrayerTimeFilter.month)).map((e) => _mapper.mapApiPrayerTime(e)).toList();
 
-    final todayPrayerTimes = prayerTimeForTheMonth.where((dayTimes) {
+    final todayPrayerTimes = monthDailyPrayers.where((dayTimes) {
       final DateTime dayDate = dayTimes.date;
       return dayDate.year == nowDate.year && dayDate.month == nowDate.month && dayDate.day == nowDate.day;
     }).first;
 
-    await _scheduleAzansStartingFrom(prayerTimeForTheMonth, todayPrayerTimes);
+    await _scheduleAzansStartingFrom(monthDailyPrayers, todayPrayerTimes);
 
     return todayPrayerTimes;
   }
 
-  Future<void> _scheduleAzansStartingFrom(List<PrayerTime> times, PrayerTime start, [int daysToSchedule = 10]) async {
+  Future<void> _scheduleAzansStartingFrom(List<DayPrayers> times, DayPrayers start, [int daysToSchedule = 10]) async {
     final startIndex = times.indexOf(start);
     final endIndex = min(startIndex + daysToSchedule, times.length);
     final List<Map<Salah, DateTime>> azansToSchedule = [];
@@ -47,6 +47,6 @@ class AzanTimesService {
       azansToSchedule.add(dayTimes.times.map((key, value) => MapEntry(key, value.azan)));
     }
 
-    await _localNotificationsService.scheduleAzansForMultipleDays(azansToSchedule);
+    await _localNotificationsService.scheduleDaysAzans(azansToSchedule);
   }
 }
