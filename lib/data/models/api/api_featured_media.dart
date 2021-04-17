@@ -7,6 +7,7 @@ part 'api_featured_media.g.dart';
 class ApiFeaturedMedia with _$ApiFeaturedMedia {
   const factory ApiFeaturedMedia({
     @JsonKey(name: 'id') required int id,
+    @JsonKey(name: 'media_details') required ApiFeaturedMediaDetails mediaDetails,
   }) = _ApiFeaturedMedia;
 
   factory ApiFeaturedMedia.fromJson(Map<String, dynamic> json) => _$ApiFeaturedMediaFromJson(json);
