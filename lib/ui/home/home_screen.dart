@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mcnd_mobile/ui/compass_page/compass_page.dart';
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
 import 'package:mcnd_mobile/ui/news/news_page.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
@@ -44,9 +45,7 @@ class HomeScreen extends HookWidget {
         },
         children: const [
           PrayerTimesPage(),
-          Center(
-            child: Text('Compass'),
-          ),
+          CompassPage(),
           NewsPage(),
         ],
       ),
