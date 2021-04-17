@@ -58,6 +58,7 @@ dependencies:
   auto_size_text: ^3.0.0-nullsafety.0
   flutter_html: ^2.0.0-nullsafety.0
   webview_flutter: ^2.0.4
+  flutter_svg: ^0.21.0+1
 
   # Navigation
   auto_route: ^1.0.2
@@ -86,6 +87,12 @@ flutter_icons:
   android: true
   ios: true
   image_path: assets/app_logo.png
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 120
+  integrations:
+    flutter_svg: true
 
 flutter:
   uses-material-design: true

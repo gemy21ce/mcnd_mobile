@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/di/providers.dart';
+import 'package:mcnd_mobile/ui/compass_page/compass_widget/compass_widget.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
 
 class CompassPage extends HookWidget {
@@ -17,7 +18,9 @@ class CompassPage extends HookWidget {
       initial: () => const SizedBox(),
       permissionNotGranted: () => const _PermissionNotGrantedWidget(),
       permissionPermanentlyDenied: () => const _PermissionNotGrantedWidget(),
-      permissionGranted: () => Text('permissionGranted'),
+      permissionGranted: () => const Center(
+        child: CompassWidget(),
+      ),
     );
   }
 }
