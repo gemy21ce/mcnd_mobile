@@ -27,15 +27,18 @@ class NewsPostDetailsScreen extends StatelessWidget {
           minFontSize: 15,
         ),
       ),
-      body: WebView(
-        initialUrl: 'about:blank',
-        onWebViewCreated: (controller) {
-          controller.loadUrl(Uri.dataFromString(
-            post.content,
-            mimeType: 'text/html',
-            encoding: Encoding.getByName('utf-8'),
-          ).toString());
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: WebView(
+          initialUrl: 'about:blank',
+          onWebViewCreated: (controller) {
+            controller.loadUrl(Uri.dataFromString(
+              post.content,
+              mimeType: 'text/html',
+              encoding: Encoding.getByName('utf-8'),
+            ).toString());
+          },
+        ),
       ),
     );
   }
