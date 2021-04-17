@@ -5,11 +5,14 @@ import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 
 mixin MapperPrayerTime {
-  PrayerTime mapApiPrayerTime(ApiPrayerTime apiModel) {
+  DayPrayers mapApiPrayerTime(ApiPrayerTime apiModel) {
     final Map<Salah, SalahTime> times = {
       Salah.fajr: SalahTime(
         apiModel.fajrAzan.matchDateWith(apiModel.date),
         apiModel.fajrIqamah.matchDateWith(apiModel.date),
+      ),
+      Salah.sunrise: SalahTime(
+        apiModel.sunrise.matchDateWith(apiModel.date),
       ),
       Salah.zuhr: SalahTime(
         apiModel.zuhrAzan.matchDateWith(apiModel.date),
@@ -29,10 +32,9 @@ mixin MapperPrayerTime {
       ),
     };
 
-    return PrayerTime(
+    return DayPrayers(
       apiModel.date,
       times,
-      apiModel.sunrise,
     );
   }
 }

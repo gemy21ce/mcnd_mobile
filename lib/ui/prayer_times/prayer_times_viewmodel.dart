@@ -4,20 +4,19 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/core/utils/duration_utils.dart';
-import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
 import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
-import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
-import 'package:mcnd_mobile/data/network/mcnd_api.dart';
+import 'package:mcnd_mobile/services/azan_times_service.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';
 import 'package:meta/meta.dart';
 
 @injectable
 class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
-  final McndApi _api;
-  final Mapper _mapper;
+  final AzanTimesService _azanTimesService;
+  final Logger _logger;
 
   final _timeFormat = DateFormat('h:mm a');
   final _dateFormat = DateFormat('MMMM dd, yyyy');
@@ -26,17 +25,17 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
 
   DateTime _dateNow = DateTime.now();
   Timer? _ticker;
-  PrayerTime? _prayerTime;
+  DayPrayers? _prayerTime;
 
-  PrayerTimesViewModel(this._api, this._mapper) : super(const PrayerTimesModel.loading());
+  PrayerTimesViewModel(this._azanTimesService, this._logger) : super(const PrayerTimesModel.loading());
 
   Future<void> fetchTimes() async {
     state = const PrayerTimesModel.loading();
     try {
-      final apiModel = (await _api.getPrayerTime(PrayerTimeFilter.today)).first;
-      _prayerTime = _mapper.mapApiPrayerTime(apiModel);
+      _prayerTime = await _azanTimesService.fetchPrayerTimeForTheDay();
       state = PrayerTimesModel.loaded(_toModelData());
-    } catch (e) {
+    } catch (e, stk) {
+      _logger.e('Failed to fetch prayer times', e, stk);
       state = PrayerTimesModel.error(e.toString());
     }
   }
@@ -58,7 +57,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   PrayerTimesModelData _toModelData() {
-    final PrayerTime _prayerTime = this._prayerTime!;
+    final DayPrayers _prayerTime = this._prayerTime!;
     final dateString = _dateNow.format(_dateFormat);
     final hijriDateString = HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
@@ -66,7 +65,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     final upcomingSalahString = '${upcomingSalah.getStringName().toUpperCase()} IQAMAH';
 
     final upcomingSalahTime = _prayerTime.times[upcomingSalah]!;
-    final timeToUpcomingSalah = upcomingSalahTime.iqamah.difference(_dateNow).getTimeDifferenceString(
+    final upcomingDateTime = (upcomingSalah == Salah.sunrise) ? upcomingSalahTime.azan : upcomingSalahTime.iqamah!;
+    final timeToUpcomingSalah = upcomingDateTime.difference(_dateNow).getTimeDifferenceString(
           seconds: false,
         );
 
@@ -77,18 +77,10 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       return PrayerTimesModelItem(
         prayerName: salah.getStringName(),
         azan: time.azan.format(_timeFormat),
-        iqamah: time.iqamah.format(_timeFormat),
+        iqamah: time.iqamah?.format(_timeFormat),
         highlight: highlight,
       );
     }).toList();
-
-    items.insert(
-      1,
-      PrayerTimesModelItem(
-        prayerName: 'Sunrise',
-        azan: _prayerTime.sunrise.format(_timeFormat),
-      ),
-    );
 
     return PrayerTimesModelData(
       date: dateString,
@@ -100,7 +92,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   @visibleForTesting
-  Salah nearestSalah(PrayerTime prayerTime, DateTime forTime) {
+  Salah nearestSalah(DayPrayers prayerTime, DateTime forTime) {
     final times = prayerTime.times.entries.toList()
       ..sort((a, b) {
         return a.value.azan.compareTo(b.value.azan);

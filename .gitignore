@@ -1,5 +1,6 @@
 lib/gen/
 *.g.dart
+*.gr.dart
 *.config.dart
 *.freezed.dart
 *.mocks.dart

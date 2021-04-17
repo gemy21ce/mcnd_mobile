@@ -18,6 +18,8 @@ dependencies:
 
   freezed_annotation: ^0.14.1
 
+  logger: ^1.0.0
+
   # Utility Functions
   enum_to_string: ^2.0.1
   strings: ^0.2.1
@@ -47,8 +49,19 @@ dependencies:
   # Extra Icons
   material_design_icons_flutter: 5.0.5955-rc.1
 
+  # Notifications
+  flutter_local_notifications: ^5.0.0+1
+  # timezone: ^0.7.0 --- transitive dependency of flutter_local_notifications
+  flutter_native_timezone: ^1.0.10
+
   # Widgets
   auto_size_text: ^3.0.0-nullsafety.0
+
+  # Navigation
+  auto_route: ^1.0.2
+
+  # local store
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +73,7 @@ dev_dependencies:
   json_serializable: ^4.1.0
   mockito: ^5.0.3
   flutter_launcher_icons: ^0.9.0
+  auto_route_generator: ^1.0.2
   flutter_gen_runner:
 
 flutter_icons:

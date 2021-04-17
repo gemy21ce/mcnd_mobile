@@ -12,7 +12,7 @@ void main() {
     final mapped = const Mapper().mapApiPrayerTime(apiRes);
 
     expect(mapped.date, apiRes.date);
-    expect(mapped.sunrise, apiRes.sunrise);
+    expect(mapped.times[Salah.sunrise]!.azan, apiRes.sunrise.matchDateWith(apiRes.date));
 
     //test only few ones
     expect(mapped.times[Salah.fajr]!.azan, apiRes.fajrAzan.matchDateWith(apiRes.date));
