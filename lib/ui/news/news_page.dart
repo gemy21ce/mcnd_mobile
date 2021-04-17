@@ -78,26 +78,32 @@ class NewsItem extends StatelessWidget {
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
               textAlign: TextAlign.center,
             ),
-            Row(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: media.thumbnailImageUrl,
-                  width: 100,
-                  placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
-                ),
-                Expanded(
-                  child: Html(
-                    data: post.excerpt,
-                    style: {
-                      'p': Style(
-                        fontSize: FontSize.rem(0.8),
-                        textAlign: TextAlign.justify,
-                      )
-                    },
+            Padding(
+              padding: const EdgeInsets.only(bottom:8.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: CachedNetworkImage(
+                      imageUrl: media.thumbnailImageUrl,
+                      width: 100,
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
+                    ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Html(
+                      data: post.excerpt,
+                      style: {
+                        'p': Style(
+                          fontSize: FontSize.rem(0.85),
+                          textAlign: TextAlign.justify,
+                        )
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
