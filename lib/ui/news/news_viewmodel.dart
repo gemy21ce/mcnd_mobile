@@ -12,6 +12,7 @@ class NewsViewModel extends StateNotifier<AsyncValue<List<NewsPostWithMedia>>> {
   NewsViewModel(this._newsService, this._logger) : super(const AsyncValue.loading());
 
   Future<void> load() async {
+    if (state is AsyncData) return;
     state = const AsyncValue.loading();
     try {
       final res = await _newsService.getNewsPosts();
