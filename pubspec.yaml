@@ -57,6 +57,7 @@ dependencies:
   # Widgets
   auto_size_text: ^3.0.0-nullsafety.0
   flutter_html: ^2.0.0-nullsafety.0
+  webview_flutter: ^2.0.4
 
   # Navigation
   auto_route: ^1.0.2
