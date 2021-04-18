@@ -14,7 +14,7 @@
    viewBox="0 0 338.605 338.605"
    style="enable-background:new 0 0 338.605 338.605;"
    xml:space="preserve"
-   sodipodi:docname="qibla-compass-svgrepo-com.svg"
+   sodipodi:docname="compass.svg"
    inkscape:version="1.0.1 (c497b03c, 2020-09-10)"><metadata
    id="metadata65"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -36,9 +36,10 @@
    inkscape:cx="169.30251"
    inkscape:cy="169.30251"
    inkscape:window-x="204"
-   inkscape:window-y="161"
+   inkscape:window-y="139"
    inkscape:window-maximized="0"
-   inkscape:current-layer="Capa_1" />
+   inkscape:current-layer="Capa_1"
+   inkscape:document-rotation="0" />
 <g
    id="g28">
 	<path
@@ -53,10 +54,7 @@
 	
 	
 	
-	<polygon
-   points="137.381,110.436 169.303,91.635 201.225,110.545 169.303,52.664 "
-   id="polygon26"
-   transform="matrix(0.48767649,0,0,0.5542842,86.968251,19.326993)" />
+	
 </g>
 <g
    id="g30">
