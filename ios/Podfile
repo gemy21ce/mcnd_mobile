@@ -77,7 +77,5 @@ post_install do |installer|
         ## dart: PermissionGroup.sensors
         'PERMISSION_SENSORS=0'
       ]
-
-    end
   end
 end
