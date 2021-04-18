@@ -79,7 +79,7 @@ class NewsItem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom:8.0),
+              padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 children: [
                   Padding(
@@ -95,7 +95,7 @@ class NewsItem extends StatelessWidget {
                     child: Html(
                       data: post.excerpt,
                       style: {
-                        'p': Style(
+                        '*': Style(
                           fontSize: FontSize.rem(0.85),
                           textAlign: TextAlign.justify,
                         )
