@@ -1,10 +1,11 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/image_render.dart';
+import 'package:flutter_html/src/layout_element.dart';
+import 'package:flutter_html/style.dart';
 import 'package:mcnd_mobile/data/models/app/featured_media.dart';
 import 'package:mcnd_mobile/data/models/app/news_post.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class NewsPostDetailsScreen extends StatelessWidget {
   final NewsPost post;
@@ -27,16 +28,31 @@ class NewsPostDetailsScreen extends StatelessWidget {
           minFontSize: 15,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: WebView(
-          initialUrl: 'about:blank',
-          onWebViewCreated: (controller) {
-            controller.loadUrl(Uri.dataFromString(
-              post.content,
-              mimeType: 'text/html',
-              encoding: Encoding.getByName('utf-8'),
-            ).toString());
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(8.0),
+        child: Html(
+          shrinkWrap: true,
+          data: post.content,
+          style: {
+            '*': Style(
+              fontSize: FontSize.rem(0.85),
+              textAlign: TextAlign.justify,
+            )
+          },
+          customImageRenders: {
+            networkSourceMatcher(): (context, attributes, element) {
+              attributes.remove('width');
+              attributes.remove('height');
+              return networkImageRender()(context, attributes, element);
+            },
+          },
+          customRender: {
+            'table': (context, parsedChild) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: (context.tree as TableLayoutElement).toWidget(context),
+              );
+            }
           },
         ),
       ),

@@ -56,7 +56,10 @@ dependencies:
 
   # Widgets
   auto_size_text: ^3.0.0-nullsafety.0
-  flutter_html: ^2.0.0-nullsafety.0
+  flutter_html: # ^2.0.0-nullsafety.0
+    git: # https://github.com/Sub6Resources/flutter_html/issues/584#issuecomment-800643270
+      url: https://github.com/Sub6Resources/flutter_html
+      ref: df53f43b29e24ffd3963a6757db0b1af050851bb
   webview_flutter: ^2.0.4
   flutter_svg: ^0.21.0+1
 
