@@ -83,7 +83,12 @@ class NewsItem extends StatelessWidget {
                         : CachedNetworkImage(
                             imageUrl: post.featuredMedia!.thumbnailImageUrl!,
                             width: 100,
-                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            placeholder: (context, url) => Container(
+                              width: 50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: const CircularProgressIndicator(),
+                            ),
                             errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
                           ),
                   ),

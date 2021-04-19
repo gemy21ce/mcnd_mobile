@@ -37,53 +37,63 @@ class PrayerTimesWidget extends HookWidget {
       )
     ];
     return SizedBox.expand(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Assets.images.logoLarge.image(width: MediaQuery.of(context).size.width * .6),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              'PRAYER TIME',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.prayerTimeHerderColor), borderRadius: BorderRadius.circular(5)),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    Text(viewData.date),
-                    const SizedBox(height: 10),
-                    Text(
-                      viewData.hijriDate,
-                      style: const TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      viewData.upcommingSalah,
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(viewData.timeToUpcommingSalah),
-                    const SizedBox(height: 15),
-                    DefaultTextStyle.merge(
-                      textAlign: TextAlign.center,
-                      child: Column(
-                        children: rows,
-                      ),
-                    )
-                  ],
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Padding(
+                        padding: EdgeInsets.all(constraints.maxHeight * 0.15),
+                        child: Assets.images.logoLarge.image(),
+                      );
+                    },
+                  ),
                 ),
+                const Text(
+                  'PRAYER TIME',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0).copyWith(top: 0),
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.prayerTimeHerderColor), borderRadius: BorderRadius.circular(5)),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Text(viewData.date),
+                  const SizedBox(height: 10),
+                  Text(
+                    viewData.hijriDate,
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    viewData.upcommingSalah,
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(viewData.timeToUpcommingSalah),
+                  const SizedBox(height: 10),
+                  DefaultTextStyle.merge(
+                    textAlign: TextAlign.center,
+                    child: Column(
+                      children: rows,
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
