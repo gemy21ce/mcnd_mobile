@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mcnd_mobile/data/models/app/featured_media.dart';
 
 part 'news_post.freezed.dart';
 
@@ -9,5 +10,6 @@ class NewsPost with _$NewsPost {
     required DateTime date,
     required String excerpt,
     required String content,
+    FeaturedMedia? featuredMedia,
   }) = _NewsPost;
 }
