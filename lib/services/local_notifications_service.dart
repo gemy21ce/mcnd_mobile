@@ -155,7 +155,7 @@ class LocalNotificationsService {
       channelName,
       channelDescription,
       priority: priority,
-      sound: RawResourceAndroidNotificationSound(soundFile),
+      sound: soundFile == null ? null : RawResourceAndroidNotificationSound(soundFile),
     );
 
     final ios = IOSNotificationDetails(

@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 final DateFormat _dateFormatter = DateFormat('yyyy-MM-dd', 'en-US');
 final DateFormat _timeFormatter = DateFormat('HH:mm:ss', 'en-US');
+final DateFormat _dateTimeFormatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss", 'en-US');
 
 class McndDateConverter implements JsonConverter<DateTime, String> {
   const McndDateConverter();
@@ -22,4 +23,14 @@ class McndTimeConverter implements JsonConverter<DateTime, String> {
 
   @override
   String toJson(DateTime object) => _timeFormatter.format(object);
+}
+
+class McndDateTimeConverter implements JsonConverter<DateTime, String> {
+  const McndDateTimeConverter();
+
+  @override
+  DateTime fromJson(String json) => _dateTimeFormatter.parse(json);
+
+  @override
+  String toJson(DateTime object) => _dateTimeFormatter.format(object);
 }

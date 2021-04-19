@@ -3,14 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'prayer_times_model.freezed.dart';
 
 @freezed
-abstract class PrayerTimesModel with _$PrayerTimesModel {
+class PrayerTimesModel with _$PrayerTimesModel {
   const factory PrayerTimesModel.loading() = Loading;
   const factory PrayerTimesModel.error(String error) = Error;
   const factory PrayerTimesModel.loaded(PrayerTimesModelData data) = Loaded;
 }
 
 @freezed
-abstract class PrayerTimesModelData with _$PrayerTimesModelData {
+class PrayerTimesModelData with _$PrayerTimesModelData {
   const factory PrayerTimesModelData({
     required String date,
     required String hijriDate,
@@ -21,7 +21,7 @@ abstract class PrayerTimesModelData with _$PrayerTimesModelData {
 }
 
 @freezed
-abstract class PrayerTimesModelItem with _$PrayerTimesModelItem {
+class PrayerTimesModelItem with _$PrayerTimesModelItem {
   const factory PrayerTimesModelItem({
     required String prayerName,
     required String azan,
