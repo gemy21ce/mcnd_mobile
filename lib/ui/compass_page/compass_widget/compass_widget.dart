@@ -46,20 +46,12 @@ class CompassWidget extends HookWidget {
             width: compassSize,
             height: compassSize,
           ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: correctDirection
-                ? Assets.images.ka3ba.svg(
-                    width: arrowSize,
-                    height: arrowSize,
-                  )
-                : Transform.rotate(
-                    angle: qiblah.qiblah.toRadians(),
-                    child: Assets.images.compassArrow.svg(
-                      width: arrowSize,
-                      height: arrowSize,
-                    ),
-                  ),
+          Transform.rotate(
+            angle: qiblah.qiblah.toRadians(),
+            child: Assets.images.compassArrow.svg(
+              width: arrowSize,
+              height: arrowSize,
+            ),
           ),
         ],
       ),
