@@ -7,9 +7,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
 import 'package:mcnd_mobile/gen/assets.gen.dart';
 
-const k3baLat = 21.4225;
-const k3baLng = 39.8262;
-
 class CompassWidget extends HookWidget {
   const CompassWidget();
 
@@ -32,7 +29,6 @@ class CompassWidget extends HookWidget {
     final compassSize = maxSize * 0.8;
     final arrowSize = compassSize / 4;
     final k3baSize = compassSize / 6;
-    final northSize = compassSize / 6;
 
     final correctDirection = qiblah.qiblah.round() == 0 || qiblah.qiblah.round() == 360;
 
@@ -78,7 +74,7 @@ class CompassWidget extends HookWidget {
           duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: correctDirection ? Colors.green.withOpacity(0.8) : null,
+            color: correctDirection ? Colors.green[300] : null,
           ),
           margin: EdgeInsets.all(k3baSize * 1.1),
           child: Assets.images.compassOutline.svg(
