@@ -2,18 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/image_render.dart';
+// ignore: implementation_imports
 import 'package:flutter_html/src/layout_element.dart';
 import 'package:flutter_html/style.dart';
-import 'package:mcnd_mobile/data/models/app/featured_media.dart';
 import 'package:mcnd_mobile/data/models/app/news_post.dart';
 
 class NewsPostDetailsScreen extends StatelessWidget {
   final NewsPost post;
-  final FeaturedMedia media;
 
   const NewsPostDetailsScreen({
     required this.post,
-    required this.media,
     Key? key,
   }) : super(key: key);
 
