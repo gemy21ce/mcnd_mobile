@@ -10,6 +10,7 @@ import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/data/models/app/news_post.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
+import 'package:mcnd_mobile/ui/news/news_viewmodel.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
 import 'package:mcnd_mobile/ui/shared/widget/async_value_builder.dart';
 
@@ -20,7 +21,7 @@ class NewsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = useProvider(newsViewModelProvider);
+    final NewsViewModel viewModel = useProvider(newsViewModelProvider);
     useOnce(() => viewModel.load());
     final state = useProvider(newsViewModelProvider.state);
     return AsyncValueBuilder<List<NewsPost>>(
