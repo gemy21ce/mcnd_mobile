@@ -66,6 +66,10 @@ void main() {
     });
 
     testWidgets('will show PrayerTimesWidget if state is loaded', (tester) async {
+      final TestWidgetsFlutterBinding binding =
+          TestWidgetsFlutterBinding.ensureInitialized() as TestWidgetsFlutterBinding;
+      await binding.setSurfaceSize(const Size(1080, 1920)); // set with bigger size
+
       final vm = MockPrayerTimesViewModel();
       const state = PrayerTimesModel.loaded(PrayerTimesModelData(
         times: [],
