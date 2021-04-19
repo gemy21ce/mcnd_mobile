@@ -27,8 +27,8 @@ final _drawerItems = [
 class HomeScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final currentPage = useState(0);
-    final pageController = usePageController(initialPage: currentPage.value);
+    final ValueNotifier<int> currentPage = useState(0);
+    final PageController pageController = usePageController(initialPage: currentPage.value);
     return Scaffold(
       appBar: AppBar(
         title: const AutoSizeText(
