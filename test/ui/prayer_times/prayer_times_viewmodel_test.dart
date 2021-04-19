@@ -16,7 +16,7 @@ import '../prayer_times/prayer_times_viewmodel_test.mocks.dart';
 ])
 void main() {
   final azanTimesService = MockAzanTimesService();
-  final vm = PrayerTimesViewModel(azanTimesService, Logger());
+  final vm = PrayerTimesViewModel(azanTimesService, Logger(level: Level.nothing));
 
   tearDown(() {
     reset(azanTimesService);
