@@ -31,7 +31,7 @@ class LocalNotificationsService {
   final DateFormat notificationIdDatePartFormat = DateFormat('yyMMdd');
 
   Future<void> initialize() async {
-    const androidInit = AndroidInitializationSettings('app_icon');
+    const androidInit = AndroidInitializationSettings('notification_icon');
 
     const iosInit = IOSInitializationSettings();
 
