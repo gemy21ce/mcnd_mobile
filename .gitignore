@@ -6,6 +6,8 @@ lib/gen/
 *.config.dart
 *.freezed.dart
 *.mocks.dart
+pubspec.lock
+ios/Podfile.lock
 
 # Miscellaneous
 *.class
