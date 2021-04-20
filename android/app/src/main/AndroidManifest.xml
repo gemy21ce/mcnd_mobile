@@ -5,7 +5,7 @@
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
    <application
-        android:label="mcnd_mobile"
+        android:label="MCND"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
