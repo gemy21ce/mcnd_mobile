@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
 
 class McndApp extends StatelessWidget {
@@ -20,6 +21,10 @@ class McndApp extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
     );
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
 
     return MaterialApp.router(
       title: 'MCND Mosque',
