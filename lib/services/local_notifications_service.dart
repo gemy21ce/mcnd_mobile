@@ -94,10 +94,13 @@ class LocalNotificationsService {
       setting: setting,
     );
 
+    final notificationTitle = '$salahName ${salah == Salah.sunrise ? 'Time' : 'Azan'}';
+    final notificationBody = 'Time for ${salahName.toLowerCase()}${salah == Salah.sunrise ? '' : ' prayer'}';
+
     await _plugin.zonedSchedule(
       id,
-      '$salahName Azan',
-      'Time for ${salahName.toLowerCase()} prayer',
+      notificationTitle,
+      notificationBody,
       tz.TZDateTime.from(salahDateTime, tz.local),
       _getNotificationDetails(setting),
       androidAllowWhileIdle: true,
