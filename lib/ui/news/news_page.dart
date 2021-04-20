@@ -7,12 +7,9 @@ import 'package:flutter_html/style.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
-import 'package:mcnd_mobile/data/models/app/featured_media.dart';
 import 'package:mcnd_mobile/data/models/app/news_post.dart';
-import 'package:mcnd_mobile/data/models/app/news_post_with_media.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
-import 'package:mcnd_mobile/ui/news/news_viewmodel.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
 import 'package:mcnd_mobile/ui/shared/widget/async_value_builder.dart';
 
@@ -23,19 +20,17 @@ class NewsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NewsViewModel viewModel = useProvider(newsViewModelProvider);
+    final viewModel = useProvider(newsViewModelProvider);
     useOnce(() => viewModel.load());
-    final AsyncValue<List<NewsPostWithMedia>> state = useProvider(newsViewModelProvider.state);
-    return AsyncValueBuilder<List<NewsPostWithMedia>>(
+    final state = useProvider(newsViewModelProvider.state);
+    return AsyncValueBuilder<List<NewsPost>>(
       value: state,
       builder: (posts) {
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
           itemCount: posts.length,
           itemBuilder: (context, index) {
-            final post = posts[index].post;
-            final media = posts[index].media;
-            return NewsItem(post: post, media: media);
+            return NewsItem(post: posts[index]);
           },
         );
       },
@@ -47,11 +42,9 @@ class NewsItem extends StatelessWidget {
   const NewsItem({
     Key? key,
     required this.post,
-    required this.media,
   }) : super(key: key);
 
   final NewsPost post;
-  final FeaturedMedia media;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +55,7 @@ class NewsItem extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       child: InkWell(
         onTap: () {
-          AutoRouter.of(context).push(NewsPostDetailsScreenRoute(post: post, media: media));
+          AutoRouter.of(context).push(NewsPostDetailsScreenRoute(post: post));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -80,23 +73,30 @@ class NewsItem extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom:8.0),
+              padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: CachedNetworkImage(
-                      imageUrl: media.thumbnailImageUrl,
-                      width: 100,
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
-                    ),
+                    child: (post.featuredMedia?.thumbnailImageUrl == null)
+                        ? const SizedBox(width: 100)
+                        : CachedNetworkImage(
+                            imageUrl: post.featuredMedia!.thumbnailImageUrl!,
+                            width: 100,
+                            placeholder: (context, url) => Container(
+                              width: 50,
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: const CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, dynamic error) => const Icon(Icons.error),
+                          ),
                   ),
                   Expanded(
                     child: Html(
                       data: post.excerpt,
                       style: {
-                        'p': Style(
+                        '*': Style(
                           fontSize: FontSize.rem(0.85),
                           textAlign: TextAlign.justify,
                         )

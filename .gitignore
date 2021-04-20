@@ -1,3 +1,5 @@
+coverage/
+
 lib/gen/
 *.g.dart
 *.gr.dart

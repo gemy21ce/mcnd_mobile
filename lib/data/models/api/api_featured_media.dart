@@ -7,7 +7,7 @@ part 'api_featured_media.g.dart';
 class ApiFeaturedMedia with _$ApiFeaturedMedia {
   const factory ApiFeaturedMedia({
     @JsonKey(name: 'id') required int id,
-    @JsonKey(name: 'media_details') required ApiFeaturedMediaDetails mediaDetails,
+    @JsonKey(name: 'media_details') ApiFeaturedMediaDetails? mediaDetails,
   }) = _ApiFeaturedMedia;
 
   factory ApiFeaturedMedia.fromJson(Map<String, dynamic> json) => _$ApiFeaturedMediaFromJson(json);
@@ -16,7 +16,7 @@ class ApiFeaturedMedia with _$ApiFeaturedMedia {
 @freezed
 class ApiFeaturedMediaDetails with _$ApiFeaturedMediaDetails {
   const factory ApiFeaturedMediaDetails({
-    @JsonKey(name: 'sizes') required ApiFeaturedMediaDetailsSizes sizes,
+    @JsonKey(name: 'sizes') ApiFeaturedMediaDetailsSizes? sizes,
   }) = _ApiFeaturedMediaDetails;
 
   factory ApiFeaturedMediaDetails.fromJson(Map<String, dynamic> json) => _$ApiFeaturedMediaDetailsFromJson(json);
@@ -25,8 +25,8 @@ class ApiFeaturedMediaDetails with _$ApiFeaturedMediaDetails {
 @freezed
 class ApiFeaturedMediaDetailsSizes with _$ApiFeaturedMediaDetailsSizes {
   const factory ApiFeaturedMediaDetailsSizes({
-    @JsonKey(name: 'full') required ApiFeaturedMediaDetailsSize full,
-    @JsonKey(name: 'thumbnail') required ApiFeaturedMediaDetailsSize thumbnail,
+    @JsonKey(name: 'full') ApiFeaturedMediaDetailsSize? full,
+    @JsonKey(name: 'thumbnail') ApiFeaturedMediaDetailsSize? thumbnail,
   }) = _ApiFeaturedMediaDetailsSizes;
 
   factory ApiFeaturedMediaDetailsSizes.fromJson(Map<String, dynamic> json) =>
@@ -36,9 +36,9 @@ class ApiFeaturedMediaDetailsSizes with _$ApiFeaturedMediaDetailsSizes {
 @freezed
 class ApiFeaturedMediaDetailsSize with _$ApiFeaturedMediaDetailsSize {
   const factory ApiFeaturedMediaDetailsSize({
-    @JsonKey(name: 'source_url') required String sourceUrl,
-    @JsonKey(name: 'width') required int width,
-    @JsonKey(name: 'height') required int height,
+    @JsonKey(name: 'source_url') String? sourceUrl,
+    @JsonKey(name: 'width') int? width,
+    @JsonKey(name: 'height') int? height,
   }) = _ApiFeaturedMediaDetailsSize;
 
   factory ApiFeaturedMediaDetailsSize.fromJson(Map<String, dynamic> json) =>

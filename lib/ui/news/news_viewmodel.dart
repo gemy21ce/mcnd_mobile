@@ -1,11 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:mcnd_mobile/data/models/app/news_post_with_media.dart';
+import 'package:mcnd_mobile/data/models/app/news_post.dart';
 import 'package:mcnd_mobile/services/news_service.dart';
 
 @injectable
-class NewsViewModel extends StateNotifier<AsyncValue<List<NewsPostWithMedia>>> {
+class NewsViewModel extends StateNotifier<AsyncValue<List<NewsPost>>> {
   final NewsService _newsService;
   final Logger _logger;
 
