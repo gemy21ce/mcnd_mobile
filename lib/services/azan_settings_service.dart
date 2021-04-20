@@ -6,7 +6,6 @@ import 'package:mcnd_mobile/services/local_notifications_service.dart';
 
 @lazySingleton
 class AzanSettingsService {
-  static const settingsKey = 'azan_settings';
   final LocalNotificationsService _localNotificationsService;
   final AzanSettingsStore _azanSettingsStore;
 
