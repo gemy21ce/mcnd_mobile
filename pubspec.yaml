@@ -66,6 +66,9 @@ dependencies:
   shared_preferences: ^2.0.5
   cached_network_image: ^3.0.0
 
+  # url launcher (launch external url in default browser)
+  url_launcher: ^6.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

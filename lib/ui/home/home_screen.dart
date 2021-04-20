@@ -6,21 +6,31 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
 import 'package:mcnd_mobile/ui/news/news_page.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_page.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+enum URLType { external, internal }
 
 @immutable
 class _HomeScreenDrawerItems {
   final String title;
   final IconData icon;
-  final String? routePath;
+  final String routePath;
+  final URLType type;
 
-  const _HomeScreenDrawerItems(this.title, this.icon, {this.routePath});
+  const _HomeScreenDrawerItems(this.title, {required this.icon, required this.routePath, this.type = URLType.internal});
 }
 
+const String mosqueProjectURL = 'https://www.mcnd.ie/mosqueproject';
+const String donateURL = 'https://www.mcnd.ie/charity';
+const String aboutUsURL = 'https://www.mcnd.ie/about';
+
 final _drawerItems = [
-  const _HomeScreenDrawerItems('Home', Icons.home),
-  const _HomeScreenDrawerItems('Mosque Project', Icons.info),
-  const _HomeScreenDrawerItems('Donate', Icons.monetization_on),
-  _HomeScreenDrawerItems('Azan Settings', Icons.settings, routePath: const SettingsScreenRoute().path),
+  const _HomeScreenDrawerItems('Home', icon: Icons.home, routePath: '/'),
+  const _HomeScreenDrawerItems('Mosque Project',
+      icon: Icons.info_outline, routePath: mosqueProjectURL, type: URLType.external),
+  const _HomeScreenDrawerItems('Donate', icon: Icons.euro, routePath: donateURL, type: URLType.external),
+  const _HomeScreenDrawerItems('About Us', icon: Icons.info_outline, routePath: aboutUsURL, type: URLType.external),
+  _HomeScreenDrawerItems('Azan Settings', icon: Icons.settings, routePath: const SettingsScreenRoute().path),
 ];
 
 class HomeScreen extends HookWidget {
@@ -81,10 +91,18 @@ class HomeScreen extends HookWidget {
           child: Column(
             children: [
               ..._drawerItems.map((e) => InkWell(
-                    onTap: () {
-                      if (e.routePath != null) {
+                    onTap: () async {
+                      if (e.routePath == '/') {
                         AutoRouter.of(context).pop(); // close the drawer
-                        AutoRouter.of(context).pushPath(e.routePath!);
+                        return;
+                      }
+                      if (e.type == URLType.internal) {
+                        AutoRouter.of(context).pop(); // close the drawer
+                        AutoRouter.of(context).pushPath(e.routePath);
+                      } else {
+                        await canLaunch(e.routePath)
+                            ? await launch(e.routePath)
+                            : throw 'Could not launch ${e.routePath}';
                       }
                     },
                     child: ListTile(
