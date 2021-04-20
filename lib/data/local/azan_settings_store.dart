@@ -15,6 +15,7 @@ const defaultAzanSettingsValue = {
 
 @lazySingleton
 class AzanSettingsStore {
+  @visibleForTesting
   static const settingsKey = 'azan_settings';
   final SharedPreferences _sharedPreferences;
 
