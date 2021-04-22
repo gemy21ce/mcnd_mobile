@@ -13,4 +13,8 @@ extension DateTimeUtils on DateTime {
       second,
     );
   }
+
+  bool isDateOnlyEquals(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
 }

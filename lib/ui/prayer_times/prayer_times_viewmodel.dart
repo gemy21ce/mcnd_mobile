@@ -33,7 +33,7 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     if (state is Loaded) return;
     state = const PrayerTimesModel.loading();
     try {
-      _prayerTime = await _azanTimesService.fetchPrayerTimeForTheDay();
+      _prayerTime = await _azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications();
       state = PrayerTimesModel.loaded(_toModelData());
     } catch (e, stk) {
       _logger.e('Failed to fetch prayer times', e, stk);
