@@ -17,6 +17,6 @@ class AzanSettingsService {
 
   Future<void> setNotificationSettingsForSalah(Salah salah, AzanNotificationSetting setting) async {
     await _azanSettingsStore.setNotificationSettingsForSalah(salah, setting);
-    await _localNotificationsService.updateScheduledAzansToMatchSettings();
+    _localNotificationsService.updateScheduledAzansToMatchSettings();
   }
 }
