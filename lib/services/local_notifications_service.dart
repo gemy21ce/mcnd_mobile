@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
@@ -52,13 +53,14 @@ class LocalNotificationsService {
   Future<void> scheduleDaysAzans(List<Map<Salah, DateTime>> azans) async {
     for (final dayAzans in azans) {
       for (final e in dayAzans.entries) {
-        await _scheduleAzan(e.key, e.value);
+        await scheduleAzan(e.key, e.value);
       }
     }
     _updateScheduledAzansCache();
   }
 
-  Future<void> _scheduleAzan(Salah salah, DateTime salahDateTime) async {
+  @visibleForTesting
+  Future<void> scheduleAzan(Salah salah, DateTime salahDateTime) async {
     final String salahName = salah.getStringName();
 
     if (salahDateTime.isBefore(DateTime.now())) {
@@ -134,16 +136,16 @@ class LocalNotificationsService {
     await _updateScheduledAzansCache();
 
     for (final payload in _azansToUpdate) {
-      await _scheduleAzan(payload.salah, payload.dateTime);
+      await scheduleAzan(payload.salah, payload.dateTime);
     }
 
     await _updateScheduledAzansCache();
   }
 
   NotificationDetails _getNotificationDetails(AzanNotificationSetting setting) {
-    const String channelId = 'azan';
-    const String channelName = 'Azan Notifications';
-    const String channelDescription = 'MCND Azan Notifications';
+    final String channelId = 'azan_${setting.getId()}';
+    final String channelName = setting.getStringName();
+    final String channelDescription = 'MCND ${setting.getStringName()}';
     const priority = Priority.high;
 
     String? soundFile;
@@ -158,6 +160,8 @@ class LocalNotificationsService {
       channelName,
       channelDescription,
       priority: priority,
+      visibility: NotificationVisibility.public,
+      category: 'alarm',
       sound: soundFile == null ? null : RawResourceAndroidNotificationSound(soundFile),
     );
 

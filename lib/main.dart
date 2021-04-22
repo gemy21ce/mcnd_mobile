@@ -19,7 +19,8 @@ Future<void> _initialize() async {
 
   await initializeInjector();
 
-  await injector.get<LocalNotificationsService>().initialize();
+  final LocalNotificationsService localNotificationsService = injector.get();
+  await localNotificationsService.initialize();
 
   //timezone initialization required for FlutterLocalNotificationsPlugin
   tz.initializeTimeZones();
