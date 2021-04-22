@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/core/utils/duration_utils.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
+import 'package:mcnd_mobile/data/models/app/day_prayer.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/services/azan_times_service.dart';
 import 'package:mcnd_mobile/ui/prayer_times/prayer_times_model.dart';

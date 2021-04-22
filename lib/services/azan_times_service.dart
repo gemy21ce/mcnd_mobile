@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
+import 'package:mcnd_mobile/data/models/app/day_prayer.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/network/prayer_times_remote_source.dart';
 import 'package:mcnd_mobile/services/local_notifications_service.dart';

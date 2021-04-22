@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:clock/clock.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mcnd_mobile/data/models/api/prayer_time_filter.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
+import 'package:mcnd_mobile/data/models/app/day_prayer.dart';
 import 'package:mcnd_mobile/data/models/mappers/mapper.dart';
 import 'package:mcnd_mobile/data/network/mcnd_api.dart';
 

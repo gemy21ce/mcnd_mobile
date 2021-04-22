@@ -1,6 +1,6 @@
 import 'package:mcnd_mobile/core/utils/datetime_utils.dart';
 import 'package:mcnd_mobile/data/models/api/api_prayer_time.dart';
-import 'package:mcnd_mobile/data/models/app/prayer_time.dart';
+import 'package:mcnd_mobile/data/models/app/day_prayer.dart';
 import 'package:mcnd_mobile/data/models/app/salah.dart';
 import 'package:mcnd_mobile/data/models/app/salah_time.dart';
 
