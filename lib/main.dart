@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/services/local_notifications_service.dart';
@@ -14,6 +15,9 @@ Future<void> main() async {
 }
 
 Future<void> _initialize() async {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   //insure flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
