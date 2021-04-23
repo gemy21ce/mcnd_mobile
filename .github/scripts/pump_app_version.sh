@@ -15,7 +15,7 @@ parse_yaml() {
    }'
 }
 
-#set -e
+set -e
 
 eval "$(parse_yaml pubspec.yaml "config_")"
 # shellcheck disable=SC2154
@@ -24,9 +24,12 @@ versionDots=$(echo "$config_version" | cut -d'+' -f 1)
 nextV=$((versionNumber + 1))
 new_version=$(echo "$versionDots" | cut -d'.' -f 1).$(echo "$versionDots" | cut -d'.' -f 2).$nextV+$nextV
 
-sed -i '' "s/$config_version/$new_version/g" pubspec.yaml
+sed -i -e "s/$config_version/$new_version/g" pubspec.yaml
 
 git add pubspec.yaml
+
+git config --global user.email "cicd@mcnd.ie"
+git config --global user.name "MCND CICD USER"
 
 git commit -m "[skip actions] Released Version: $new_version" || true
 git tag -a v"$new_version" -m "V $new_version"

@@ -42,5 +42,11 @@ jobs:
         run: bash .github/scripts/pump_app_version.sh
       
       - name: Build AppBundle
-        run: bash .github/scripts/build_app_bundle.sh
+        run: |
+          storePassword="${{ secrets.GOOGLE_STORE_STOREPASSWORD }}" \
+          keyPassword="${{ secrets.GOOGLE_STORE_KEYPASSWORD }}" \
+          keyAlias="${{ secrets.GOOGLE_STORE_KEYALIAS }}" \
+          storeFile=release.keystore \
+          flutter build appbundle -vvv
+
 
