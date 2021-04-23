@@ -39,7 +39,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > release.keystore
           
       - name: pump app version
-        run: ./.github/scripts/pump_app_version.sh
+        run: bash .github/scripts/pump_app_version.sh
       
       - name: Build AppBundle
-        run: ./.github/scripts/build_app_bundle.sh
+        run: bash .github/scripts/build_app_bundle.sh
