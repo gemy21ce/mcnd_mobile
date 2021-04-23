@@ -21,7 +21,7 @@ class AzanTimesService {
     final List<Map<Salah, DateTime>> toSchedule =
         prayers.map((p) => p.times.map((key, value) => MapEntry(key, value.azan))).toList();
 
-    await _localNotificationsService.scheduleDaysAzans(toSchedule);
+    _localNotificationsService.scheduleDaysAzans(toSchedule);
 
     return prayers.first;
   }
