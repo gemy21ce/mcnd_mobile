@@ -35,10 +35,19 @@ jobs:
       - name: Build generated code
         run: ./tools/model_generator.sh
 
+      - name: Analyze code
+        run: flutter analyze --fatal-warnings --no-fatal-infos
+
+      - name: Run Tests
+        run: flutter test
+
       - name: Extract sign key
         run: |
           echo "${{ secrets.GOOGLE_STORE_JKS_FILE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > android/app/release.keystore
+
+      - name: pump app version
+        run: bash .github/scripts/pump_app_version.sh
       
       - name: Build AppBundle
         run: |
