@@ -64,5 +64,5 @@ jobs:
           packageName: ie.mcnd.mcnd_mobile
           releaseFiles: build/app/outputs/bundle/release/*.aab
           track: production
-          whatsNewDirectory: distribution/whatsnew
+          whatsNewDirectory: distribution
 
