@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: checkout ssh key
         uses: webfactory/ssh-agent@v0.5.2
-          with:
-            ssh-private-key: ${{ secrets.CICD_GITHUB_ID_RSA }}
+        with:
+          ssh-private-key: ${{ secrets.CICD_GITHUB_ID_RSA }}
 
       - uses: actions/checkout@v2
         with:
