@@ -1,5 +1,6 @@
 parse_yaml() {
   local prefix=$2
+  # shellcheck disable=SC2155
   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @ | tr @ '\034')
   sed -ne "s|^\($s\)\($w\)$s:$s\"\(.*\)\"$s\$|\1$fs\2$fs\3|p" \
     -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p" $1 |
@@ -15,6 +16,7 @@ parse_yaml() {
 }
 
 eval "$(parse_yaml pubspec.yaml "config_")"
+# shellcheck disable=SC2154
 versionNumber=$(echo "$config_version" | cut -d'+' -f 2)
 versionDots=$(echo "$config_version" | cut -d'+' -f 1)
 nextV=$((versionNumber + 1))

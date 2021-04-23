@@ -36,7 +36,7 @@ jobs:
       - name: Extract sign key
         run: |
           echo "${{ secrets.GOOGLE_STORE_JKS_FILE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > app/release.keystore
+          gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > release.keystore
           
       - name: pump app version
         run: ./.github/scripts/pump_app_version.sh
