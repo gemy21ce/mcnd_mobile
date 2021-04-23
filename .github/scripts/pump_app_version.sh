@@ -15,6 +15,8 @@ parse_yaml() {
    }'
 }
 
+#set -e
+
 eval "$(parse_yaml pubspec.yaml "config_")"
 # shellcheck disable=SC2154
 versionNumber=$(echo "$config_version" | cut -d'+' -f 2)
