@@ -26,4 +26,18 @@ void main() {
 
     expect(matchedDateTime, combined);
   });
+
+  group('isDateOnlyEquals', () {
+    test('will return false on different date', () {
+      final d1 = DateTime(2014, 1, 5, 2, 2, 2);
+      final d2 = DateTime(2014, 1, 4, 2, 2, 2);
+      expect(d1.isDateOnlyEquals(d2), false);
+    });
+
+    test('will return true on same date different time', () {
+      final d1 = DateTime(2014, 1, 5, 1, 2, 3);
+      final d2 = DateTime(2014, 1, 5, 4, 5, 6);
+      expect(d1.isDateOnlyEquals(d2), true);
+    });
+  });
 }

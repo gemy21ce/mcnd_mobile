@@ -6,7 +6,6 @@ import 'package:mcnd_mobile/services/local_notifications_service.dart';
 
 @lazySingleton
 class AzanSettingsService {
-  static const settingsKey = 'azan_settings';
   final LocalNotificationsService _localNotificationsService;
   final AzanSettingsStore _azanSettingsStore;
 
@@ -18,6 +17,6 @@ class AzanSettingsService {
 
   Future<void> setNotificationSettingsForSalah(Salah salah, AzanNotificationSetting setting) async {
     await _azanSettingsStore.setNotificationSettingsForSalah(salah, setting);
-    await _localNotificationsService.updateScheduledAzansToMatchSettings();
+    _localNotificationsService.updateScheduledAzansToMatchSettings();
   }
 }

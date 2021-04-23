@@ -3,7 +3,7 @@ description: MCND Mosque mobile app
 
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.3+3
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  clock: ^1.1.0
 
   # HTTP Client
   dio: ^4.0.0
@@ -93,7 +95,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: assets/app_logo.png
+  image_path: assets/logo.png
 
 flutter_gen:
   output: lib/gen/

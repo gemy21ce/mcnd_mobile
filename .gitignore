@@ -1,5 +1,8 @@
 coverage/
 
+pubspec.lock
+Podfile.lock
+
 lib/gen/
 *.g.dart
 *.gr.dart

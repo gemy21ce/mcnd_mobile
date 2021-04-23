@@ -29,26 +29,26 @@ void main() {
   test('when api fails state is error', () async {
     const error = 'this is an error';
 
-    when(azanTimesService.fetchPrayerTimeForTheDay()).thenAnswer(
+    when(azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications()).thenAnswer(
       (_) => Future.error(error),
     );
 
     await vm.fetchTimes();
 
     expect(vm.debugState, const PrayerTimesModel.error(error));
-    verify(azanTimesService.fetchPrayerTimeForTheDay());
+    verify(azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications());
   });
 
   test('when api returns result state is loaded and will schedule azan notifications', () async {
     final apiResult = [ApiPrayerTime.fromJson(apiPrayerDayResponse)];
     //final model = const Mapper().mapApiPrayerTime(apiResult.first);
 
-    when(azanTimesService.fetchPrayerTimeForTheDay()).thenAnswer(
+    when(azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications()).thenAnswer(
       (_) async => const Mapper().mapApiPrayerTime(apiResult.first),
     );
 
     await vm.fetchTimes();
     expect(vm.debugState, isInstanceOf<Loaded>());
-    verify(azanTimesService.fetchPrayerTimeForTheDay());
+    verify(azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications());
   });
 }
