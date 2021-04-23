@@ -15,12 +15,12 @@ Future<void> main() async {
 }
 
 Future<void> _initialize() async {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
   //insure flutter is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   await initializeInjector();
 
   final LocalNotificationsService localNotificationsService = injector.get();
