@@ -40,8 +40,10 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
   }
 
   Future<void> play() async {
-    state = const RadioScreenModel.loading();
-    await _startBackgroundTask();
+    if (!AudioService.running) {
+      state = const RadioScreenModel.loading();
+      await _startBackgroundTask();
+    }
     AudioService.play();
   }
 
