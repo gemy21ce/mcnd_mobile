@@ -1,6 +1,12 @@
 PODS:
+  - audio_service (0.0.1):
+    - Flutter
+  - audio_session (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_compass (0.0.1):
+    - Flutter
+  - flutter_isolate (0.0.1):
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
@@ -12,6 +18,8 @@ PODS:
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
   - geolocator (6.2.0):
+    - Flutter
+  - just_audio (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
@@ -32,12 +40,16 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audio_service (from `.symlinks/plugins/audio_service/ios`)
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - Flutter (from `Flutter`)
   - flutter_compass (from `.symlinks/plugins/flutter_compass/ios`)
+  - flutter_isolate (from `.symlinks/plugins/flutter_isolate/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_timezone (from `.symlinks/plugins/flutter_native_timezone/ios`)
   - flutter_qiblah (from `.symlinks/plugins/flutter_qiblah/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -52,10 +64,16 @@ SPEC REPOS:
     - FMDB
 
 EXTERNAL SOURCES:
+  audio_service:
+    :path: ".symlinks/plugins/audio_service/ios"
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   Flutter:
     :path: Flutter
   flutter_compass:
     :path: ".symlinks/plugins/flutter_compass/ios"
+  flutter_isolate:
+    :path: ".symlinks/plugins/flutter_isolate/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_native_timezone:
@@ -64,6 +82,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_qiblah/ios"
   geolocator:
     :path: ".symlinks/plugins/geolocator/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
@@ -82,13 +102,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  audio_service: f509d65da41b9521a61f1c404dd58651f265a567
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_compass: cbbd285cea1584c7ac9c4e0c3e1f17cbea55e855
+  flutter_isolate: 0edf5081826d071adf21759d1eb10ff5c24503b5
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   flutter_qiblah: f69eeb708d127a2634073ab1f27771c979928f50
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geolocator: f5e3de65e241caba7ce3e8a618803387bda73384
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
@@ -100,4 +124,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 27f1f4aeef6ef87642502612c6ea3ce5aee35e3e
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.9.3

@@ -52,6 +52,7 @@ android {
     buildTypes {
         release {
             signingConfig System.getenv('storeFile') ? signingConfigs.release : signingConfigs.debug
+            shrinkResources false
         }
     }
 }

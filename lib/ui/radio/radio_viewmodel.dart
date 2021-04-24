@@ -1,44 +1,52 @@
 import 'dart:async';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:mcnd_mobile/ui/radio/audio_player_task.dart';
 import 'package:mcnd_mobile/ui/radio/radio_screen_model.dart';
-
-const _radioUrl = 'http://stream.radiojar.com/htnudfgugm8uv';
 
 @injectable
 class RadioViewModel extends StateNotifier<RadioScreenModel> {
-  final AudioPlayer _audioPlayer;
+  StreamSubscription<PlaybackState>? _streamSubscription;
 
-  StreamSubscription<PlayerState>? _streamSubscription;
+  RadioViewModel() : super(const RadioScreenModel.loading());
 
-  RadioViewModel(this._audioPlayer) : super(const RadioScreenModel.loading());
-
-  void _onPlayerStateChanged(PlayerState playerState) {
-    if (playerState.processingState == ProcessingState.loading) {
+  void _onPlayerStateChanged(PlaybackState playbackState) {
+    if (playbackState.processingState == AudioProcessingState.connecting) {
       state = const RadioScreenModel.loading();
       return;
     }
-    state = playerState.playing ? const RadioScreenModel.playing() : const RadioScreenModel.stopped();
+    state = playbackState.playing ? const RadioScreenModel.playing() : const RadioScreenModel.stopped();
   }
 
   @override
   void dispose() {
+    AudioService.disconnect();
     _streamSubscription?.cancel();
     super.dispose();
   }
 
+  Future<void> _startBackgroundTask() async {
+    if (!AudioService.running) {
+      await AudioService.start(backgroundTaskEntrypoint: audioPlayerTaskEntrypoint);
+    }
+  }
+
   Future<void> load() async {
-    _streamSubscription = _audioPlayer.playerStateStream.listen(_onPlayerStateChanged);
+    await AudioService.connect();
+    _streamSubscription = AudioService.playbackStateStream.listen(_onPlayerStateChanged);
+    _startBackgroundTask();
   }
 
   Future<void> play() async {
-    state = const RadioScreenModel.loading();
-    _audioPlayer.setUrl(_radioUrl).then((value) => _audioPlayer.play());
+    _startBackgroundTask();
+    AudioService.play();
   }
 
   Future<void> stop() async {
-    await _audioPlayer.stop();
+    if (!AudioService.running) {
+      AudioService.pause();
+    }
   }
 }
