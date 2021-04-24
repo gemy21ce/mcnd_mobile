@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mcnd_mobile/ui/radio/radio_screen_model.dart';
 
-
 const _radioUrl = 'http://stream.radiojar.com/htnudfgugm8uv';
 
 @injectable
