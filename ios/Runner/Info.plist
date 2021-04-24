@@ -28,6 +28,15 @@
 	<string>To get location and direction</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To get location and direction</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>not used</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsArbitraryLoadsForMedia</key>
+        <true/>
+    </dict>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
