@@ -27,7 +27,7 @@ class RadioScreen extends HookWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Egypt Quran Karim Station',
+              'Quran Karim Station',
               textAlign: TextAlign.center,
             ),
             state.when(

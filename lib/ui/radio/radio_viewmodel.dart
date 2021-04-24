@@ -5,6 +5,9 @@ import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mcnd_mobile/ui/radio/radio_screen_model.dart';
 
+
+const _radioUrl = 'http://stream.radiojar.com/htnudfgugm8uv';
+
 @injectable
 class RadioViewModel extends StateNotifier<RadioScreenModel> {
   final AudioPlayer _audioPlayer;
@@ -33,7 +36,7 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
 
   Future<void> play() async {
     state = const RadioScreenModel.loading();
-    _audioPlayer.setUrl('http://stream.radiojar.com/htnudfgugm8uv').then((value) => _audioPlayer.play());
+    _audioPlayer.setUrl(_radioUrl).then((value) => _audioPlayer.play());
   }
 
   Future<void> stop() async {
