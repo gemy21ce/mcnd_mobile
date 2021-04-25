@@ -29,8 +29,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
 
   PrayerTimesViewModel(this._azanTimesService, this._logger) : super(const PrayerTimesModel.loading());
 
-  Future<void> fetchTimes() async {
-    if (state is Loaded) return;
+  Future<void> fetchTimes({bool force = false}) async {
+    if (!force && state is Loaded) return;
     state = const PrayerTimesModel.loading();
     try {
       _prayerTime = await _azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications();

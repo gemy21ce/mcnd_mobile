@@ -24,7 +24,21 @@ class PrayerTimesPage extends HookWidget {
         ),
       ),
       loaded: (prayerTimes) {
-        return PrayerTimesWidget(prayerTimes);
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return RefreshIndicator(
+              onRefresh: () => viewmodel.fetchTimes(force: true),
+              triggerMode: RefreshIndicatorTriggerMode.anywhere,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: PrayerTimesWidget(prayerTimes),
+                ),
+              ),
+            );
+          },
+        );
       },
     );
   }
