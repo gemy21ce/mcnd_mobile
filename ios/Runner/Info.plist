@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To get location and direction</string>
+	<string>MCND needs current location to display compass information</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To get location and direction</string>
+	<string>MCND needs current location to display compass information</string>
 	<key>NSMicrophoneUsageDescription</key>
     <string>not used</string>
     <key>NSAppTransportSecurity</key>
