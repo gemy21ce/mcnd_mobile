@@ -25,6 +25,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def debugKeystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('../keys/debug-key.properties')
+if (keystorePropertiesFile.exists()) {
+    debugKeystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     compileSdkVersion 30
 
@@ -43,15 +49,15 @@ android {
 
     signingConfigs {
         release {
-            keyAlias System.getenv('keyAlias')
-            keyPassword System.getenv('keyPassword')
-            storeFile System.getenv('storeFile') ? file(System.getenv('storeFile')) : null
-            storePassword System.getenv('storePassword')
+            keyAlias System.getenv('keyAlias') ? System.getenv('keyAlias') : debugKeystoreProperties['keyAlias']
+            keyPassword System.getenv('keyPassword') ? System.getenv('keyPassword') : debugKeystoreProperties['keyPassword']
+            storeFile System.getenv('storeFile') ? file(System.getenv('storeFile')) : rootProject.file(debugKeystoreProperties['storeFile'])
+            storePassword System.getenv('storePassword') ? System.getenv('storePassword') : debugKeystoreProperties['storePassword']
         }
     }
     buildTypes {
         release {
-            signingConfig System.getenv('storeFile') ? signingConfigs.release : signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
