@@ -31,7 +31,7 @@ class PrayerTimesRemoteSource {
 
     final List<DayPrayers> monthDailyPrayers = await fetchThisMonthPrayers();
 
-    if (nowDate.day > 20) {
+    if (nowDate.add(Duration(days: daysAhead)).month != nowDate.month) {
       monthDailyPrayers.addAll(await fetchNextMonthPrayers((nowDate.month % 12) + 1));
     }
 
