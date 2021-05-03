@@ -63,10 +63,10 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
     final hijriDateString = HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
 
     final upcomingSalah = nearestSalah(_prayerTime, _dateNow);
-    final upcomingSalahString = '${upcomingSalah.getStringName().toUpperCase()} IQAMAH';
+    final upcomingSalahString = 'Time To ${upcomingSalah.getStringName().toUpperCase()}';
 
     final upcomingSalahTime = _prayerTime.times[upcomingSalah]!;
-    final upcomingDateTime = (upcomingSalah == Salah.sunrise) ? upcomingSalahTime.azan : upcomingSalahTime.iqamah!;
+    final upcomingDateTime = upcomingSalahTime.azan;
     final timeToUpcomingSalah = upcomingDateTime.difference(_dateNow).getTimeDifferenceString(
           seconds: false,
         );

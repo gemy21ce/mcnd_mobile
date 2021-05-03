@@ -1,5 +1,7 @@
 //ignore_for_file: prefer_single_quotes
 
+import 'test_util.dart';
+
 const apiPrayerDayResponse = {
   'd_date': '2021-04-01',
   'fajr_begins': '05:19:00',
@@ -183,3 +185,7 @@ const apiMediaResponse = {
     ]
   }
 };
+
+Future<dynamic?> apiPrayerMonthResponse = readJsonFromFile('month-prayertime.json');
+
+Future<dynamic?> apiPrayerYearResponse = readJsonFromFile('year-prayertime.json');
