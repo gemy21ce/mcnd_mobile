@@ -40,12 +40,12 @@ jobs:
 
       - name: Run Tests
         run: flutter test
-      
+
       - name: Extract sign key
         run: |
           echo "${{ secrets.GOOGLE_STORE_JKS_FILE }}" > release.keystore.asc
           gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > android/app/release.keystore
-          
+
       - name: pump app version
         run: bash .github/scripts/pump_app_version.sh
       
@@ -55,6 +55,14 @@ jobs:
           keyPassword="${{ secrets.GOOGLE_STORE_KEYPASSWORD }}" \
           keyAlias="${{ secrets.GOOGLE_STORE_KEYALIAS }}" \
           storeFile=release.keystore \
-          flutter build appbundle -vvv
+          flutter build appbundle
 
+      - name: upload to playstore
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: "${{ secrets.SERVICE_ACCOUNT_JSON }}"
+          packageName: ie.mcnd.mcnd_mobile
+          releaseFiles: build/app/outputs/bundle/release/*.aab
+          track: production
+          whatsNewDirectory: distribution
 
