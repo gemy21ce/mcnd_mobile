@@ -29,7 +29,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>MCND needs current location to display compass information</string>
 	<key>NSMicrophoneUsageDescription</key>
-    <string>not used</string>
+    <string>not used, only required for radio plugin</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>
