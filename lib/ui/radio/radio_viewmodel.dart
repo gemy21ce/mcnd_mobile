@@ -48,7 +48,7 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
   }
 
   Future<void> stop() async {
-    if (!AudioService.running) {
+    if (AudioService.running) {
       AudioService.pause();
     }
   }

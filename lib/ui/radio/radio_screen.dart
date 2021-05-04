@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mcnd_mobile/di/providers.dart';
 import 'package:mcnd_mobile/ui/shared/hooks/use_once.dart';
+import 'package:mcnd_mobile/gen/assets.gen.dart';
 
 class RadioScreen extends HookWidget {
   const RadioScreen({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class RadioScreen extends HookWidget {
     final viewModel = useProvider(radioViewModelProvider);
     final state = useProvider(radioViewModelProvider.state);
     useOnce(() => viewModel.load());
+    final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const AutoSizeText(
@@ -26,10 +28,13 @@ class RadioScreen extends HookWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Assets.images.radio.image(width: screenSize.width * .8),
+            SizedBox(height: screenSize.height * .05),
             const Text(
-              'Quran Karim Station',
+              'Quran Karim Radio',
               textAlign: TextAlign.center,
             ),
+            SizedBox(height: screenSize.height * .1),
             state.when(
               stopped: () => OutlinedButton.icon(
                 icon: const Icon(Icons.play_arrow),
