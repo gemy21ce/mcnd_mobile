@@ -25,9 +25,20 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To get location and direction</string>
+	<string>MCND needs current location to display compass information</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To get location and direction</string>
+	<string>MCND needs current location to display compass information</string>
+	<key>NSMicrophoneUsageDescription</key>
+    <string>not used, only required for radio plugin</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>audio</string>
+    </array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
