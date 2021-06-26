@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clock/clock.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:injectable/injectable.dart';
@@ -17,23 +18,25 @@ import 'package:meta/meta.dart';
 class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   final AzanTimesService _azanTimesService;
   final Logger _logger;
+  final Clock _clock;
 
   final _timeFormat = DateFormat('h:mm a');
   final _dateFormat = DateFormat('MMMM dd, yyyy');
   final _hijriDatePattern = 'dd MMMM yyyy';
   final _tickerDuration = const Duration(seconds: 30);
 
-  DateTime _dateNow = DateTime.now();
   Timer? _ticker;
   DayPrayers? _prayerTime;
 
-  PrayerTimesViewModel(this._azanTimesService, this._logger) : super(const PrayerTimesModel.loading());
+  PrayerTimesViewModel(this._azanTimesService, this._logger, this._clock)
+      : super(const PrayerTimesModel.loading());
 
   Future<void> fetchTimes({bool force = false}) async {
     if (!force && state is Loaded) return;
     state = const PrayerTimesModel.loading();
     try {
-      _prayerTime = await _azanTimesService.fetchTodayPrayersAndScheduleAheadNotifications();
+      _prayerTime = await _azanTimesService
+          .fetchTodayPrayersAndScheduleAheadNotifications();
       state = PrayerTimesModel.loaded(_toModelData());
     } catch (e, stk) {
       _logger.e('Failed to fetch prayer times', e, stk);
@@ -44,7 +47,6 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   void startTicker() {
     _ticker = Timer.periodic(_tickerDuration, (_) {
       if (state is Loaded) {
-        _dateNow = DateTime.now();
         state = PrayerTimesModel.loaded(_toModelData());
       } else {
         _prayerTime = null;
@@ -58,18 +60,22 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   PrayerTimesModelData _toModelData() {
+    final DateTime now = _clock.now();
     final DayPrayers _prayerTime = this._prayerTime!;
-    final dateString = _dateNow.format(_dateFormat);
-    final hijriDateString = HijriCalendar.fromDate(_dateNow).toFormat(_hijriDatePattern);
+    final dateString = now.format(_dateFormat);
+    final hijriDateString =
+        HijriCalendar.fromDate(now).toFormat(_hijriDatePattern);
 
-    final upcomingSalah = nearestSalah(_prayerTime, _dateNow);
-    final upcomingSalahString = 'Time To ${upcomingSalah.getStringName().toUpperCase()}';
+    final upcomingSalah = nearestSalah(_prayerTime, now);
+    final upcomingSalahString =
+        'Time To ${upcomingSalah.getStringName().toUpperCase()}';
 
     final upcomingSalahTime = _prayerTime.times[upcomingSalah]!;
     final upcomingDateTime = upcomingSalahTime.azan;
-    final timeToUpcomingSalah = upcomingDateTime.difference(_dateNow).getTimeDifferenceString(
-          seconds: false,
-        );
+    final timeToUpcomingSalah =
+        upcomingDateTime.difference(now).getTimeDifferenceString(
+              seconds: false,
+            );
 
     final items = _prayerTime.times.entries.map((e) {
       final salah = e.key;
