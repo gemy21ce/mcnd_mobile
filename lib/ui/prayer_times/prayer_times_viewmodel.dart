@@ -62,9 +62,9 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   PrayerTimesModelData _toModelData() {
     final DateTime now = _clock.now();
     final DayPrayers _prayerTime = this._prayerTime!;
-    final dateString = now.format(_dateFormat);
+    final dateString = _prayerTime.date.format(_dateFormat);
     final hijriDateString =
-        HijriCalendar.fromDate(now).toFormat(_hijriDatePattern);
+        HijriCalendar.fromDate(_prayerTime.date).toFormat(_hijriDatePattern);
 
     final upcomingSalah = nearestSalah(_prayerTime, now);
     final upcomingSalahString =
