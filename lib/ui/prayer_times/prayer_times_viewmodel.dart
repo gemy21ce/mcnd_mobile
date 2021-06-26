@@ -47,7 +47,12 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   void startTicker() {
     _ticker = Timer.periodic(_tickerDuration, (_) {
       if (state is Loaded) {
-        state = PrayerTimesModel.loaded(_toModelData());
+        if (_prayerTime != null &&
+            _clock.now().isDateOnlyAfter(_prayerTime!.date)) {
+          fetchTimes(force: true);
+        } else {
+          state = PrayerTimesModel.loaded(_toModelData());
+        }
       } else {
         _prayerTime = null;
         stopTicker();
