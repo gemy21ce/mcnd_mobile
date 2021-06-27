@@ -30,10 +30,12 @@ abstract class AppModule {
   AudioPlayer get audioPlayer => AudioPlayer();
 
   @lazySingleton
-  FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin => FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin get flutterLocalNotificationsPlugin =>
+      FlutterLocalNotificationsPlugin();
 
   @preResolve
-  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
+  Future<SharedPreferences> get sharedPreferences =>
+      SharedPreferences.getInstance();
 
   @singleton
   Logger getLogger() {
@@ -67,6 +69,9 @@ class _PrefixPrinter extends LogPrinter {
 
   @override
   List<String> log(LogEvent event) {
-    return _realPrinter.log(event).map((s) => '${_prefixMap[event.level]}$s').toList();
+    return _realPrinter
+        .log(event)
+        .map((s) => '${_prefixMap[event.level]}$s')
+        .toList();
   }
 }

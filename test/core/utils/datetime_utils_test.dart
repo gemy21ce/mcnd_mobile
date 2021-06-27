@@ -40,4 +40,69 @@ void main() {
       expect(d1.isDateOnlyEquals(d2), true);
     });
   });
+
+  group('isDateOnlyAfter', () {
+    final testCases = [
+      [
+        false,
+        DateTime(2012, 11, 15, 10, 22, 33),
+        DateTime(2012, 11, 15, 10, 22, 33),
+      ],
+      [
+        false,
+        DateTime(2012, 11, 15, 10, 22, 33),
+        DateTime(2012, 11, 15, 22, 11, 44),
+      ],
+      [
+        false,
+        DateTime(2011, 11, 15, 10, 22, 33),
+        DateTime(2012, 11, 15, 22, 11, 44),
+      ],
+      [
+        false,
+        DateTime(2012, 10, 15, 10, 22, 33),
+        DateTime(2012, 11, 15, 22, 11, 44),
+      ],
+      [
+        false,
+        DateTime(2012, 11, 14, 10, 22, 33),
+        DateTime(2012, 11, 15, 22, 11, 44),
+      ],
+      [
+        false,
+        DateTime(2011, 10, 14, 10, 22, 33),
+        DateTime(2012, 11, 15, 22, 11, 44),
+      ],
+      [
+        true,
+        DateTime(2012, 11, 15, 22, 11, 44),
+        DateTime(2011, 11, 15, 10, 22, 33),
+      ],
+      [
+        true,
+        DateTime(2012, 11, 15, 22, 11, 44),
+        DateTime(2012, 10, 15, 10, 22, 33),
+      ],
+      [
+        true,
+        DateTime(2012, 11, 15, 22, 11, 44),
+        DateTime(2012, 11, 14, 10, 22, 33),
+      ],
+      [
+        true,
+        DateTime(2012, 11, 15, 22, 11, 44),
+        DateTime(2011, 10, 14, 10, 22, 33),
+      ],
+    ];
+
+    for (var i = 0; i < testCases.length; i++) {
+      final testCase = testCases[i];
+      test('[$i]', () {
+        final expectedResult = testCase[0] as bool;
+        final d1 = testCase[1] as DateTime;
+        final d2 = testCase[2] as DateTime;
+        expect(d1.isDateOnlyAfter(d2), expectedResult);
+      });
+    }
+  });
 }

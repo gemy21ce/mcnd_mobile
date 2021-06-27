@@ -17,4 +17,10 @@ extension DateTimeUtils on DateTime {
   bool isDateOnlyEquals(DateTime other) {
     return year == other.year && month == other.month && day == other.day;
   }
+
+  bool isDateOnlyAfter(DateTime other) {
+    return year > other.year ||
+        (year == other.year && month > other.month) ||
+        (year == other.year && month == other.month && day > other.day);
+  }
 }
