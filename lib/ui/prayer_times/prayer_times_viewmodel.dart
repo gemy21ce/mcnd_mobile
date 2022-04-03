@@ -81,6 +81,16 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
         upcomingDateTime.difference(now).getTimeDifferenceString(
               seconds: false,
             );
+    final upcomingIqamah = nearestIqamah(_prayerTime, now, upcomingDateTime);
+    final upcomingIqamahString =
+        'Time To ${upcomingIqamah?.getStringName().toUpperCase()} Iqamah';
+    String? timeToUpcomingIqamah;
+    if (upcomingIqamah != null) {
+      timeToUpcomingIqamah =
+        _prayerTime.times[upcomingIqamah]!.iqamah!.difference(now).getTimeDifferenceString(
+                  seconds: false,
+                );
+    }
 
     final items = _prayerTime.times.entries.map((e) {
       final salah = e.key;
@@ -99,6 +109,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       hijriDate: hijriDateString,
       upcommingSalah: upcomingSalahString,
       timeToUpcommingSalah: timeToUpcomingSalah,
+      upcommingIqamah: upcomingIqamahString,
+      timeToUpcomingIqamah: timeToUpcomingIqamah,
       times: items,
     );
   }
@@ -115,5 +127,18 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
       }
     }
     return times.last.key;
+  }
+
+  Salah? nearestIqamah(DayPrayers prayerTime, DateTime forTime, DateTime upcomingSalahTime) {
+    final times = prayerTime.times.entries.toList()
+      ..sort((a, b) {
+        return a.value.azan.compareTo(b.value.azan);
+      });
+    for (final t in times) {
+      if ((t.value.iqamah?.isAfter(forTime) ?? false) && t.value.iqamah!.isBefore(upcomingSalahTime)) {
+        return t.key;
+      }
+    }
+    return null;
   }
 }
