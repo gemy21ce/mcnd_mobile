@@ -31,7 +31,7 @@ final _drawerItems = [
       icon: Icons.info_outline, routePath: mosqueProjectURL, type: URLType.external),
   const _HomeScreenDrawerItems('Donate', icon: Icons.euro, routePath: donateURL, type: URLType.external),
   const _HomeScreenDrawerItems('About Us', icon: Icons.info_outline, routePath: aboutUsURL, type: URLType.external),
-  _HomeScreenDrawerItems('Azan Settings', icon: Icons.settings, routePath: const SettingsScreenRoute().path),
+  _HomeScreenDrawerItems('Settings', icon: Icons.settings, routePath: const SettingsScreenRoute().path),
   _HomeScreenDrawerItems('Quarn Radio', icon: Icons.radio, routePath: const RadioScreenRoute().path),
 ];
 

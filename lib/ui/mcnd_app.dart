@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mcnd_mobile/main.dart';
 import 'package:mcnd_mobile/ui/mcnd_router.gr.dart';
 
-class McndApp extends StatelessWidget {
+class McndApp extends ConsumerWidget {
   final _router = McndRouter();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final count = watch(themeProvider);
+    print("@@@@@@@@@@@");
+    print(count);
+    print(count.getFontSize());
     final baseTheme = ThemeData.light();
     final theme = baseTheme.copyWith(
       appBarTheme: AppBarTheme(
@@ -28,4 +34,5 @@ class McndApp extends StatelessWidget {
       routeInformationParser: _router.defaultRouteParser(),
     );
   }
+
 }

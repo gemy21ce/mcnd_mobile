@@ -13,7 +13,7 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
   RadioViewModel() : super(const RadioScreenModel.loading());
 
   void _onPlayerStateChanged(PlaybackState playbackState) {
-    if (playbackState.processingState == AudioProcessingState.connecting) {
+    if (playbackState.processingState == AudioProcessingState.loading) {
       state = const RadioScreenModel.loading();
       return;
     }
@@ -22,7 +22,7 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
 
   @override
   void dispose() {
-    AudioService.disconnect();
+    // AudioService.disconnect();
     _streamSubscription?.cancel();
     super.dispose();
   }
@@ -34,7 +34,7 @@ class RadioViewModel extends StateNotifier<RadioScreenModel> {
   }
 
   Future<void> load() async {
-    await AudioService.connect();
+    // await AudioService.connect();
     _streamSubscription = AudioService.playbackStateStream.listen(_onPlayerStateChanged);
     _startBackgroundTask();
   }

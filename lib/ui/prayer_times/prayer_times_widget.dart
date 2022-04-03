@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,11 +60,11 @@ class PrayerTimesWidget extends HookWidget {
               children: [
                 const Text(
                   'PRAYER TIME',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  padding: EdgeInsets.all(size.width * 0.1).copyWith(top: 0),
+                  padding: EdgeInsets.all(size.width * 0.025).copyWith(top: 0),
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -72,19 +73,25 @@ class PrayerTimesWidget extends HookWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        Text(viewData.date),
+                        Text(
+                          viewData.date,
+                          style: const TextStyle(fontSize: 16),
+                        ),
                         const SizedBox(height: 10),
                         Text(
                           viewData.hijriDate,
-                          style: const TextStyle(fontStyle: FontStyle.italic),
+                          style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           viewData.upcommingSalah,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 10),
-                        Text(viewData.timeToUpcommingSalah),
+                        Text(
+                          viewData.timeToUpcommingSalah,
+                          style: const TextStyle(fontSize: 16),
+                        ),
                         const SizedBox(height: 10),
                         DefaultTextStyle.merge(
                           textAlign: TextAlign.center,
@@ -161,7 +168,10 @@ class PrayerTimesWidget extends HookWidget {
             top: border,
           ),
         ),
-        child: Text(text),
+        child: AutoSizeText(
+          text,
+          style: const TextStyle(fontSize: 18),
+        ),
       ),
     );
   }
