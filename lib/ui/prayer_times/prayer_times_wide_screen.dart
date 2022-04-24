@@ -52,7 +52,11 @@ class PrayerTimesWideScreenWidget extends HookWidget {
           const ClockWidget(),
           SizedBox(height: size.height * 0.07),
           Text(
-            viewData.timeToUpcomingIqamah != null ? viewData.upcommingIqamah : viewData.upcommingSalah,
+            viewData.timeToUpcomingIqamah != null
+                ? '${viewData.timeToUpcomingIqamah!.isEmpty ? '' : 'Time To '}'
+                    '${viewData.upcommingIqamah}'
+                : '${viewData.timeToUpcommingSalah.isEmpty ? '' : 'Time To '}'
+                    '${viewData.upcommingSalah}',
             style: const TextStyle(
               fontSize: 20,
               decoration: TextDecoration.underline,
