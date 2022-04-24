@@ -57,8 +57,8 @@ class PrayerTimesWideScreenWidget extends HookWidget {
                     '${viewData.upcommingIqamah}'
                 : '${viewData.timeToUpcommingSalah.isEmpty ? '' : 'Time To '}'
                     '${viewData.upcommingSalah}',
-            style: const TextStyle(
-              fontSize: 20,
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.07,
               decoration: TextDecoration.underline,
               fontWeight: FontWeight.w500,
             ),
@@ -66,7 +66,7 @@ class PrayerTimesWideScreenWidget extends HookWidget {
           const SizedBox(height: 10),
           Text(
             viewData.timeToUpcomingIqamah ?? viewData.timeToUpcommingSalah,
-            style: const TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.07),
           ),
           SizedBox(height: size.height * 0.05),
           MediaQuery(

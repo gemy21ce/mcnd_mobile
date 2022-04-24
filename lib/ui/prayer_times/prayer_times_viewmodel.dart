@@ -47,8 +47,8 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   void startTicker() {
     _ticker = Timer.periodic(_tickerDuration, (_) {
       if (state is Loaded) {
-        if (_prayerTime != null &&
-            _clock.now().isDateOnlyAfter(_prayerTime!.date)) {
+        if (_prayerTime?.times[Salah.isha]?.iqamah != null &&
+            _clock.now().isAfter(_prayerTime!.times[Salah.isha]!.iqamah!)) {
           fetchTimes(force: true);
         } else {
           state = PrayerTimesModel.loaded(_toModelData());
@@ -129,13 +129,18 @@ class PrayerTimesViewModel extends StateNotifier<PrayerTimesModel> {
   }
 
   Salah? nearestIqamah(DayPrayers prayerTime, DateTime forTime, DateTime upcomingSalahTime) {
-    final times = prayerTime.times.entries.toList()
-      ..sort((a, b) {
-        return a.value.azan.compareTo(b.value.azan);
-      });
-    for (final t in times) {
-      if ((t.value.iqamah?.isAfter(forTime) ?? false) && t.value.iqamah!.isBefore(upcomingSalahTime)) {
-        return t.key;
+    // final times = prayerTime.times.entries.toList()
+    //   ..sort((a, b) {
+    //     return a.value.iqamah?.compareTo(b.value.iqamah) ?? -1;
+    //   });
+    for (final t in prayerTime.times.entries) {
+      if (t.value.iqamah?.isAfter(forTime) ?? false) {
+        if (t.key == Salah.isha && t.value.azan.isBefore(forTime)) {
+          return t.key;
+        }
+        if (t.value.iqamah!.isBefore(upcomingSalahTime)) {
+          return t.key;
+        }
       }
     }
     return null;
