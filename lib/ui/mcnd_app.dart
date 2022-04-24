@@ -8,10 +8,6 @@ class McndApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final count = watch(themeProvider);
-    print("@@@@@@@@@@@");
-    print(count);
-    print(count.getFontSize());
     final baseTheme = ThemeData.light();
     final theme = baseTheme.copyWith(
       appBarTheme: AppBarTheme(
@@ -32,6 +28,7 @@ class McndApp extends ConsumerWidget {
       theme: theme,
       routerDelegate: _router.delegate(),
       routeInformationParser: _router.defaultRouteParser(),
+      debugShowCheckedModeBanner: false,
     );
   }
 
