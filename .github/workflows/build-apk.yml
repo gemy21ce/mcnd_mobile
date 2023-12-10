@@ -1,0 +1,58 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build & Upload APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Flutter action
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.9'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Update dependencies
+        run: flutter pub upgrade
+
+      - name: Build generated code
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+
+      - name: Set current date as env variable
+        run: echo "build_time=$(date +'%d%b%Y_%H%M%S')" >> $GITHUB_ENV
+
+      - name: Extract sign key
+        run: |
+          echo "${{ secrets.GOOGLE_STORE_JKS_FILE }}" > release.keystore.asc
+          gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > android/app/release.keystore
+
+      - name: Build AppBundle
+        run: |
+          storePassword="${{ secrets.GOOGLE_STORE_STOREPASSWORD }}" \
+          keyPassword="${{ secrets.GOOGLE_STORE_KEYPASSWORD }}" \
+          keyAlias="${{ secrets.GOOGLE_STORE_KEYALIAS }}" \
+          storeFile=release.keystore \
+          flutter build apk
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ env.build_time }}_mobile_apk
+          path: build/app/outputs/flutter-apk/app-release.apk
