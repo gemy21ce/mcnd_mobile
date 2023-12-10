@@ -23,7 +23,7 @@ jobs:
       - name: Flutter action
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.2.0'
+          flutter-version: '2.3.0-24.1.pre'
           channel: stable
 
       - name: Install dependencies
