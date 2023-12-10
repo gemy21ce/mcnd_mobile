@@ -21,10 +21,10 @@ jobs:
           distribution: 'adopt'
 
       - name: Flutter action
-        uses: subosito/flutter-action@v1
-#        with:
-#          flutter-version: '3.13.9'
-#          channel: stable
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.13.3'
+          channel: stable
 
       - name: Install dependencies
         run: flutter pub get
