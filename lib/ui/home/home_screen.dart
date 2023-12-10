@@ -43,7 +43,7 @@ class HomeScreen extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const AutoSizeText(
-          'Muslim Community North Dublin',
+          'South Dublin Islamic Centre',
           maxLines: 1,
           maxFontSize: 30,
           minFontSize: 15,
