@@ -72,7 +72,7 @@ dependencies:
   shared_preferences: ^2.0.5
   cached_network_image: ^3.0.0
 
-  flutter_compass: ^0.6.0
+  flutter_compass: ^0.7.0
   flutter_qiblah: ^2.0.0
   permission_handler: ^6.1.3
 
