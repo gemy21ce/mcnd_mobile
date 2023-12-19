@@ -43,10 +43,6 @@ jobs:
 
       - name: Build AppBundle
         run: |
-          storePassword="${{ secrets.GOOGLE_STORE_STOREPASSWORD }}" \
-          keyPassword="${{ secrets.GOOGLE_STORE_KEYPASSWORD }}" \
-          keyAlias="${{ secrets.GOOGLE_STORE_KEYALIAS }}" \
-          storeFile=release.keystore \
           flutter build apk
 
       - name: Upload Artifact
