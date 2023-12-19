@@ -83,6 +83,8 @@ dependencies:
   # url launcher (launch external url in default browser)
   url_launcher: ^6.0.3
 
+  chewie_audio: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
