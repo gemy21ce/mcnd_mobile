@@ -30,7 +30,9 @@ jobs:
         run: flutter pub get
 
       - name: Build generated code
-        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+        run: |
+          flutter packages pub run build_runner build --delete-conflicting-outputs
+          flutter pub run flutter_launcher_icons:main
 
       - name: Set current date as env variable
         run: echo "build_time=$(date +'%d%b%Y_%H%M%S')" >> $GITHUB_ENV

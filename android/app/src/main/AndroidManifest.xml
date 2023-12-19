@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
    <application
-        android:label="MCND"
+        android:label="SDIC"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
         <activity
