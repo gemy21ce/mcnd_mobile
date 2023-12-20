@@ -44,4 +44,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ env.build_time }}_mobile_apk
-          path: build/app/outputs/flutter-apk/*.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
