@@ -36,11 +36,6 @@ jobs:
       - name: Set current date as env variable
         run: echo "build_time=$(date +'%d%b%Y_%H%M%S')" >> $GITHUB_ENV
 
-      - name: Extract sign key
-        run: |
-          echo "${{ secrets.GOOGLE_STORE_JKS_FILE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.GOOGLE_STORE_JKS_FILE_KEY }}" --batch release.keystore.asc > android/app/release.keystore
-
       - name: Build AppBundle
         run: |
           flutter build apk --debug
